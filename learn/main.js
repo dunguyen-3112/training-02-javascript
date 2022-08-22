@@ -21,26 +21,27 @@ const data = [
     }
     
 ]
+console.log(data[-1])
 
 const loadData = function(){
-    const tbody = document.querySelector('.my_table').querySelector('tbody');
-    console.log()
-    for (let i =0;i<data.length;i++){
-        let row = document.createElement('tr')
-        let cell = row.insertCell(-1)
-        cell.innerText = i
-        cell = row.insertCell(-1)
-        cell.innerText = data[i].name
-        cell = row.insertCell(-1)
-        cell.innerText = data[i].date
-   
-        row.ondblclick = ()=>{
-            showModal('Update User',{id:row.cells[0].innerText,name:row.cells[1].innerText,date:row.cells[2].innerText})
-        }
-        tbody.appendChild(row)
-    }
+    const body = document.querySelector('.my_table').querySelector('tbody')
+    let rows = data.map(({id,name,date})=>
+         `
+        <tr>
+            <td>${id}</td>
+            <td>${name}</td>
+            <td>${date}</td>
+            <td>
+                <button class="btn-delete">Delete</button>
+                <button class="btn-update">Update</button>
+            </td>
+        </tr>
+        `
+    );
+    body.innerHTML = rows.join('')
+    
 }
-
+loadData()
 const modal = document.querySelector('.modal')
 
 const showModal = function(title,data1 = null){
@@ -99,7 +100,10 @@ btn_add.onclick = ()=>{
     showModal('Add user')
 }
 
-loadData()
+setTimeout(()=>{
+    data[0].date = 1
+    loadData()
+},6000)
 
 
 
