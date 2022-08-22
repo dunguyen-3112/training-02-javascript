@@ -23,22 +23,15 @@ const data = [
 ]
 
 const loadData = function(){
-    const tbody = document.querySelector('.my_table').querySelector('tbody');
-    console.log()
-    for (let i =0;i<data.length;i++){
-        let row = document.createElement('tr')
-        let cell = row.insertCell(-1)
-        cell.innerText = i
-        cell = row.insertCell(-1)
-        cell.innerText = data[i].name
-        cell = row.insertCell(-1)
-        cell.innerText = data[i].date
-   
-        row.ondblclick = ()=>{
-            showModal('Update User',{id:row.cells[0].innerText,name:row.cells[1].innerText,date:row.cells[2].innerText})
-        }
-        tbody.appendChild(row)
-    }
+    const tbody =
+    html = data.map(item=> `<tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.date}</td>
+                    <td><button class="btn-delete">DELETE</button><button class="btn-update">Update</button></td>
+                </tr>`
+    )
+    document.querySelector('.my_table').querySelector('tbody').innerHTML = html.join('')
 }
 
 const modal = document.querySelector('.modal')
@@ -46,6 +39,7 @@ const modal = document.querySelector('.modal')
 const showModal = function(title,data1 = null){
     modal.style.display = 'block'
     document.querySelector('.modal__title').innerHTML = title
+
     if(data1!=null){
         //update
         document.forms[0]['name'].value = data1.name
@@ -100,8 +94,6 @@ btn_add.onclick = ()=>{
 }
 
 loadData()
-
-
 
 
 

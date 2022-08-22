@@ -16,7 +16,7 @@
         <section class="user-section">
             <header class="user-header">
                 <h1 class="user__title">List User</h1>
-                <button class="user__add-button">Add</button>
+                <button class="user__add-button">Add new User</button>
             </header>
             <table class="my_table">
                 <thead>
@@ -24,6 +24,7 @@
                         <th>of</th>
                         <th>Name</th>
                         <th>Date</th>
+                        <th>Action</th>
                     </tr>
 
                 </thead>
@@ -32,10 +33,14 @@
                 </tbody>
             </table>
             <div class="modal">
+                <button class="close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
+                        <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
+                      </svg>
+                </button>
                 <div class="modal__dialog">
                     <div class="modal__header">
                         <h2 class="modal__title"></h2>
-                        <button class="close">X</button>
                     </div>
                     <div class="modal__body">
                         <form name="add-user-form" class="add-user-form" action="#">
@@ -47,15 +52,15 @@
                         <button class="btn-cancel">Cancel</button>
                         <button class="btn-add">Add</button>
                     </div>
-
-
                 </div>
             </div>
         </section>
 
     </main>
+    <div id="user"></div>
 
     <script src="main.js"></script>
+    <script src="file.js"></script>
 </body>
 
 </html>
