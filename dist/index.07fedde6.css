@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #fff;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+
+body {
+  max-width: 1440px;
+  margin: auto;
+}
+
+/*# sourceMappingURL=index.07fedde6.css.map */
