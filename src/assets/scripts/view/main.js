@@ -1,27 +1,77 @@
-const Form__Add = () => {
-  
-    
-   document.querySelector('.form-add').innerHTML=[ `
-   <form action="/Add-handel" method="post" name="form1">
-       <label><span>Name</span><input type="text" name="name" require></label>
-       <label><span>Email</span><input type="email" name="email" require></label>
-       <button type="submit" name="btnSave">Save</button>
-       <button type="submit" name="btnReset">Reset</button>
-   </form>
-    `].join('')
-    document.form1.onsubmit = (e)=>{
-
-        e.preventDefault()
-        console.log(document.form1.querySelectorAll('input'));
-        if(confirm('Your must add user?'))
-            console.log(document.form1.name.value)
-        return
+class JQuery{
+    constructor(selector) {
+        this.selector = selector;
+    }
+    next(){
+        return document.querySelector(this.selector)
     }
 
-    document.form1.btnReset.onclick = (e) => {
-        e.preventDefault()
-        document.form1.querySelectorAll('input').forEach(input=>input.value = '')
+    hide(){
+        document.querySelector(this.selector).style.display = 'none'
+    }
+    show(){
+        document.querySelector(this.selector).style.display = 'block'
+    }
+    css(property,value){
+        document.querySelector(this.selector).style[property] = value
+    }
+    innerHTML(html){
+        document.querySelector(this.selector).innerHTML = [html].join('')
+    }
+    addEventListener(event,callback){
+        document.querySelector(this.selector).addEventListener(event,callback)
     }
 }
 
-Form__Add()
+let $ = (selector) => new JQuery(selector)
+
+import { FindAllUser, FindUserByName } from '../controller/main.js'
+
+FindAllUser().then(data=>{
+    show_table(data)
+})
+
+
+
+
+const show_table = (data)=>{
+    console.log(data);
+    const tbody = data.map((value,index)=>
+    `<tr>
+        <td>${index}</td>
+        <td>${value.name}</td>
+        <td>${value.address.city}</td>
+        <td>${value.company.name}</td>
+        <td>
+            <button class="btn btn-warning" onclick=alert(${value.id})>Update</button>
+            <button class="btn btn-danger">Delete</button>
+        </td>
+    </tr>`)
+
+    $('.table-body').innerHTML(tbody.join(''))
+}
+
+$('.control-search').next().addEventListener('keyup',(e)=>{
+    if(e.target.value == '')
+    {
+        FindAllUser().then(data=>show_table(data))
+    }
+    else{
+        FindUserByName(e.target.value).then(data=>show_table(data))
+    }
+
+})
+
+$('.btn-add').addEventListener('click',()=>{
+    document.form1.style.display = 'block'
+    $('.form-title').innerHTML('Add new User')
+
+    $('.btn-close').addEventListener('click',(e)=>{
+     e.preventDefault()
+     document.form1.style.display = 'none'
+    })
+ })
+
+
+
+
