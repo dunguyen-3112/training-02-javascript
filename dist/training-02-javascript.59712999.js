@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"OkwTx":[function(require,module,exports) {
+})({"ciqVK":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
@@ -533,6 +533,6 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"4M6V8":[function(require,module,exports) {
 
-},{}]},["OkwTx","4M6V8"], "4M6V8", "parcelRequire716c")
+},{}]},["ciqVK","4M6V8"], "4M6V8", "parcelRequire716c")
 
 //# sourceMappingURL=training-02-javascript.59712999.js.map
