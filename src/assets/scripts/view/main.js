@@ -23,6 +23,9 @@ class JQuery{
     }
 }
 
+<<<<<<< HEAD
+Form__Add()
+=======
 let $ = (selector) => new JQuery(selector)
 
 import { FindAllUser, FindUserByName } from '../controller/main.js'
@@ -74,4 +77,5 @@ $('.btn-add').addEventListener('click',()=>{
 
 
 
+>>>>>>> 9a1ff5a309ff8c7e591a4424ad574319aa28a038
 
