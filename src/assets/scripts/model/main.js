@@ -1,32 +1,34 @@
-/*
-    Display list user
-*/
-const getData = async ()=>{
-    return await fetch("http://localhost:3000/users").then(res=>res)
+const HandleData =  (url,option)=>{
+    if(option) return  fetch(url,option).then(res=>res)
+    return  fetch(url).then(res=>res)
+}
+const HandleFindAll = async ()=>{
+    return await HandleData('http://localhost:3000/users')
 }
 
-const getUserById = async (id)=>{
-    return await fetch(`http://localhost:3000/users/${id}`).then(res=>res)
+const HandleFindById = async (id)=>{
+    return await HandleData(`http://localhost:3000/users/${id}`)
 }
 
-const getUserByName = async (name)=>{
-    return await fetch(`http://localhost:3000/users?name_like=${name}`).then(res=>res)
+const HandleFindByName = async (name)=>{
+    return await HandleData(`http://localhost:3000/users?name_like=${name}`)
+
 }
 
-const deleteUser = async (id)=>{
-    return await fetch(`http://localhost:3000/users/${id}`,{method:"DELETE",headers:{"Content-Type":'application/json'}}).then(res=>res)
+const HandleDelete = async (id)=>{
+    return await HandleData(`http://localhost:3000/users/${id}`,{method:"DELETE",headers:{"Content-Type":'application/json'}})
 
 }
 
 const HandleAdd = async (user)=>{
-    return await fetch(`http://localhost:3000/users`,{method:"POST",headers:{"Content-Type":'application/json'},body:JSON.stringify(user)}).then(res=>res)
+    return await HandleData(`http://localhost:3000/users`,{method:"POST",headers:{"Content-Type":'application/json'},body:JSON.stringify(user)})
 
 }
 
 const HandleUpdate = async (user)=>{
-    return await fetch(`http://localhost:3000/users/${user.id}`,{method:"PUT",headers:{"Content-Type":'application/json'},body:JSON.stringify(user)}).then(res=>res).then(res=>res)
+    return await HandleData(`http://localhost:3000/users/${user.id}`,{method:"PUT",headers:{"Content-Type":'application/json'},body:JSON.stringify(user)})
     }
 
 
 
-export {getData,getUserById,getUserByName,deleteUser,HandleAdd,HandleUpdate}
+export {HandleFindAll,HandleFindById,HandleFindByName,HandleDelete,HandleAdd,HandleUpdate}

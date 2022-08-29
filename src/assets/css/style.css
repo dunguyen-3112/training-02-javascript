@@ -14,3 +14,142 @@ body {
     max-width: 1440px;
     margin: auto;
 }
+
+.wrapper-header {
+    height: 100px;
+    text-align: center;
+}
+
+.search-group {
+    display: inline-block;
+}
+
+.control-search {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    border: 1px solid #555;
+    color: #888;
+}
+
+.icon-search {
+    width: 18px;
+    height: 28px;
+    border: none;
+    position: relative;
+    top: -6px;
+    cursor: pointer;
+    left: -32px;
+}
+
+.btn-add {
+    float: right;
+}
+
+button.icon-search::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 0;
+}
+
+.icon-search::before {
+    content: '';
+    width: 2px;
+    height: 12px;
+    background: #555;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: rotate(-45deg);
+}
+
+.form-title {
+    text-align: center;
+}
+
+.form-label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label>span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.form-action button {
+    float: right;
+}
+
+.form-action button:first-child {
+    margin-left: 20px;
+}
+
+.list-user {
+    width: 100%;
+}
+
+.list-user tr {
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.list-user tr:hover {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+.list-user th,
+.list-user td {
+    padding: 6px 12px;
+}
+
+.list-user th {
+    background-color: rgb(54, 62, 54);
+    color: #fff;
+}
+
+.list-user tr:nth-of-type(odd) {
+    background-color: rgb(204, 204, 204);
+}
+
+.form-add {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgb(34, 34, 34, .7);
+    padding: 10px;
+    display: none;
+}
+
+.form-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #ccc;
+    padding: 15px 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-content {
+    display: flex;
+    padding: 20px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn-close {
+    float: right;
+}
