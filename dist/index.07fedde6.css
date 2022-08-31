@@ -40,6 +40,7 @@ body {
   position: relative;
   top: -6px;
   left: -32px;
+  transform: rotate(-45deg)translateY(3px);
 }
 
 .btn-add {
@@ -47,25 +48,25 @@ body {
 }
 
 button.icon-search:after {
+  box-sizing: border-box;
   content: "";
   width: 12px;
   height: 12px;
   border: 2px solid #555;
   border-radius: 50%;
   position: absolute;
-  top: 4px;
+  top: 5px;
   left: 0;
 }
 
 .icon-search:before {
   content: "";
   width: 2px;
-  height: 12px;
+  height: 8px;
   background: #555;
   position: absolute;
-  top: 12px;
-  left: 12px;
-  transform: rotate(-45deg);
+  top: 15px;
+  left: 5px;
 }
 
 .form-title {
@@ -79,8 +80,9 @@ button.icon-search:after {
 }
 
 .form-label > span {
-  font-size: 18px;
-  font-weight: bold;
+  padding: 5px 0;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .form-action button {
@@ -128,13 +130,14 @@ button.icon-search:after {
 }
 
 .form-container {
-  width: 80%;
-  max-width: 800px;
-  background-color: #ccc;
+  width: 85%;
+  max-width: 1024px;
+  background-color: #fff;
   padding: 15px 20px;
   position: absolute;
   top: 50%;
   left: 50%;
+  overflow-y: scroll;
   transform: translate(-50%, -50%);
 }
 
@@ -145,8 +148,97 @@ button.icon-search:after {
   display: flex;
 }
 
+@media (max-width: 1024px) {
+  .form-container {
+    height: 100%;
+  }
+
+  .form-content {
+    flex-direction: column;
+  }
+}
+
 .btn-close {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
   float: right;
+  background-color: #0000;
+  border: none;
+  padding: 0;
+  display: block;
+  position: relative;
+}
+
+.btn-close:after, .btn-close:before {
+  content: "";
+  width: 3px;
+  height: 100%;
+  background-color: #333333b3;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+.btn-close:after {
+  transform: rotate(45deg);
+}
+
+.btn-close:before {
+  transform: rotate(-45deg);
+}
+
+.btn {
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 18px;
+}
+
+.btn:hover {
+  opacity: .8;
+}
+
+.btn.btn-info {
+  background-color: #0dcaf0;
+}
+
+.btn.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn.btn-danger {
+  background-color: #b02a37;
+}
+
+.btn.btn-dark {
+  background-color: #789;
+}
+
+fieldset {
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 10px 18px;
+}
+
+fieldset + fieldset {
+  margin-left: 10px;
+}
+
+.form-control {
+  color: #444;
+  background-color: #eee;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.form-control:focus-visible {
+  border-color: #0dcaf0;
+  outline: #0dcaf0;
 }
 
 /*# sourceMappingURL=index.07fedde6.css.map */

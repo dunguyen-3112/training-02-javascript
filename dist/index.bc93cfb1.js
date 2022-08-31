@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"lfEt0":[function(require,module,exports) {
+})({"jZjr3":[function(require,module,exports) {
 "use strict";
 var global = arguments[3];
 var HMR_HOST = null;
@@ -533,32 +533,6 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"ihiVX":[function(require,module,exports) {
 var _mainJs = require("../controller/main.js");
-class JQuery {
-    constructor(selector){
-        this.selector = selector;
-    }
-    next() {
-        return document.querySelector(this.selector);
-    }
-    hide() {
-        document.querySelector(this.selector).style.display = "none";
-    }
-    show() {
-        document.querySelector(this.selector).style.display = "block";
-    }
-    css(property, value) {
-        document.querySelector(this.selector).style[property] = value;
-    }
-    innerHTML(html) {
-        document.querySelector(this.selector).innerHTML = [
-            html
-        ].join("");
-    }
-    addEventListener(event, callback) {
-        document.querySelector(this.selector).addEventListener(event, callback);
-    }
-}
-let $ = (selector)=>new JQuery(selector);
 (0, _mainJs.FindAllUser)().then((data)=>{
     show_table(data);
 });
@@ -587,6 +561,42 @@ $(".btn-add").addEventListener("click", ()=>{
         e.preventDefault();
         document.form1.style.display = "none";
     });
+});
+document.form1.btnSave.addEventListener("click", (events)=>{
+    events.preventDefault();
+    const geo = {
+        lat: "",
+        lng: ""
+    };
+    navigator.geolocation.getCurrentPosition((position)=>{
+        geo.lat = position.coords.latitude;
+    });
+    console.log(geo);
+    const user = {
+        name: document.form1.name.value,
+        username: document.form1.username.value,
+        email: document.form1.email.value,
+        phone: document.form1.phone.value,
+        website: document.form1.website.value,
+        company: {
+            name: document.form1.cname.value,
+            catchPhrase: document.form1.catchPhrase.value,
+            bs: document.form1.bs.value
+        },
+        address: {
+            street: document.form1.street.value,
+            suite: document.form1.suite.value,
+            zipcode: document.form1.zipcode.value,
+            city: document.form1.city.value,
+            geo: {
+                lat: "",
+                lng: ""
+            }
+        }
+    };
+    console.log(user);
+    document.form1.btnReset.click();
+    document.form1.style.display = "none";
 });
 
 },{"../controller/main.js":"6O2sx"}],"6O2sx":[function(require,module,exports) {
@@ -677,6 +687,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["lfEt0","ihiVX"], "ihiVX", "parcelRequire716c")
+},{}]},["jZjr3","ihiVX"], "ihiVX", "parcelRequire716c")
 
 //# sourceMappingURL=index.bc93cfb1.js.map

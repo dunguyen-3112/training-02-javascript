@@ -8,12 +8,40 @@
     <title>Document</title>
 
     <style>
-
+        .btn-close {
+            display: block;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            border: none;
+            padding: 0;
+        }
+        
+        .btn-close::after,
+        .btn-close::before {
+            left: 50%;
+            top: 0;
+            position: absolute;
+            content: '';
+            width: 3px;
+            height: 100%;
+            background-color: #333;
+        }
+        
+        .btn-close::after {
+            transform: rotate(45deg);
+        }
+        
+        .btn-close::before {
+            transform: rotate(-45deg);
+        }
     </style>
 </head>
 
 <body>
-    <div class="demo"></div>
+
+    <button class="btn-close"></button>
+
 </body>
 
 </html>
