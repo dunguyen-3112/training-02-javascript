@@ -23,9 +23,7 @@ class JQuery{
     }
 }
 
-<<<<<<< HEAD
-Form__Add()
-=======
+
 let $ = (selector) => new JQuery(selector)
 
 import { FindAllUser, FindUserByName } from '../controller/main.js'
@@ -46,13 +44,13 @@ const show_table = (data)=>{
         <td>${value.address.city}</td>
         <td>${value.company.name}</td>
         <td>
-            <button class="btn btn-warning" onclick=alert(${value.id})>Update</button>
-            <button class="btn btn-danger">Delete</button>
+            <button class="btn btn-warning" onclick=update(${value.id})>Update</button>
+            <button class="btn btn-danger" onclick=del(${value.id})>Delete</button>
         </td>
     </tr>`)
-
     $('.table-body').innerHTML(tbody.join(''))
 }
+
 
 $('.control-search').next().addEventListener('keyup',(e)=>{
     if(e.target.value == '')
@@ -75,7 +73,4 @@ $('.btn-add').addEventListener('click',()=>{
     })
  })
 
-
-
->>>>>>> 9a1ff5a309ff8c7e591a4424ad574319aa28a038
 
