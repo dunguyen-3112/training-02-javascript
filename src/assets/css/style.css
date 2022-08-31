@@ -1,20 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
-    font-family: 'Roboto', sans-serif;
-    background-color: #fff;
-}
-
-body {
-    max-width: 1440px;
-    margin: auto;
-}
-
+@import url(reset.css);
+@import url(common.css);
 .wrapper-header {
     height: 100px;
     text-align: center;
@@ -193,34 +178,6 @@ button.icon-search::after {
     transform: rotate(-45deg);
 }
 
-.btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 20px;
-    color: #FFF;
-    cursor: pointer;
-}
-
-.btn:hover {
-    opacity: .8;
-}
-
-.btn.btn-info {
-    background-color: #0dcaf0;
-}
-
-.btn.btn-warning {
-    background-color: #ffc107;
-}
-
-.btn.btn-danger {
-    background-color: #b02a37;
-}
-
-.btn.btn-dark {
-    background-color: #778899;
-}
-
 fieldset {
     padding: 10px 18px;
     border: 1px solid #333;
@@ -229,19 +186,4 @@ fieldset {
 
 fieldset+fieldset {
     margin-left: 10px;
-}
-
-.form-control {
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: #eee;
-    margin-top: 5px;
-    color: #444;
-    border: 1px solid #333;
-    font-size: 16px;
-}
-
-.form-control:focus-visible {
-    border-color: #0dcaf0;
-    outline: #0dcaf0;
 }

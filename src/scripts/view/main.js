@@ -20,11 +20,11 @@ const show_table = (data)=>{
             <button class="btn btn-danger" onclick=del(${value.id})>Delete</button>
         </td>
     </tr>`)
-    $('.table-body').innerHTML(tbody.join(''))
+    document.querySelector('.table-body').innerHTML= tbody.join('')
 }
 
 
-$('.control-search').next().addEventListener('keyup',(e)=>{
+document.querySelector('.control-search').addEventListener('keyup',(e)=>{
     if(e.target.value == '')
     {
         FindAllUser().then(data=>show_table(data))
@@ -35,11 +35,11 @@ $('.control-search').next().addEventListener('keyup',(e)=>{
 
 })
 
-$('.btn-add').addEventListener('click',()=>{
+document.querySelector('.btn-add').addEventListener('click',()=>{
     document.form1.style.display = 'block'
-    $('.form-title').innerHTML('Add new User')
+    document.querySelector('.form-title').innerHTML='Add new User'
 
-    $('.btn-close').addEventListener('click',(e)=>{
+    document.querySelector('.btn-close').addEventListener('click',(e)=>{
      e.preventDefault()
      document.form1.style.display = 'none'
     })
@@ -50,7 +50,6 @@ $('.btn-add').addEventListener('click',()=>{
     const geo = {lat:'',lng:''}
      navigator.geolocation.getCurrentPosition(position=>{
         geo.lat = position.coords.latitude
-        
     })
     console.log(geo)
     const user = {

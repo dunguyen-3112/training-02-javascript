@@ -15,6 +15,49 @@ body {
   margin: auto;
 }
 
+.form-control {
+  color: #444;
+  background-color: #eee;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.form-control:focus-visible {
+  border-color: #0dcaf0;
+  outline: #0dcaf0;
+}
+
+.btn {
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 18px;
+}
+
+.btn:hover {
+  opacity: .8;
+}
+
+.btn.btn-info {
+  background-color: #0dcaf0;
+}
+
+.btn.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn.btn-danger {
+  background-color: #b02a37;
+}
+
+.btn.btn-dark {
+  background-color: #789;
+}
+
 .wrapper-header {
   height: 100px;
   text-align: center;
@@ -188,34 +231,6 @@ button.icon-search:after {
   transform: rotate(-45deg);
 }
 
-.btn {
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 18px;
-}
-
-.btn:hover {
-  opacity: .8;
-}
-
-.btn.btn-info {
-  background-color: #0dcaf0;
-}
-
-.btn.btn-warning {
-  background-color: #ffc107;
-}
-
-.btn.btn-danger {
-  background-color: #b02a37;
-}
-
-.btn.btn-dark {
-  background-color: #789;
-}
-
 fieldset {
   border: 1px solid #333;
   border-radius: 20px;
@@ -224,21 +239,6 @@ fieldset {
 
 fieldset + fieldset {
   margin-left: 10px;
-}
-
-.form-control {
-  color: #444;
-  background-color: #eee;
-  border: 1px solid #333;
-  border-radius: 10px;
-  margin-top: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.form-control:focus-visible {
-  border-color: #0dcaf0;
-  outline: #0dcaf0;
 }
 
 /*# sourceMappingURL=index.07fedde6.css.map */

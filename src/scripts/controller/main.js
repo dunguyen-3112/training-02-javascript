@@ -5,8 +5,9 @@ import { HandleFindAll ,HandleFindById,HandleFindByName,HandleDelete,HandleAdd,H
 const FindAllUser =  () => HandleFindAll().then(data=>data.json())
 
 const FindUserByName = (name) => HandleFindByName(name).then(data=>data.json())
+const FindUserById = (id)=>HandleFindById(id).then(data=>data.json())
 
-export {FindAllUser,FindUserByName}
+export {FindAllUser,FindUserByName,FindUserById}
 
 
 
