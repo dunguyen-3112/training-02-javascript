@@ -19,6 +19,14 @@
             <input type="text" class="control-search" placeholder="Search...">
             <button class="icon-search"></button>
         </div>
+        <div class="message">
+            <div class="success message-icon"></div>
+            <div class="message-content">
+                <h3 class="message-title">Lưu ý:</h3>
+                <p class="message-desc">Lớp là một khái niệm, mang tính trừu tượng, dùng để biểu diễn một tập các đối tượng;</p>
+            </div>
+            <!-- <button class="btn-close"></button> -->
+        </div>
         <button class=" btn-add btn btn-info">Add</button>
 
         <table class="list-user">
@@ -27,7 +35,6 @@
                     <th>Of</th>
                     <th>Name</th>
                     <th>Address</th>
-                    <th>Company</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -35,7 +42,6 @@
 
             </tbody>
         </table>
-        <div class="ff"></div>
 
         <form action="/Add-handel" method="post" name="form1" class="form-add">
 
@@ -44,36 +50,22 @@
                 <button class="btn-close" type="button"></button>
                 <h2 class="form-title" name="title"></h2>
                 <div class="form-content">
-                    <fieldset>
-                        <legend>Info</legend>
-                        <label class="form-label"><span>Full Name</span><input type="email" name="name" class="form-control" require></label>
-                        <label class="form-label"><span>User Name</span><input type="text" name="username" class="form-control" require></label>
-                        <label class="form-label"><span>Email</span><input type="email" name="email" class="form-control" require></label>
-                        <label class="form-label"><span>Phone</span><input type="text" name="phone" class="form-control" require></label>
-                        <label class="form-label"><span>Website</span><input type="email" name="website" class="form-control" require></label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Address</legend>
-
-                        <label class="form-label"><span>City</span><select name="city" id="" class="form-control">
-                            <option value="Wisokyburgh">Wisokyburgh</option>
-                            <option value="Douglas">Douglas</option>
-                            <option value="McKenziehaven">McKenziehaven</option>
-                        </select></label>
-                        <label class="form-label"><span>Street</span><select name="street" id="" class="form-control">
+                    <label class="form-label"><span>Full Name</span><input type="text" name="name" class="form-control" require></label>
+                    <label class="form-label"><span>User Name</span><input type="text" name="username" class="form-control" require></label>
+                    <label class="form-label"><span>Email</span><input type="email" name="email" class="form-control" require></label>
+                    <label class="form-label"><span>Phone</span><input type="text" name="phone" class="form-control" require></label>
+                    <label class="form-label"><span>Website</span><input type="text" name="website" class="form-control" require></label>
+                    <label class="form-label">
+                        <span>Address</span>
+                        <select name="address" id="" class="form-control">
                             <option value="Victor Plains">Victor Plains</option>
                             <option value="Wishlist">Wishlist</option>
+                            <option value="Hoeger Mall">Hoeger Mall</option>
+                            <option value="Ellsworth Summit">Ellsworth Summit</option>
                             <option value="Douglas Extension">Douglas Extension</option>
-                        </select></label>
-                        <label class="form-label"><span>Suite</span><input type="text" name="suite" class="form-control" require></label>
-                        <label class="form-label"><span>Zipcode</span><input type="text" name="zipcode" class="form-control" require></label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Company</legend>
-                        <label class="form-label"><span>Name</span><input type="text" name="cname" class="form-control" require></label>
-                        <label class="form-label"><span>CatchPhrase</span><input type="text" name="catchPhrase" class="form-control" require></label>
-                        <label class="form-label"><span>Bs</span><input type="text" name="bs" class="form-control" require></label>
-                    </fieldset>
+                            <option value="Kattie Turnpike">Kattie Turnpike</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="form-action">
                     <button type="submit" name="btnSave" class="btn btn-dark">Save</button>

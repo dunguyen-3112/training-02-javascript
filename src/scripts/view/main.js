@@ -1,4 +1,4 @@
-import { FindAllUser, FindUserByName } from '../controller/main.js'
+import { FindAllUser, FindUserByName,FindUserById,DeleteById,AddUser,UpdateUser } from '../controller/main.js'
 
 FindAllUser().then(data=>{
     show_table(data)
@@ -10,17 +10,83 @@ FindAllUser().then(data=>{
 const show_table = (data)=>{
     console.log(data);
     const tbody = data.map((value,index)=>
-    `<tr>
+    `<tr key=${value.id}>
         <td>${index}</td>
         <td>${value.name}</td>
-        <td>${value.address.city}</td>
-        <td>${value.company.name}</td>
+        <td>${value.address}</td>
         <td>
-            <button class="btn btn-warning" onclick=update(${value.id})>Update</button>
-            <button class="btn btn-danger" onclick=del(${value.id})>Delete</button>
+            <button class="btn btn-warning">Update</button>
+            <button class="btn btn-danger">Delete</button>
         </td>
     </tr>`)
     document.querySelector('.table-body').innerHTML= tbody.join('')
+    document.querySelectorAll('tr').forEach((item,index)=>{
+        if (index > 0) {
+            
+            item.querySelectorAll('td')[3].querySelectorAll('button')[0].addEventListener('click',() => {
+                document.form1.style.display = 'block'
+                document.querySelector('.form-title').innerHTML= 'Update user'
+
+                document.form1.btnSave.addEventListener('click', async(e) => {
+                    e.preventDefault()
+                    await UpdateUser(
+                        {
+                            id:item.getAttribute('key'),
+                            name:document.form1.name.value,
+                            username:document.form1.username.value,
+                            email:document.form1.email.value,
+                            phone:document.form1.phone.value,
+                            website:document.form1.website.value,
+                            address:document.form1.address.value,
+                            }
+                    ).then(data=>{
+                        FindAllUser().then(data=>show_table(data))
+            
+                    })
+                    document.form1.btnReset.click()
+                    document.form1.style.display = 'none'
+                    
+                })
+                
+
+                document.querySelector('.btn-close').addEventListener('click',(e)=>{
+                    e.preventDefault()
+                    document.form1.btnReset.click()
+                    document.form1.style.display = 'none'
+                })
+                FindUserById(item.getAttribute('key')).then(data=>{
+                    document.form1.name.value = data.name
+                    document.form1.username.value = data.username
+                    document.form1.email.value = data.email
+                    document.form1.phone.value = data.phone
+                    document.form1.website.value = data.website
+                    document.form1.address.value = data.address
+                   
+
+                })
+            })
+            item.querySelectorAll('td')[3].querySelectorAll('button')[1].addEventListener('click',() => {
+
+                if(confirm('Your want to remove user'))
+
+                {
+                    DeleteById(item.getAttribute('key')).then( async data => {
+                        await FindAllUser().then(data=>{
+                            show_table(data)
+                            document.querySelector('.message').style.display = 'block'
+                            setTimeout(()=>{
+                                document.querySelector('.message').style.display = 'none'
+                            },1000)
+                        })
+                    })
+                }
+                
+                
+            })
+        }
+        
+        
+    })
 }
 
 
@@ -39,45 +105,33 @@ document.querySelector('.btn-add').addEventListener('click',()=>{
     document.form1.style.display = 'block'
     document.querySelector('.form-title').innerHTML='Add new User'
 
+    document.form1.btnSave.addEventListener('click', async(e) => {
+        e.preventDefault()
+        await AddUser(
+            {
+                name:document.form1.name.value,
+                username:document.form1.username.value,
+                email:document.form1.email.value,
+                phone:document.form1.phone.value,
+                website:document.form1.website.value,
+                address:document.form1.address.value,
+                }
+        ).then(data=>{
+            FindUserByName(e.target.value).then(data=>show_table(data))
+
+        })
+        document.form1.btnReset.click()
+        document.form1.style.display = 'none'
+        
+    })
+
     document.querySelector('.btn-close').addEventListener('click',(e)=>{
      e.preventDefault()
      document.form1.style.display = 'none'
     })
  })
 
- document.form1.btnSave.addEventListener('click', (events) => { 
-    events.preventDefault()
-    const geo = {lat:'',lng:''}
-     navigator.geolocation.getCurrentPosition(position=>{
-        geo.lat = position.coords.latitude
-    })
-    console.log(geo)
-    const user = {
-        name:document.form1.name.value,
-        username:document.form1.username.value,
-        email:document.form1.email.value,
-        phone:document.form1.phone.value,
-        website:document.form1.website.value,
-        company:{
-            name:document.form1.cname.value,
-            catchPhrase:document.form1.catchPhrase.value,
-            bs:document.form1.bs.value,
-        },
-        address:{
-            street:document.form1.street.value,
-            suite:document.form1.suite.value,
-            zipcode:document.form1.zipcode.value,
-            city:document.form1.city.value,
-            geo:{
-                lat:'',
-                lng:''
-            }
-        }
-    }
-    console.log(user);
-    document.form1.btnReset.click()
-    document.form1.style.display = 'none'
-})
+
 
 
 

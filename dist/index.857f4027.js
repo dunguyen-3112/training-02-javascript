@@ -4,6 +4,7 @@ const update = (id)=>{
     document.querySelector(".form-title").innerHTML = "Update user";
     document.querySelector(".btn-close").addEventListener("click", (e)=>{
         e.preventDefault();
+        document.form1.btnReset.click();
         document.form1.style.display = "none";
     });
 };

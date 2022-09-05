@@ -538,17 +538,64 @@ var _mainJs = require("../controller/main.js");
 });
 const show_table = (data)=>{
     console.log(data);
-    const tbody = data.map((value, index)=>`<tr>
+    const tbody = data.map((value, index)=>`<tr key=${value.id}>
         <td>${index}</td>
         <td>${value.name}</td>
-        <td>${value.address.city}</td>
-        <td>${value.company.name}</td>
+        <td>${value.address}</td>
         <td>
-            <button class="btn btn-warning" onclick=update(${value.id})>Update</button>
-            <button class="btn btn-danger" onclick=del(${value.id})>Delete</button>
+            <button class="btn btn-warning">Update</button>
+            <button class="btn btn-danger">Delete</button>
         </td>
     </tr>`);
     document.querySelector(".table-body").innerHTML = tbody.join("");
+    document.querySelectorAll("tr").forEach((item, index)=>{
+        if (index > 0) {
+            item.querySelectorAll("td")[3].querySelectorAll("button")[0].addEventListener("click", ()=>{
+                document.form1.style.display = "block";
+                document.querySelector(".form-title").innerHTML = "Update user";
+                document.form1.btnSave.addEventListener("click", async (e)=>{
+                    e.preventDefault();
+                    await (0, _mainJs.UpdateUser)({
+                        id: item.getAttribute("key"),
+                        name: document.form1.name.value,
+                        username: document.form1.username.value,
+                        email: document.form1.email.value,
+                        phone: document.form1.phone.value,
+                        website: document.form1.website.value,
+                        address: document.form1.address.value
+                    }).then((data)=>{
+                        (0, _mainJs.FindAllUser)().then((data)=>show_table(data));
+                    });
+                    document.form1.btnReset.click();
+                    document.form1.style.display = "none";
+                });
+                document.querySelector(".btn-close").addEventListener("click", (e)=>{
+                    e.preventDefault();
+                    document.form1.btnReset.click();
+                    document.form1.style.display = "none";
+                });
+                (0, _mainJs.FindUserById)(item.getAttribute("key")).then((data)=>{
+                    document.form1.name.value = data.name;
+                    document.form1.username.value = data.username;
+                    document.form1.email.value = data.email;
+                    document.form1.phone.value = data.phone;
+                    document.form1.website.value = data.website;
+                    document.form1.address.value = data.address;
+                });
+            });
+            item.querySelectorAll("td")[3].querySelectorAll("button")[1].addEventListener("click", ()=>{
+                if (confirm("Your want to remove user")) (0, _mainJs.DeleteById)(item.getAttribute("key")).then(async (data)=>{
+                    await (0, _mainJs.FindAllUser)().then((data)=>{
+                        show_table(data);
+                        document.querySelector(".message").style.display = "block";
+                        setTimeout(()=>{
+                            document.querySelector(".message").style.display = "none";
+                        }, 1000);
+                    });
+                });
+            });
+        }
+    });
 };
 document.querySelector(".control-search").addEventListener("keyup", (e)=>{
     if (e.target.value == "") (0, _mainJs.FindAllUser)().then((data)=>show_table(data));
@@ -557,46 +604,25 @@ document.querySelector(".control-search").addEventListener("keyup", (e)=>{
 document.querySelector(".btn-add").addEventListener("click", ()=>{
     document.form1.style.display = "block";
     document.querySelector(".form-title").innerHTML = "Add new User";
+    document.form1.btnSave.addEventListener("click", async (e)=>{
+        e.preventDefault();
+        await (0, _mainJs.AddUser)({
+            name: document.form1.name.value,
+            username: document.form1.username.value,
+            email: document.form1.email.value,
+            phone: document.form1.phone.value,
+            website: document.form1.website.value,
+            address: document.form1.address.value
+        }).then((data)=>{
+            (0, _mainJs.FindUserByName)(e.target.value).then((data)=>show_table(data));
+        });
+        document.form1.btnReset.click();
+        document.form1.style.display = "none";
+    });
     document.querySelector(".btn-close").addEventListener("click", (e)=>{
         e.preventDefault();
         document.form1.style.display = "none";
     });
-});
-document.form1.btnSave.addEventListener("click", (events)=>{
-    events.preventDefault();
-    const geo = {
-        lat: "",
-        lng: ""
-    };
-    navigator.geolocation.getCurrentPosition((position)=>{
-        geo.lat = position.coords.latitude;
-    });
-    console.log(geo);
-    const user = {
-        name: document.form1.name.value,
-        username: document.form1.username.value,
-        email: document.form1.email.value,
-        phone: document.form1.phone.value,
-        website: document.form1.website.value,
-        company: {
-            name: document.form1.cname.value,
-            catchPhrase: document.form1.catchPhrase.value,
-            bs: document.form1.bs.value
-        },
-        address: {
-            street: document.form1.street.value,
-            suite: document.form1.suite.value,
-            zipcode: document.form1.zipcode.value,
-            city: document.form1.city.value,
-            geo: {
-                lat: "",
-                lng: ""
-            }
-        }
-    };
-    console.log(user);
-    document.form1.btnReset.click();
-    document.form1.style.display = "none";
 });
 
 },{"../controller/main.js":"7h3W6"}],"7h3W6":[function(require,module,exports) {
@@ -605,10 +631,16 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FindAllUser", ()=>FindAllUser);
 parcelHelpers.export(exports, "FindUserByName", ()=>FindUserByName);
 parcelHelpers.export(exports, "FindUserById", ()=>FindUserById);
+parcelHelpers.export(exports, "DeleteById", ()=>DeleteById);
+parcelHelpers.export(exports, "AddUser", ()=>AddUser);
+parcelHelpers.export(exports, "UpdateUser", ()=>UpdateUser);
 var _mainJs = require("../model/main.js");
 const FindAllUser = ()=>(0, _mainJs.HandleFindAll)().then((data)=>data.json());
 const FindUserByName = (name)=>(0, _mainJs.HandleFindByName)(name).then((data)=>data.json());
 const FindUserById = (id)=>(0, _mainJs.HandleFindById)(id).then((data)=>data.json());
+const DeleteById = (id)=>(0, _mainJs.HandleDelete)(id).then((data)=>data.json());
+const AddUser = (user)=>(0, _mainJs.HandleAdd)(user).then((data)=>data.json());
+const UpdateUser = (user)=>(0, _mainJs.HandleUpdate)(user).then((data)=>data.json());
 
 },{"../model/main.js":"bckDl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bckDl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

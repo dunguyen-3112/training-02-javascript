@@ -173,8 +173,8 @@ button.icon-search:after {
 }
 
 .form-container {
-  width: 85%;
-  max-width: 1024px;
+  width: 70%;
+  max-width: 700px;
   background-color: #fff;
   padding: 15px 20px;
   position: absolute;
@@ -185,7 +185,7 @@ button.icon-search:after {
 }
 
 .form-content {
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 20px;
   display: flex;
@@ -239,6 +239,76 @@ fieldset {
 
 fieldset + fieldset {
   margin-left: 10px;
+}
+
+.message {
+  width: 70%;
+  max-width: 700px;
+  background-color: #fff;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px;
+  animation-name: slide-in;
+  animation-duration: 4s;
+  animation-delay: 2s;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: -700px;
+  box-shadow: 2px 2px 5px #333;
+}
+
+.message-icon {
+  width: 45px;
+  height: 45px;
+  background-color: #7bc332;
+  border-radius: 50%;
+  position: relative;
+}
+
+.message-icon:after {
+  content: "";
+  height: 10px;
+  width: 24px;
+  border-top: none;
+  border-bottom: 3px solid #fff;
+  border-left: 3px solid #fff;
+  border-right: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)rotate(-45deg);
+}
+
+.message-content {
+  margin-left: 10px;
+}
+
+.message-content p {
+  margin-top: 12px;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    right: -700px;
+  }
+
+  to {
+    opacity: 1;
+    right: 0;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    right: 0;
+  }
+
+  to {
+    right: 0;
+  }
 }
 
 /*# sourceMappingURL=index.07fedde6.css.map */

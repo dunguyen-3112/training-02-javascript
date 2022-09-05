@@ -10,7 +10,9 @@ const update = (id) => {
 
     document.querySelector('.btn-close').addEventListener('click',(e)=>{
      e.preventDefault()
+     document.form1.btnReset.click()
      document.form1.style.display = 'none'
+
     })
 }
 
