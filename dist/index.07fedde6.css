@@ -79,6 +79,7 @@ body {
   width: 18px;
   height: 28px;
   cursor: pointer;
+  background-color: #fff;
   border: none;
   position: relative;
   top: -6px;

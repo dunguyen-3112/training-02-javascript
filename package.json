@@ -4,12 +4,15 @@
     "source": "src/index.html",
     "scripts": {
         "start": "parcel",
-        "build": "parcel build]"
+        "build": "parcel build]",
+        "server": "json-server --watch db.json"
     },
     "devDependencies": {
         "parcel": "^2.7.0"
     },
     "dependencies": {
-        "bootstrap": "^5.2.0"
+        "bootstrap": "^5.2.0",
+        "node-editorconfig": "^1.2.3",
+        "save-dev": "^0.0.1-security"
     }
 }

@@ -27,6 +27,7 @@
     cursor: pointer;
     left: -32px;
     transform: rotate(-45deg) translateY(3px);
+    background-color: #fff;
 }
 
 .btn-add {

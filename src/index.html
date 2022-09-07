@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/style.css">
-    <script src="./scripts/view/Handle.js"></script>
 </head>
 
 <body>
@@ -27,7 +26,7 @@
                     <th>Of</th>
                     <th>Name</th>
                     <th>Address</th>
-                    <th>Company</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -35,60 +34,14 @@
 
             </tbody>
         </table>
-        <div class="ff"></div>
+        <form action="#" method="post" name="form" class="form-add">
 
-        <form action="/Add-handel" method="post" name="form1" class="form-add">
-
-            <div class="form-container">
-
-                <button class="btn-close" type="button"></button>
-                <h2 class="form-title" name="title"></h2>
-                <div class="form-content">
-                    <fieldset>
-                        <legend>Info</legend>
-                        <label class="form-label"><span>Full Name</span><input type="email" name="name" class="form-control" require></label>
-                        <label class="form-label"><span>User Name</span><input type="text" name="username" class="form-control" require></label>
-                        <label class="form-label"><span>Email</span><input type="email" name="email" class="form-control" require></label>
-                        <label class="form-label"><span>Phone</span><input type="text" name="phone" class="form-control" require></label>
-                        <label class="form-label"><span>Website</span><input type="email" name="website" class="form-control" require></label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Address</legend>
-
-                        <label class="form-label"><span>City</span><select name="city" id="" class="form-control">
-                            <option value="Wisokyburgh">Wisokyburgh</option>
-                            <option value="Douglas">Douglas</option>
-                            <option value="McKenziehaven">McKenziehaven</option>
-                        </select></label>
-                        <label class="form-label"><span>Street</span><select name="street" id="" class="form-control">
-                            <option value="Victor Plains">Victor Plains</option>
-                            <option value="Wishlist">Wishlist</option>
-                            <option value="Douglas Extension">Douglas Extension</option>
-                        </select></label>
-                        <label class="form-label"><span>Suite</span><input type="text" name="suite" class="form-control" require></label>
-                        <label class="form-label"><span>Zipcode</span><input type="text" name="zipcode" class="form-control" require></label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Company</legend>
-                        <label class="form-label"><span>Name</span><input type="text" name="cname" class="form-control" require></label>
-                        <label class="form-label"><span>CatchPhrase</span><input type="text" name="catchPhrase" class="form-control" require></label>
-                        <label class="form-label"><span>Bs</span><input type="text" name="bs" class="form-control" require></label>
-                    </fieldset>
-                </div>
-                <div class="form-action">
-                    <button type="submit" name="btnSave" class="btn btn-dark">Save</button>
-                    <button type="reset" name="btnReset" class="btn btn-dark">Reset</button>
-                </div>
-            </div>
         </form>
-
     </main>
     <footer>
 
     </footer>
-
-    <!-- <script src="./assets/scripts/controller/main.js" type="module"></script> -->
-    <script src="./scripts/view/main.js" type="module"></script>
+    <script src="./scripts/Employees/controller.js" type="module"></script>
 </body>
 
 </html>
