@@ -1,14 +1,15 @@
-import { API_ENDPOINT } from "../constant";
+import { Employee, EmployeeModel } from "../Employee/model";
 
-class EmployeesModel {
+export default class EmployeesModel {
+    constructor() {
+        this.model = new EmployeeModel();
+    }
+
+    /**
+     * @returns {...Array<Employee>}
+     */
     findAll() {
-        console.log(API_ENDPOINT)
+        return this.model.fetchAPI("");
     }
-    search(keyword) {
-
-    }
-}
-const model = new EmployeesModel();
-export {
-    model
+    search(keyword) {}
 }

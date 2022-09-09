@@ -3,25 +3,10 @@ body {
     margin: auto;
 }
 
-.form-control {
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: #eee;
-    margin-top: 5px;
-    color: #444;
-    border: 1px solid #333;
-    font-size: 16px;
-}
-
-.form-control:focus-visible {
-    border-color: #0dcaf0;
-    outline: #0dcaf0;
-}
-
 .btn {
     padding: 10px 18px;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     color: #FFF;
     cursor: pointer;
 }

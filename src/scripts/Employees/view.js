@@ -1,18 +1,27 @@
-import { Create, renderRow } from '../Employee/view'
-
-
-// Create();
-// const tbody = document.querySelector('.table-body')
-// let rows = []
-// for (let i = 0; i < 5; i++) {
-//     rows.push(renderRow({ name: 'Employee' }, i))
-// }
-
-// tbody.innerHTML = rows.join('')
-// console.log(tbody);
+import { Employee, EmployeeModel } from "../Employee/model";
+import EmployeeCtrl from "../Employee/controller";
+import EmployeeView from "../Employee/view";
 
 export default class EmployeesView {
-    displayTable() {
-        console.log('Table Loading...');
+    constructor() {
+            this.ctrl = new EmployeeCtrl(new EmployeeModel(), new EmployeeView());
+            this.tbody = document.querySelector(".table-body");
+            this.btnAdd = document.querySelector(".btn-add");
+        }
+        /**
+         *
+         * @param {...Array<Employee>} data
+         */
+    displayTable(data) {
+        const rows = data.map((value, index) =>
+            this.ctrl.renderRow(value, index)
+        );
+        this.tbody.innerHTML = rows.join("");
+    }
+
+    handle_btnAdd() {
+        this.btnAdd.addEventListener("click", (e) => {
+            console.log(this.ctrl.display_FormAdd());
+        });
     }
 }
