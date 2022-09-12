@@ -1,15 +1,6 @@
 {
   "employees": [
     {
-      "id": 1,
-      "name": "John",
-      "email": "john@example.com",
-      "phone": "0915518407",
-      "address": "Da Nang",
-      "status": true,
-      "gender": true
-    },
-    {
       "id": 2,
       "name": "Elex",
       "email": "alex@example.com",
@@ -26,15 +17,6 @@
       "address": "Nghệ An",
       "status": false,
       "gender": true
-    },
-    {
-      "name": "a",
-      "phone": "98434938",
-      "address": "a",
-      "email": "a@gmail.com",
-      "status": false,
-      "gender": "true",
-      "id": 4
     }
   ]
 }

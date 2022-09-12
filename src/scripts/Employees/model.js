@@ -11,5 +11,7 @@ export default class EmployeesModel {
     findAll() {
         return this.model.fetchAPI("");
     }
-    search(keyword) {}
+    search(keyword) {
+        return new EmployeeModel().fetchAPI(`?name_like=${keyword}`);
+    }
 }

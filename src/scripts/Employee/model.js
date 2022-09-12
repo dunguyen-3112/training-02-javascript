@@ -31,8 +31,15 @@ class EmployeeModel {
             body: JSON.stringify(Employee),
         });
     }
+    getById(id) {
+        return this.fetchAPI(`${id}`);
+    }
     updateById(Employee) {}
-    deleteById(id) {}
+    deleteById(id) {
+        return this.fetchAPI(`${id}`, {
+            method: "DELETE",
+        });
+    }
     validate(Employee) {
         return true;
     }

@@ -11,6 +11,10 @@ body {
     cursor: pointer;
 }
 
+.btn+.btn {
+    margin-left: 20px;
+}
+
 .btn:hover {
     opacity: .8;
 }
