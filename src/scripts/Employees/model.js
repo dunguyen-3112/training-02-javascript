@@ -1,17 +1,58 @@
-import { Employee, EmployeeModel } from "../Employee/model";
-
-export default class EmployeesModel {
-    constructor() {
-        this.model = new EmployeeModel();
-    }
-
-    /**
-     * @returns {...Array<Employee>}
-     */
-    findAll() {
-        return this.model.fetchAPI("");
-    }
-    search(keyword) {
-        return new EmployeeModel().fetchAPI(`?name_like=${keyword}`);
+import { API_ENDPOINT } from "../constant";
+class Employee {
+    constructor(id = null, name, email, phone, status, gender, address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.status = status;
+        this.gender = gender;
+        this.address = address;
     }
 }
+class EmployeesModel {
+    constructor() {}
+
+    async fetchAPI(href = "", option) {
+            if (option)
+                return await fetch(`${API_ENDPOINT}/${href}`, option).then(
+                    (res) => res
+                );
+            return await fetch(`${API_ENDPOINT}/${href}`).then((res) => res.json());
+        }
+        /**
+         * @returns {...Array<Employee>}
+         */
+    findAll() {
+        return this.fetchAPI("");
+    }
+    search(keyword) {
+            return this.fetchAPI(`?name_like=${keyword}`);
+        }
+        /**
+         *
+         * @param {Employee} Employee
+         * @returns {Employee} Employee
+         */
+    create(Employee) {
+        return this.fetchAPI("", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Employee),
+        });
+    }
+    getById(id) {
+        return this.fetchAPI(`${id}`);
+    }
+    updateById(Employee) {}
+    deleteById(id) {
+        return this.fetchAPI(`${id}`, {
+            method: "DELETE",
+        });
+    }
+    validate(Employee) {
+        return true;
+    }
+}
+
+export { EmployeesModel, Employee };
