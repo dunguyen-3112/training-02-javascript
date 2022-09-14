@@ -44,7 +44,13 @@ class EmployeesModel {
     getById(id) {
         return this.fetchAPI(`${id}`);
     }
-    updateById(Employee) {}
+    update(Employee) {
+        return this.fetchAPI(`${Employee.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Employee),
+        });
+    }
     deleteById(id) {
         return this.fetchAPI(`${id}`, {
             method: "DELETE",
