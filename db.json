@@ -1,0 +1,22 @@
+{
+  "employees": [
+    {
+      "name": "Elex",
+      "phone": "0915518407",
+      "address": "Quang Nam",
+      "email": "alex@example.com",
+      "status": true,
+      "gender": "false",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "name": "Peter",
+      "email": "peter@example.com",
+      "phone": "0915518407",
+      "address": "Nghệ An",
+      "status": false,
+      "gender": true
+    }
+  ]
+}
