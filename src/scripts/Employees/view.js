@@ -48,15 +48,22 @@ export default class EmployeesView {
         }
     }
 
-    displayForm(title, handleSave, renderTable, data) {
+    closeModal() {
+        document.form.btnReset.click();
+        this.form_add.style.display = "none";
+        if (this.form.getAttribute("data-id"))
+            this.form.removeAttribute("data-id");
+    }
+
+    openModal(title, data) {
         this.formTitle.innerHTML = title;
         this.form_add.style.display = "block";
         this.btn_close.addEventListener("click", (e) => {
-            document.form.btnReset.click();
-            this.form_add.style.display = "none";
+            this.closeModal();
         });
 
         if (data) {
+            this.form.setAttribute("data-id", data.id);
             document.form.name.value = data.name;
             document.form.email.value = data.email;
             document.form.phone.value = data.phone;
@@ -64,28 +71,22 @@ export default class EmployeesView {
             document.form.status.value = data.status ? "active" : "inactive";
             document.form.gender.value = data.gender;
         }
-        this.form.btnSave.addEventListener("click", (e) => {
-            e.preventDefault();
-            const input = {
-                name: document.form.name.value,
-                phone: document.form.phone.value,
-                address: document.form.address.value,
-                email: document.form.email.value,
-                status: document.form.status.value === "active" ? true : false,
-                gender: document.form.gender.value,
-            };
-            if (data) {
-                input.id = data.id;
-            }
+    }
 
-            handleSave(input).then((data1) => {
-                if (data1) {
-                    document.form.btnReset.click();
-                    this.form_add.style.display = "none";
-                    renderTable();
-                }
-            });
-        });
+    handleSubmit() {
+        const inputs = {
+            name: document.form.name.value,
+            phone: document.form.phone.value,
+            address: document.form.address.value,
+            email: document.form.email.value,
+            status: document.form.status.value === "active" ? true : false,
+            gender: document.form.gender.value,
+            id: this.form.getAttribute("data-id") ?
+                this.form.getAttribute("data-id") :
+                null,
+        };
+        this.closeModal();
+        return inputs;
     }
 
     handleSearch(handle) {
@@ -93,4 +94,6 @@ export default class EmployeesView {
             handle(e.target.value);
         });
     }
+
+    validateForm() {}
 }

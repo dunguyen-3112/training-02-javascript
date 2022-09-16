@@ -1,13 +1,13 @@
 {
   "employees": [
     {
-      "id": 2,
       "name": "Elex",
-      "email": "alex@example.com",
       "phone": "0915518407",
       "address": "Quang Nam",
+      "email": "alex@example.com",
       "status": true,
-      "gender": false
+      "gender": "false",
+      "id": 2
     },
     {
       "id": 3,

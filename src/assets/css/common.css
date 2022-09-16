@@ -34,3 +34,7 @@ body {
 .btn.btn-dark {
     background-color: #778899;
 }
+
+.message {
+    display: none;
+}

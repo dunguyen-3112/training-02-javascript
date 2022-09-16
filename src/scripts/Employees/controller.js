@@ -41,18 +41,9 @@ export default class EmployeesCtrl {
             });
         };
 
-        this.handleSave = (input) => {
-            if (input.id) return this.model.update(input).then((data) => data);
-            return this.model.create(input).then((data) => data);
-        };
         this.handleBtnUpdate = (id) => {
             this.model.getById(id).then((data) => {
-                this.view.displayForm(
-                    "Update Employee",
-                    this.handleSave,
-                    this.renderTable,
-                    data
-                );
+                this.view.openModal("Update Employee", data);
             });
         };
     }
@@ -63,11 +54,24 @@ export default class EmployeesCtrl {
         this.view.handleSearch(this.handleSearch);
 
         this.view.btnAdd.addEventListener("click", (e) => {
-            this.view.displayForm(
-                "Add new Employee",
-                this.handleSave,
-                this.renderTable
-            );
+            this.view.openModal("Add new Employee");
+        });
+        this.view.form.btnSave.addEventListener("click", async(e) => {
+            e.preventDefault();
+            const inputs = this.view.handleSubmit();
+            if (inputs.id != null)
+                await this.model.update(inputs).then((data) => data);
+            else await this.model.create(inputs).then((data) => data);
+            this.renderTable();
+        });
+        this.view.form.name.addEventListener("blur", (e) => {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            console.log(pattern.test(e.target.value));
+            if (e.target.value.length < 6) {
+                document.querySelector(".message").style.display = "block";
+            } else {
+                document.querySelector(".message").style.display = "none";
+            }
         });
     }
 }
