@@ -131,8 +131,6 @@ button.icon-search::after {
 .form-add {
     width: 80%;
     max-width: 550px;
-    height: 75%;
-    max-height: 600px;
     background-color: var(--white-color);
     position: absolute;
     top: 50%;

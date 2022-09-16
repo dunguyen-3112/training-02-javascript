@@ -81,9 +81,9 @@ export default class EmployeesView {
             email: document.form.email.value,
             status: document.form.status.value === "active" ? true : false,
             gender: document.form.gender.value,
-            id: this.form.getAttribute("data-id") ?
-                this.form.getAttribute("data-id") :
-                null,
+            id: this.form.getAttribute("data-id")
+                ? this.form.getAttribute("data-id")
+                : null,
         };
         this.closeModal();
         return inputs;
@@ -95,5 +95,24 @@ export default class EmployeesView {
         });
     }
 
-    validateForm() {}
+    validateForm() {
+        // this.form.name.addEventListener("blur", (e) => {
+        //     if (e.target.value.length < 6) {
+        //         document.querySelector(".message").style.display = "block";
+        //     } else {
+        //         document.querySelector(".message").style.display = "none";
+        //     }
+        // });
+        this.form.email.addEventListener("blur", (e) => {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!pattern.test(e.target.value))
+                this.form.email.parentElement.querySelector(
+                    ".message"
+                ).style.display = "block";
+            else
+                this.form.email.parentElement.querySelector(
+                    ".message"
+                ).style.display = "none";
+        });
+    }
 }

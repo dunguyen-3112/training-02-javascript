@@ -56,22 +56,14 @@ export default class EmployeesCtrl {
         this.view.btnAdd.addEventListener("click", (e) => {
             this.view.openModal("Add new Employee");
         });
-        this.view.form.btnSave.addEventListener("click", async(e) => {
+        this.view.validateForm();
+        this.view.form.btnSave.addEventListener("click", async (e) => {
             e.preventDefault();
             const inputs = this.view.handleSubmit();
             if (inputs.id != null)
                 await this.model.update(inputs).then((data) => data);
             else await this.model.create(inputs).then((data) => data);
             this.renderTable();
-        });
-        this.view.form.name.addEventListener("blur", (e) => {
-            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            console.log(pattern.test(e.target.value));
-            if (e.target.value.length < 6) {
-                document.querySelector(".message").style.display = "block";
-            } else {
-                document.querySelector(".message").style.display = "none";
-            }
         });
     }
 }

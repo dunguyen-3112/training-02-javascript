@@ -37,4 +37,7 @@ body {
 
 .message {
     display: none;
+    font-size: 12px;
+    color: #b02a37; grid-column: 2/3;
+    margin-top: 10px;
 }
