@@ -19,7 +19,7 @@ class Employee {
      */
     create(Employee) {
         return helper.fetchAPI({
-            url: "",
+            url: `${API_ENDPOINT}`,
             method: "POST",
             data: Employee,
         });

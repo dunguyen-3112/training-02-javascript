@@ -1,7 +1,6 @@
 import EmployeesCtrl from "./Employees/controller";
 import { Employee, Employees } from "./Employees/model";
 import EmployeesView from "./Employees/view";
-
 class main {
     /**
      *

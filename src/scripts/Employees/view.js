@@ -1,14 +1,18 @@
 import { Employee } from "./model";
+import { $ } from "../constant";
 
 export default class EmployeesView {
     constructor() {
-        this.tbody = document.querySelector(".table-body");
-        this.btnAdd = document.querySelector(".btn-add");
-        this.inputSearch = document.querySelector(".control-search");
-        this.form_add = document.querySelector(".form-add-container");
-        this.btn_close = document.querySelector(".btn-close");
+        $(".demo").innerHTML = this.renderHeaderTable();
+        $(".demo").innerHTML += this.renderForm();
+        this.tbody = $(".table-body");
+        this.btnAdd = $(".btn-add");
+        this.inputSearch = $(".control-search");
+        this.form_add = $(".form-add-container");
+        this.btn_close = $(".btn-close");
         this.form = document.form;
-        this.formTitle = document.querySelector(".form-title");
+        this.formTitle = $(".form-title");
+        this.formSearch = document.formSearch;
     }
     /**
      *
@@ -26,9 +30,8 @@ export default class EmployeesView {
                     </div>
                 </td>
                 <td>
-                <img src="./images/icon.png" alt="">
-                    <button class="btn btn-warning"> </button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn-delete btn btn-icon"> </button>
+                    <button class="btn-update btn btn-icon"></button>
                 </td>
             </tr>`;
     /**
@@ -39,6 +42,7 @@ export default class EmployeesView {
         const rows = employees.map((value, index) =>
             this.renderRow(value, index)
         );
+
         this.tbody.innerHTML = rows.join("");
     }
 
@@ -60,9 +64,8 @@ export default class EmployeesView {
         this.btn_close.addEventListener("click", (e) => {
             this.closeModal();
         });
-
         if (employee) {
-            this.form.setAttribute("data-id", data.id);
+            this.form.setAttribute("data-id", employee.id);
             document.form.name.value = employee.name;
             document.form.email.value = employee.email;
             document.form.phone.value = employee.phone;
@@ -111,7 +114,7 @@ export default class EmployeesView {
     //     });
     // }
 
-    renderForm = async () => `
+    renderForm = () => `
         <div class="form-add-container">
         <button class="btn-close"></button>
         <form action="#" method="post" name="form" class="form-add">
@@ -166,10 +169,27 @@ export default class EmployeesView {
         </div>
     `;
 
-    renderFormSearch = () => `
-        <form class="form-search" name="formSearch" action="/search" method="post">
-            <input type="text" class="control-search" placeholder="Search...">
-            <button class="icon-search" type="submit"></button>
-        </form>
+    renderHeaderTable = () => `
+        <div class="flex">
+            <form class="form-search" name="formSearch" action="#" method="post">
+                <input type="text" class="control-search" name="keyword" placeholder="Search...">
+                <button class="icon-search"></button>
+            </form>
+            <button class="btn-add btn btn-info">Add new Employee</button>
+        </div>
+        <table class="list-employee">
+            <thead>
+                <tr>
+                    <th>Of</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+
+            </tbody>
+        </table>
     `;
 }

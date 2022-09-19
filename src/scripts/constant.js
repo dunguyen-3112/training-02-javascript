@@ -1,3 +1,5 @@
 const API_BASE = "http://localhost:3000";
 
-export { API_BASE };
+const $ = document.querySelector.bind(document);
+
+export { API_BASE, $ };

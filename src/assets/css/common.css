@@ -6,11 +6,19 @@ body {
 .btn {
     padding: 10px 18px;
     border: none;
-    border-radius: 10px;
     color: #FFF;
     cursor: pointer;
 }
+.btn.btn-icon{
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    background:url('../images/icon.png');
+}
 
+.btn.btn-icon:last-child{
+    background-position: -24px 0;
+}
 .btn+.btn {
     margin-left: 20px;
 }
@@ -40,4 +48,9 @@ body {
     font-size: 12px;
     color: #b02a37; grid-column: 2/3;
     margin-top: 10px;
+}
+
+.flex{
+    display: flex;
+justify-content: space-between;
 }

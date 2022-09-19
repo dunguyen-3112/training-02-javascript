@@ -7,16 +7,34 @@
       "email": "alex@example.com",
       "status": true,
       "gender": "false",
-      "id": 2
+      "id": 1
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Peter",
       "email": "peter@example.com",
       "phone": "0915518407",
       "address": "Nghệ An",
       "status": false,
       "gender": true
+    },
+    {
+      "name": "a",
+      "phone": "a",
+      "address": "a",
+      "email": "a",
+      "status": true,
+      "gender": "true",
+      "id": 4
+    },
+    {
+      "name": "b",
+      "phone": "b",
+      "address": "b",
+      "email": "b",
+      "status": true,
+      "gender": "true",
+      "id": 5
     }
   ]
 }
