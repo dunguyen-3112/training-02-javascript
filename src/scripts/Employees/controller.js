@@ -19,7 +19,7 @@ export default class EmployeesCtrl {
             this.view.renderTable(data);
         });
     };
-    initEvents() {
+    async initEvents() {
         this.view.formSearch.keyword.addEventListener("keyup", (e) => {
             this.handleSearch(e.target.value);
         });
@@ -46,19 +46,23 @@ export default class EmployeesCtrl {
 
         const inputs = this.view.handleSubmit();
         if (inputs.id != null)
-            this.employee.update(inputs).then((data) => {
-                if (data) this.render();
+            this.employee.update(inputs).then(async (data) => {
+                if (data) {
+                    await this.destroyEvents();
+                    await this.render();
+                    await this.initEvents();
+                }
             });
         else
-            this.employee.create(inputs).then((data) => {
+            this.employee.create(inputs).then(async (data) => {
                 if (data) {
-                    this.destroyEvents();
-                    this.render();
-                    this.initEvents();
+                    await this.destroyEvents();
+                    await this.render();
+                    await this.initEvents();
                 }
             });
     };
-    destroyEvents() {
+    async destroyEvents() {
         this.view.form.btnSave.removeEventListener("click", (e) =>
             this.handleSave(e)
         );
@@ -83,10 +87,10 @@ export default class EmployeesCtrl {
         const id = e.path[2].getAttribute("data-id");
         await this.employees.findById(id).then((data) => {
             if (confirm(`You want to remove an employee "${data.name}"`))
-                this.employees.deleteById(id).then((data) => {
-                    this.destroyEvents();
-                    this.render();
-                    this.initEvents();
+                this.employees.deleteById(id).then(async (data) => {
+                    await this.destroyEvents();
+                    await this.render();
+                    await this.initEvents();
                 });
         });
     };

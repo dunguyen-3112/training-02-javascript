@@ -14,9 +14,13 @@ body {
     width: 24px;
     height: 24px;
     background:url('../images/icon.png');
+    background-position: -48px 0;
+}
+.btn.btn-icon.btn-delete{
+    background-position: 0 0;
 }
 
-.btn.btn-icon:last-child{
+.btn.btn-icon.btn-update{
     background-position: -24px 0;
 }
 .btn+.btn {

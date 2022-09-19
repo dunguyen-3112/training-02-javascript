@@ -30,8 +30,8 @@ export default class EmployeesView {
                     </div>
                 </td>
                 <td>
-                    <button class="btn-delete btn btn-icon"> </button>
-                    <button class="btn-update btn btn-icon"></button>
+                    <button class="btn-delete btn btn-icon btn-delete"> </button>
+                    <button class="btn-update btn btn-icon btn-update"></button>
                 </td>
             </tr>`;
     /**
@@ -175,7 +175,7 @@ export default class EmployeesView {
                 <input type="text" class="control-search" name="keyword" placeholder="Search...">
                 <button class="icon-search"></button>
             </form>
-            <button class="btn-add btn btn-info">Add new Employee</button>
+            <button class="btn btn-icon btn-add"></button>
         </div>
         <table class="list-employee">
             <thead>

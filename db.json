@@ -10,31 +10,22 @@
       "id": 1
     },
     {
-      "id": 2,
       "name": "Peter",
-      "email": "peter@example.com",
       "phone": "0915518407",
-      "address": "Nghệ An",
+      "address": "Nghe An",
+      "email": "peter@example.com",
       "status": false,
-      "gender": true
+      "gender": "false",
+      "id": 2
     },
     {
-      "name": "a",
-      "phone": "a",
-      "address": "a",
-      "email": "a",
+      "name": "Jenk Oz",
+      "phone": "0283002890",
+      "address": "LonDon",
+      "email": "jenk@gmail.com",
       "status": true,
       "gender": "true",
-      "id": 4
-    },
-    {
-      "name": "b",
-      "phone": "b",
-      "address": "b",
-      "email": "b",
-      "status": true,
-      "gender": "true",
-      "id": 5
+      "id": 3
     }
   ]
 }

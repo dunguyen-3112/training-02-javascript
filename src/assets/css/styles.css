@@ -93,28 +93,28 @@ button.icon-search::after {
     width: 100%;
 }
 
-.list-user tr {
+.list-employee tr {
     border: 1px solid #ccc;
     cursor: pointer;
 }
 
-.list-user tr:hover {
+.list-employee tr:hover {
     background-color: #333 !important;
     color: #fff !important;
 }
 
-.list-user th,
-.list-user td {
+.list-employee th,
+.list-employee td {
     padding: 6px 12px;
     text-align: center;
 }
 
-.list-user th {
+.list-employee th {
     background-color: rgb(54, 62, 54);
     color: #fff;
 }
 
-.list-user tr:nth-of-type(odd) {
+.list-employee tr:nth-of-type(odd) {
     background-color: rgb(204, 204, 204);
 }
 
