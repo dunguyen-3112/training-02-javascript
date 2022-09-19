@@ -1,4 +1,7 @@
-import { API_ENDPOINT } from "../constant";
+import { API_ENDPOINT } from "./constant";
+import API_Helper from "../helpers/api-helper";
+
+const helper = new API_Helper();
 class Employee {
     constructor(id = null, name, email, phone, status, gender, address) {
         this.id = id;
@@ -9,56 +12,77 @@ class Employee {
         this.gender = gender;
         this.address = address;
     }
+    /**
+     *
+     * @param {Employee} Employee
+     * @returns {Employee} Employee
+     */
+    create(Employee) {
+        return helper.fetchAPI({
+            url: "",
+            method: "POST",
+            data: Employee,
+        });
+    }
+    /**
+     *
+     * @param {Employee} employee
+     * @returns Promise<Employee>
+     */
+    update(Employee) {
+        return helper.fetchAPI({
+            url: `${API_ENDPOINT}/${Employee.id}`,
+            method: "PUT",
+            data: Employee,
+        });
+    }
+    validate(Employee) {}
 }
-class EmployeesModel {
+class Employees {
     constructor() {}
 
-    async fetchAPI(href = "", option) {
-            if (option)
-                return await fetch(`${API_ENDPOINT}/${href}`, option).then(
-                    (res) => res
-                );
-            return await fetch(`${API_ENDPOINT}/${href}`).then((res) => res.json());
-        }
-        /**
-         * @returns {...Array<Employee>}
-         */
+    /**
+     * @returns {...Array<Employee>}
+     */
     findAll() {
-        return this.fetchAPI("");
+        return helper.fetchAPI({ url: `${API_ENDPOINT}` });
     }
+    /**
+     *
+     * @param {string} keyword
+     */
     search(keyword) {
-            return this.fetchAPI(`?name_like=${keyword}`);
-        }
-        /**
-         *
-         * @param {Employee} Employee
-         * @returns {Employee} Employee
-         */
-    create(Employee) {
-        return this.fetchAPI("", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(Employee),
-        });
+        return helper.fetchAPI({ url: `${API_ENDPOINT}?name_like=${keyword}` });
     }
-    getById(id) {
-        return this.fetchAPI(`${id}`);
+    /**
+     *
+     * @param {int} id
+     * @returns
+     */
+    findById(id) {
+        return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
     }
-    update(Employee) {
-        return this.fetchAPI(`${Employee.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(Employee),
-        });
-    }
+
+    /**
+     *
+     * @param {int} id
+     * @returns
+     */
     deleteById(id) {
-        return this.fetchAPI(`${id}`, {
+        return helper.fetchAPI({
+            url: `${API_ENDPOINT}/${id}`,
             method: "DELETE",
+            data: id,
         });
     }
-    validate(Employee) {
+    /**
+     *
+     * @param {Employee} employee
+     * @returns
+     */
+    validate(employee) {
         return true;
     }
 }
 
-export { EmployeesModel, Employee };
+export { Employee, Employees };
