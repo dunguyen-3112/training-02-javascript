@@ -275,3 +275,22 @@ label {
     left: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+.navigation{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 150px;
+    text-align: center;
+    border: 2px solid;
+}
+.navigation a{
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+     
+}
+.navigation a:hover{
+    background-color: #7FFF00;
+    border-radius: 20px;
+}

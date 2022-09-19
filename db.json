@@ -15,7 +15,7 @@
       "address": "Nghe An",
       "email": "peter@example.com",
       "status": false,
-      "gender": "false",
+      "gender": "true",
       "id": 2
     },
     {
