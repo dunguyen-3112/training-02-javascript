@@ -1,3 +1,3 @@
-const API_ENDPOINT = "http://localhost:3000/employees";
+const API_BASE = "http://localhost:3000";
 
-export { API_ENDPOINT };
+export { API_BASE };

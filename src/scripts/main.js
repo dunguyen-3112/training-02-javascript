@@ -1,5 +1,5 @@
 import EmployeesCtrl from "./Employees/controller";
-import { EmployeesModel } from "./Employees/model";
+import { Employee, Employees } from "./Employees/model";
 import EmployeesView from "./Employees/view";
 
 class main {
@@ -12,4 +12,6 @@ class main {
         this.ctrl.run();
     }
 }
-new main(new EmployeesCtrl(new EmployeesModel(), new EmployeesView()));
+new main(
+    new EmployeesCtrl(new Employee(), new Employees(), new EmployeesView())
+);
