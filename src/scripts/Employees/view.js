@@ -2,9 +2,20 @@ import { Employee } from "./model";
 import { $ } from "../constant";
 
 export default class EmployeesView {
-    constructor() {
-        $(".demo").innerHTML = this.renderHeaderTable();
-        $(".demo").innerHTML += this.renderForm();
+    constructor(preSelector, selector) {
+        this.preSelector = preSelector;
+        this.selector = selector;
+        if (
+            this.selector == "employees" &&
+            $(`.${this.selector}`) == undefined
+        ) {
+            $(".content").innerHTML = "";
+            let e = document.createElement("div");
+            e.className = selector;
+            $(".content").appendChild(e);
+            $(`.${this.selector}`).innerHTML = this.renderHeaderTable();
+            $(`.${this.selector}`).innerHTML += this.renderForm();
+        }
         this.tbody = $(".table-body");
         this.btnAdd = $(".btn-add");
         this.inputSearch = $(".control-search");
@@ -14,33 +25,28 @@ export default class EmployeesView {
         this.formTitle = $(".form-title");
         this.formSearch = document.formSearch;
     }
-    /**
-     *
-     * @param {Employee} employee
-     * @param {int} index
-     */
-    renderRow = (employee, index) =>
-        `<tr data-id=${employee.id}>
-                <td>${index}</td>
-                <td>${employee.name}</td>
-                <td>${employee.address}</td>
-                <td>
-                    <div class=` +
-        `${employee.status ? " active" : "inactive"}>
-                    </div>
-                </td>
-                <td>
-                    <button class="btn-delete btn btn-icon btn-delete"> </button>
-                    <button class="btn-update btn btn-icon btn-update"></button>
-                </td>
-            </tr>`;
+
     /**
      *
      * @param {Array<Employee>} employees
      */
     renderTable(employees) {
-        const rows = employees.map((value, index) =>
-            this.renderRow(value, index)
+        const rows = employees.map(
+            (employee, index) =>
+                `<tr data-id=${employee.id}>
+                    <td>${index}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.address}</td>
+                    <td>
+                        <div class=` +
+                `${employee.status ? " active" : "inactive"}>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn-delete btn btn-icon btn-delete"> </button>
+                        <button class="btn-update btn btn-icon btn-update"></button>
+                    </td>
+                </tr>`
         );
 
         this.tbody.innerHTML = rows.join("");

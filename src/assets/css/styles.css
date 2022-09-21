@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+.demo{
+    margin-top: 100px;
+}
+
 .search-group {
     display: inline-block;
 }
@@ -281,7 +285,9 @@ label {
     gap: 10px;
     width: 150px;
     text-align: center;
-    border: 2px solid;
+    margin-right: 50px;
+    border-left: 4px solid #333;
+    padding-left: 20px;
 }
 .navigation a{
     display: block;
@@ -293,4 +299,8 @@ label {
 .navigation a:hover{
     background-color: #7FFF00;
     border-radius: 20px;
+}
+acticle.main{
+    display: grid;
+    grid-template-columns: auto 1fr;
 }

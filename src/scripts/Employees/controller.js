@@ -12,6 +12,9 @@ export default class EmployeesCtrl {
         this.employee = employee;
         this.employees = employees;
         this.view = view;
+        if (this.view.selector == "employees") {
+            this.run();
+        }
     }
 
     render = async () => {
@@ -102,8 +105,8 @@ export default class EmployeesCtrl {
             .then((data) => this.view.openModal("Update Employee", data));
     };
 
-    run = async () => {
+    async run() {
         await this.render();
         this.initEvents();
-    };
+    }
 }

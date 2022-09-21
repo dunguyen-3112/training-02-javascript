@@ -5,18 +5,9 @@
       "phone": "0915518407",
       "address": "Quang Nam",
       "email": "alex@example.com",
-      "status": true,
+      "status": false,
       "gender": "false",
       "id": 1
-    },
-    {
-      "name": "Peter",
-      "phone": "0915518407",
-      "address": "Nghe An",
-      "email": "peter@example.com",
-      "status": false,
-      "gender": "true",
-      "id": 2
     },
     {
       "name": "Jenk Oz",
@@ -26,6 +17,15 @@
       "status": true,
       "gender": "true",
       "id": 3
+    }
+  ],
+  "users":[
+    {
+      "id":1,
+      "eId":1,
+      "username":"jenk",
+      "password":"122abc",
+      "token":"snjiwueueo92sw9283232i2okwookwoi02930293029320930kws0ksokoi20"
     }
   ]
 }
