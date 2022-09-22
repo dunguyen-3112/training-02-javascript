@@ -2,20 +2,10 @@ import { Employee } from "./model";
 import { $ } from "../constant";
 
 export default class EmployeesView {
-    constructor(preSelector, selector) {
-        this.preSelector = preSelector;
+    constructor(selector) {
         this.selector = selector;
-        if (
-            this.selector == "employees" &&
-            $(`.${this.selector}`) == undefined
-        ) {
-            $(".content").innerHTML = "";
-            let e = document.createElement("div");
-            e.className = selector;
-            $(".content").appendChild(e);
-            $(`.${this.selector}`).innerHTML = this.renderHeaderTable();
-            $(`.${this.selector}`).innerHTML += this.renderForm();
-        }
+        $(`.${this.selector}`).innerHTML = this.renderHeaderTable();
+        $(`.${this.selector}`).innerHTML += this.renderForm();
         this.tbody = $(".table-body");
         this.btnAdd = $(".btn-add");
         this.inputSearch = $(".control-search");
@@ -53,6 +43,7 @@ export default class EmployeesView {
     }
 
     closeModal() {
+        this.destroyValidateForm();
         document.form.btnReset.click();
         this.form_add.style.display = "none";
         if (this.form.getAttribute("data-id"))
@@ -81,6 +72,17 @@ export default class EmployeesView {
                 : "inactive";
             document.form.gender.value = employee.gender;
         }
+        //this.validNumber(this.form.phone, "Valid phone number");
+        this.validPhone(
+            this.form.phone,
+            "Valid phone number, minimum 10 characters!"
+        );
+        this.validLength(
+            this.form.address,
+            "Valid address, minimum 10 characters!"
+        );
+        this.validLength(this.form.name, "Valid name, minimum 10 characters!");
+        this.validateEmail();
     }
 
     handleSubmit() {
@@ -99,26 +101,52 @@ export default class EmployeesView {
         return body;
     }
 
-    // validateForm() {
-    //     // this.form.name.addEventListener("blur", (e) => {
-    //     //     if (e.target.value.length < 6) {
-    //     //         document.querySelector(".message").style.display = "block";
-    //     //     } else {
-    //     //         document.querySelector(".message").style.display = "none";
-    //     //     }
-    //     // });
-    //     this.form.email.addEventListener("blur", (e) => {
-    //         const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    //         if (!pattern.test(e.target.value))
-    //             this.form.email.parentElement.querySelector(
-    //                 ".message"
-    //             ).style.display = "block";
-    //         else
-    //             this.form.email.parentElement.querySelector(
-    //                 ".message"
-    //             ).style.display = "none";
-    //     });
-    // }
+    destroyValidateForm() {
+        document.querySelector(".message").style.display = "none";
+    }
+    validateEmail() {
+        this.form.email.addEventListener("blur", (e) => {
+            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!pattern.test(e.target.value))
+                this.form.email.parentElement.querySelector(
+                    ".message"
+                ).style.display = "block";
+            else
+                this.form.email.parentElement.querySelector(
+                    ".message"
+                ).style.display = "none";
+        });
+    }
+    validPhone(element, message) {
+        element.addEventListener("blur", (e) => {
+            let value = e.target.value.trim();
+            let pattern = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+
+            if (!pattern.test(value)) {
+                element.parentElement.querySelector(".message").innerHTML =
+                    message;
+                element.parentElement.querySelector(".message").style.display =
+                    "block";
+            } else {
+                element.parentElement.querySelector(".message").style.display =
+                    "none";
+            }
+        });
+    }
+
+    validLength(element, message) {
+        element.addEventListener("blur", (e) => {
+            if (e.target.value.length <= 10) {
+                element.parentElement.querySelector(".message").innerHTML =
+                    message;
+                element.parentElement.querySelector(".message").style.display =
+                    "block";
+            } else {
+                element.parentElement.querySelector(".message").style.display =
+                    "none";
+            }
+        });
+    }
 
     renderForm = () => `
         <div class="form-add-container">
@@ -154,17 +182,17 @@ export default class EmployeesView {
                 <label class="form-2">
                     <span class="form-label">Address</span>
                     <input type="text" placeholder="Please type your address  " name="address" class="form-control" required>
-                    <span class="message"></span>
+                    <span class="message">Valid Address!</span>
                 </label>
                 <label class="form-2">
                     <span class="form-label">Email</span>
                     <input type your="email"  placeholder="Please type your email  " name="email" class="form-control" required>
-                    <span class="message">Valid email!</span>
+                    <span class="message">Valid email must include @!</span>
                 </label>
                 <label class="form-2">
                     <span class="form-label">Phone</span>
-                    <input type="text" placeholder="Please type your phone  " name="phone" class="form-control" required>
-                    <span class="message"></span>
+                    <input type="tel" placeholder="Please type your phone. Example: 123-123-1234" name="phone" class="form-control" required>
+                    <span class="message">Valid Phone!</span>
                 </label>
             </div>
             <div class="form-action">

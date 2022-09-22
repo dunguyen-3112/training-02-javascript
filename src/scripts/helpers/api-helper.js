@@ -17,11 +17,15 @@ export default class API_Helper {
             };
             if (method === "DELETE") {
                 option.body = null;
-                return await fetch(`${url}`, option).then((res) => res.json());
+                return await fetch(`${url}`, option).then(
+                    async (res) => await res.json()
+                );
             }
-            return await fetch(`${url}`, option).then((res) => res.json());
+            return await fetch(`${url}`, option).then(
+                async (res) => await res.json()
+            );
         }
 
-        return await fetch(`${url}`).then((res) => res.json());
+        return await fetch(`${url}`).then(async (res) => await res.json());
     };
 }

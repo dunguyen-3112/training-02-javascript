@@ -18,9 +18,7 @@ export default class EmployeesCtrl {
     }
 
     render = async () => {
-        await this.employees.findAll().then((data) => {
-            this.view.renderTable(data);
-        });
+        this.view.renderTable(await this.employees.findAll());
     };
     async initEvents() {
         this.view.formSearch.keyword.addEventListener("keyup", (e) => {
@@ -86,9 +84,9 @@ export default class EmployeesCtrl {
                 this.view.renderTable(data);
             });
     };
-    handleBtnDelete = async (e) => {
+    handleBtnDelete = (e) => {
         const id = e.path[2].getAttribute("data-id");
-        await this.employees.findById(id).then((data) => {
+        this.employees.findById(id).then((data) => {
             if (confirm(`You want to remove an employee "${data.name}"`))
                 this.employees.deleteById(id).then(async (data) => {
                     await this.destroyEvents();
