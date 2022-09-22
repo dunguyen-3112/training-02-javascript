@@ -17,15 +17,24 @@
       "status": true,
       "gender": "true",
       "id": 3
+    },
+    {
+      "name": "Petter",
+      "phone": "02332033",
+      "address": "NewJork",
+      "email": "petter@gmail.com",
+      "status": true,
+      "gender": "true",
+      "id": 4
     }
   ],
-  "users":[
+  "users": [
     {
-      "id":1,
-      "eId":1,
-      "username":"jenk",
-      "password":"122abc",
-      "token":"snjiwueueo92sw9283232i2okwookwoi02930293029320930kws0ksokoi20"
+      "id": 1,
+      "eId": 1,
+      "username": "jenk",
+      "password": "122abc",
+      "token": "snjiwueueo92sw9283232i2okwookwoi02930293029320930kws0ksokoi20"
     }
   ]
 }
