@@ -26,6 +26,24 @@
       "status": true,
       "gender": "true",
       "id": 4
+    },
+    {
+      "name": "Alex Leean Kin",
+      "phone": "123-902-0000",
+      "address": "California earthquake",
+      "email": "alexkin@gmail.com",
+      "status": true,
+      "gender": "true",
+      "id": 5
+    },
+    {
+      "name": "HuongLan",
+      "phone": "091-787-4915",
+      "address": "Quảng nam",
+      "email": "lanhuong123@gmail.com",
+      "status": true,
+      "gender": "true",
+      "id": 6
     }
   ]
 }

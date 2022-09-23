@@ -1,5 +1,6 @@
 import { Employee } from "./model";
 import { $ } from "../constant";
+import { checkEmail, checkPhone, checkLength } from "../helpers/valid-helper";
 
 export default class EmployeesView {
     constructor(selector) {
@@ -72,79 +73,75 @@ export default class EmployeesView {
                 : "inactive";
             document.form.gender.value = employee.gender;
         }
-        //this.validNumber(this.form.phone, "Valid phone number");
-        this.validPhone(
-            this.form.phone,
-            "Valid phone number, minimum 10 characters!"
-        );
-        this.validLength(
-            this.form.address,
-            "Valid address, minimum 10 characters!"
-        );
-        this.validLength(this.form.name, "Valid name, minimum 10 characters!");
-        this.validateEmail();
+
+        this.validate();
+    }
+
+    direstValid(e) {
+        if (e.target) e = e.target;
+        let message = e.parentElement.querySelector(".message"),
+            value = e.value.trim();
+        if (e.name == "email") {
+            if (!checkEmail(value)) message.style.display = "block";
+            else message.style.display = "none";
+        }
+        if (e.name == "phone") {
+            if (!checkPhone(value)) message.style.display = "block";
+            else message.style.display = "none";
+        } else {
+            if (!checkLength(value, 6)) message.style.display = "block";
+            else message.style.display = "none";
+        }
+    }
+
+    validate() {
+        let props = ["name", "phone", "address", "email"];
+        props.map(async (item) => {
+            await this.form[`${item}`].addEventListener(
+                "blur",
+                this.direstValid
+            );
+        });
     }
 
     handleSubmit() {
         const body = {
-            name: document.form.name.value,
-            phone: document.form.phone.value,
-            address: document.form.address.value,
-            email: document.form.email.value,
-            status: document.form.status.value === "active" ? true : false,
-            gender: document.form.gender.value,
+            name: this.form.name.value,
+            phone: this.form.phone.value,
+            address: this.form.address.value,
+            email: this.form.email.value,
+            status: this.form.status.value === "active" ? true : false,
+            gender: this.form.gender.value,
             id: this.form.getAttribute("data-id")
                 ? this.form.getAttribute("data-id")
                 : null,
         };
-        this.closeModal();
-        return body;
+        let props = ["name", "phone", "address", "email"];
+        props.map((item) => {
+            this.direstValid(this.form[`${item}`]);
+        });
+        let ch = Array.from(document.querySelectorAll(".message")).every(
+            (item, index) => {
+                return item.style.display == "" || item.style.display == "none";
+            }
+        );
+        if (!ch) return null;
+        else {
+            this.closeModal();
+            return body;
+        }
     }
 
     destroyValidateForm() {
-        document.querySelector(".message").style.display = "none";
-    }
-    validateEmail() {
-        this.form.email.addEventListener("blur", (e) => {
-            const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (!pattern.test(e.target.value))
-                this.form.email.parentElement.querySelector(
-                    ".message"
-                ).style.display = "block";
-            else
-                this.form.email.parentElement.querySelector(
-                    ".message"
-                ).style.display = "none";
-        });
-    }
-    validPhone(element, message) {
-        element.addEventListener("blur", (e) => {
-            let value = e.target.value.trim();
-            let pattern = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
-
-            if (!pattern.test(value)) {
-                element.parentElement.querySelector(".message").innerHTML =
-                    message;
-                element.parentElement.querySelector(".message").style.display =
-                    "block";
-            } else {
-                element.parentElement.querySelector(".message").style.display =
-                    "none";
-            }
-        });
-    }
-
-    validLength(element, message) {
-        element.addEventListener("blur", (e) => {
-            if (e.target.value.length <= 10) {
-                element.parentElement.querySelector(".message").innerHTML =
-                    message;
-                element.parentElement.querySelector(".message").style.display =
-                    "block";
-            } else {
-                element.parentElement.querySelector(".message").style.display =
-                    "none";
-            }
+        let props = ["name", "phone", "address", "email"];
+        props.map(async (item) => {
+            this.form[item].parentElement.querySelector(
+                ".message"
+            ).style.display = "none";
+            await this.form[`${item}`].removeEventListener(
+                "blur",
+                this.direstValid
+            );
         });
     }
 
@@ -157,7 +154,7 @@ export default class EmployeesView {
                 <label class="form-2">
                     <span class="form-label">Name</span>
                     <input type="text" placeholder="Please type your name" name="name" class="form-control" required>
-                    <span class="message">Valid name!</span>
+                    <span class="message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label>
                     <span class="form-label">Gender</span>
@@ -181,8 +178,8 @@ export default class EmployeesView {
                 </label>
                 <label class="form-2">
                     <span class="form-label">Address</span>
-                    <input type="text" placeholder="Please type your address  " name="address" class="form-control" required>
-                    <span class="message">Valid Address!</span>
+                    <input type="text" placeholder="Please type your address " name="address" class="form-control" required>
+                    <span class="message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label class="form-2">
                     <span class="form-label">Email</span>
@@ -192,7 +189,7 @@ export default class EmployeesView {
                 <label class="form-2">
                     <span class="form-label">Phone</span>
                     <input type="tel" placeholder="Please type your phone. Example: 123-123-1234" name="phone" class="form-control" required>
-                    <span class="message">Valid Phone!</span>
+                    <span class="message">Valid phone number, minimum 10 characters amd sample Format.</span>
                 </label>
             </div>
             <div class="form-action">
@@ -209,7 +206,7 @@ export default class EmployeesView {
                 <input type="text" class="control-search" name="keyword" placeholder="Search...">
                 <button class="icon-search"></button>
             </form>
-            <button class="btn btn-icon btn-add"></button>
+            <button class="btn btn-icon btn-add"> </button>
         </div>
         <table class="list-employee">
             <thead>

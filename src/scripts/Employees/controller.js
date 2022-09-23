@@ -46,7 +46,7 @@ export default class EmployeesCtrl {
         e.preventDefault();
 
         const inputs = this.view.handleSubmit();
-        if (inputs.id != null)
+        if (inputs?.id != null)
             this.employee.update(inputs).then(async (data) => {
                 if (data) {
                     await this.destroyEvents();

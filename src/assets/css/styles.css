@@ -1,6 +1,7 @@
 @import url(./reset.css);
 @import url(./common.css);
 @import url(./variable.css);
+@import url(./employees.css);
 .wrapper-header {
     height: 100px;
     text-align: center;
@@ -153,7 +154,7 @@ button.icon-search::after {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(5, 1fr);
-    gap: 20px;
+    gap: 10px 20px;
 }
 
 .form-control {
