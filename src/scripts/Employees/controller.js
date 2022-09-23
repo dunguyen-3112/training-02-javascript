@@ -52,6 +52,7 @@ export default class EmployeesCtrl {
                     await this.destroyEvents();
                     await this.render();
                     await this.initEvents();
+                    alert("Save Employee Success!");
                 }
             });
         else
@@ -60,6 +61,7 @@ export default class EmployeesCtrl {
                     await this.destroyEvents();
                     await this.render();
                     await this.initEvents();
+                    alert("Save Employee Success!");
                 }
             });
     };
@@ -89,9 +91,12 @@ export default class EmployeesCtrl {
         this.employees.findById(id).then((data) => {
             if (confirm(`You want to remove an employee "${data.name}"`))
                 this.employees.deleteById(id).then(async (data) => {
-                    await this.destroyEvents();
-                    await this.render();
-                    await this.initEvents();
+                    if (data) {
+                        await this.destroyEvents();
+                        await this.render();
+                        await this.initEvents();
+                        alert("Delete Employee Success!");
+                    }
                 });
         });
     };
