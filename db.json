@@ -27,14 +27,5 @@
       "gender": "true",
       "id": 4
     }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "eId": 1,
-      "username": "jenk",
-      "password": "122abc",
-      "token": "snjiwueueo92sw9283232i2okwookwoi02930293029320930kws0ksokoi20"
-    }
   ]
 }
