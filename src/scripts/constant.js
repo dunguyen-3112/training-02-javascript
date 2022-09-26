@@ -1,5 +1,6 @@
 const API_BASE = "http://localhost:3000";
 
 const $ = document.querySelector.bind(document);
-
-export { API_BASE, $ };
+const employeeSelector = "employees";
+const loginSelector = "login-page";
+export { API_BASE, $, employeeSelector, loginSelector };

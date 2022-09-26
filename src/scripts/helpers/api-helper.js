@@ -16,9 +16,11 @@ export default class API_Helper {
                 headers: { "Content-Type": "application/json" },
             };
             if (method !== "DELETE") option.body = JSON.stringify(data);
+
             const data1 = await fetch(`${url}`, option);
-            return data.json();
+            return data1.json();
         }
+
         const data1 = await fetch(`${url}`);
         return data1.json();
     };

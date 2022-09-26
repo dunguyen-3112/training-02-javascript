@@ -109,6 +109,12 @@ body {
     display: flex;
     gap: 5px;
 }
+.modal-action .btn{
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 12px 24px;
+    font-weight: 600;
+}
 
 .btn-close {
     display: block;

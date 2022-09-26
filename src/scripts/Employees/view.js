@@ -8,7 +8,7 @@ import {
 
 export default class EmployeesView {
     constructor(rootSelector) {
-        this.rootSelector = rootSelector;
+        this.selector = rootSelector;
         const selector = document.createElement("div");
         selector.classList.add(rootSelector);
         selector.innerHTML = TemPlateHeaderTableEmployees;
@@ -28,6 +28,7 @@ export default class EmployeesView {
      * @param {Array<Employee>} employees
      */
     renderTable(employees) {
+        console.log(employees);
         const rows = employees.map(
             (employee, index) =>
                 `<tr data-id=${employee.id}>
@@ -77,35 +78,7 @@ export default class EmployeesView {
             this.formNew.status.value = employee.status ? "active" : "inactive";
             this.formNew.gender.value = employee.gender;
         }
-
         this.validate();
-    }
-
-    direstValid(e) {
-        if (e.target) e = e.target;
-        let message = e.parentElement.querySelector(".message"),
-            value = e.value.trim();
-        if (e.name == "email") {
-            if (!checkEmail(value)) message.style.display = "block";
-            else message.style.display = "none";
-        }
-        if (e.name == "phone") {
-            if (!checkPhone(value)) message.style.display = "block";
-            else message.style.display = "none";
-        } else {
-            if (!checkLength(value, 6)) message.style.display = "block";
-            else message.style.display = "none";
-        }
-    }
-
-    validate() {
-        let props = ["name", "phone", "address", "email"];
-        props.map(async (item) => {
-            await this.formNew[`${item}`].addEventListener(
-                "blur",
-                this.direstValid
-            );
-        });
     }
 
     handleSubmit() {
@@ -120,32 +93,7 @@ export default class EmployeesView {
                 ? this.form.getAttribute("data-id")
                 : null,
         };
-        let props = ["name", "phone", "address", "email"];
-        props.map((item) => {
-            this.direstValid(this.form[`${item}`]);
-        });
-        let ch = Array.from(document.querySelectorAll(".message")).every(
-            (item, index) => {
-                return item.style.display == "" || item.style.display == "none";
-            }
-        );
-        if (!ch) return null;
-        else {
-            this.closeModal();
-            return body;
-        }
-    }
 
-    destroyValidateForm() {
-        let props = ["name", "phone", "address", "email"];
-        props.map(async (item) => {
-            this.form[item].parentElement.querySelector(
-                ".message"
-            ).style.display = "none";
-            await this.form[`${item}`].removeEventListener(
-                "blur",
-                this.direstValid
-            );
-        });
+        return body;
     }
 }

@@ -2,48 +2,82 @@ import EmployeesCtrl from "../employees/controller";
 import { CookiesHelper } from "../helpers/cookies-helper";
 import { LoginModel } from "./model";
 import { LoginView } from "./view";
-import { $ } from "../constant";
+import { $, loginSelector, employeeSelector } from "../constant";
+
 class LoginController {
-    constructor(rootSelector) {
-        this.view = new LoginView(rootSelector);
-        this.model = new LoginModel();
+    static model = new LoginModel();
+
+    constructor() {
+        this.view = new LoginView(loginSelector);
         this.cookies = new CookiesHelper();
-        this.ctrlEmployees = new EmployeesCtrl("employees");
+        this.model = 1;
     }
 
     async render() {
         const token = this.cookies.get("_token");
-        if (token && (await this.model.getUser(token))?.isLogin) {
-            this.view.renderBtnLogin();
-            this.ctrlEmployees.render();
+        if (
+            token?.length > 0 &&
+            (await LoginController.model.getUser(token))?.isLogin
+        ) {
+            this.view.clear();
+            this.view.renderBtnLogout();
+
+            const ctrl = new EmployeesCtrl(employeeSelector);
+            ctrl.render();
+            ctrl.initEvents();
         } else {
             this.view.renderFormLogin();
         }
+        this.destroyEvents();
         this.initEvents();
     }
     initEvents() {
-        this.initEventLogoutBtn();
         this.initEventLoginBtn();
+        this.initEventLogoutBtn();
     }
     initEventLogoutBtn() {
-        $(".btn-logout")?.addEventListener("click", () => {
-            document.cookie = "_token=;";
-            this.view.renderFormLogin();
-        });
-    }
-    initEventLoginBtn() {
-        const btnLogin = document.formLogin.btnLogin;
-        btnLogin.addEventListener("click", this.handleLogin);
+        $(".btn-logout")?.addEventListener("click", this.handleBtnLogout);
     }
 
+    initEventLoginBtn() {
+        document.formLogin?.btnLogin?.addEventListener(
+            "click",
+            this.handleLogin
+        );
+    }
+
+    handleBtnLogout() {
+        document.cookie = "_token=;";
+        location.reload();
+    }
     async handleLogin(e) {
         e.preventDefault();
         const username = document.formLogin.username.value,
             password = document.formLogin.password.value;
-        console.log(this.model);
-        const user = await this.model.login(username, password);
-        console.log(user);
+        try {
+            const user = await LoginController.model.login(username, password);
+            const token = "ae2d32b5b7eaa7d201d513990b8e7cc35535142";
+            user._token = token;
+            const user1 = await LoginController.model.update(user);
+            document.cookie = `_token=${token}`;
+        } catch (error) {
+            throw error;
+        }
+        location.reload();
     }
-    destroyEvents() {}
+    destroyEventLogin() {
+        document.formLogin?.btnLogin?.removeEventListener(
+            "click",
+            this.handleLogin
+        );
+    }
+    destroyEventLogout() {
+        $(".btn-logout")?.removeEventListener("click", this.handleBtnLogout);
+    }
+    destroyEvents() {
+        this.destroyEventLogin();
+        this.destroyEventLogout();
+    }
 }
+
 export { LoginController };

@@ -1,14 +1,15 @@
 import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
+import { $, employeeSelector } from "../constant";
 
 export default class EmployeesCtrl {
     /**
      *
      * @param  {String} rootSelector
      */
-    constructor(rootSelector) {
+    constructor() {
         this.model = new EmployeesModel();
-        this.view = new EmployeesView(rootSelector);
+        this.view = new EmployeesView(employeeSelector);
     }
 
     async render() {
@@ -41,14 +42,11 @@ export default class EmployeesCtrl {
         });
     }
     initEvents() {
-        const elements = this.view.tbody.querySelectorAll("tr");
-
-        this.initEventDelete(elements);
         this.initEventNew();
-        this.initEventSearch();
-        this.initEventUpdate(elements);
-        console.log(this.view.formNew);
-        this.view.formNew.btnSave.addEventListener("click", this.handleSave);
+        // this.initEventDelete(elements);
+        // this.initEventSearch();
+        // this.initEventUpdate(elements);
+        // this.view.formNew.btnSave.addEventListener("click", this.handleSave);
     }
 
     destroyEventSave() {

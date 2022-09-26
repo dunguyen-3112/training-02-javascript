@@ -1,6 +1,7 @@
 const TemPlateFormLogin = `
+
     <div class="modal-container" style="display: block;">
-        <form action="#" method="post" class="form-login" name="formLogin">
+        <form action="/login" method="post" class="form-login" name="formLogin">
             <title class="modal-title">Login</title>
             <div class="modal-content">
                 <label for="" class="form-group">
@@ -16,7 +17,7 @@ const TemPlateFormLogin = `
                 </label>
             </div>
             <div class="modal-action">
-                <button class="btn btn-dark" name="btnLogin">Login</button>
+                <button class="btn btn-dark" type="submit" name="btnLogin">Login</button>
             </div>
         </form>
     </div>

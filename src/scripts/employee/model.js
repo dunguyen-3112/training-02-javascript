@@ -1,17 +1,19 @@
-import { API_ENDPOINT } from "./constant";
+import { API_ENDPOINT } from "../Employees/constant";
 import API_Helper from "../helpers/api-helper";
 
 const helper = new API_Helper();
 
 class EmployeeModel {
-    constructor(id = null, name, email, phone, status, gender, address) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.status = status;
-        this.gender = gender;
-        this.address = address;
+    constructor({ id, name, email, phone, status, gender, address }) {
+        Object.assign(this, {
+            id,
+            name,
+            email,
+            phone,
+            status,
+            gender,
+            address,
+        });
     }
     /**
      *
@@ -28,7 +30,7 @@ class EmployeeModel {
     /**
      *
      * @param {Employee} employee
-     * @returns Promise<Employee>
+     * @returns Employee
      */
     update(Employee) {
         return helper.fetchAPI({

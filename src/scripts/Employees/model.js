@@ -50,4 +50,4 @@ class EmployeesModel {
     }
 }
 
-export { Employee, EmployeesModel };
+export { EmployeesModel };

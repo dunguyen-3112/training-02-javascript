@@ -1,3 +1,4 @@
+import { EmployeeModel } from "./employee/model";
 import { LoginController } from "./Login/controller";
 
 class main {

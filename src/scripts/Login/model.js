@@ -12,10 +12,22 @@ class LoginModel {
         return data[0];
     }
     async login(username, password) {
+        try {
+            const data = await this.api.fetchAPI({
+                url: `${API_ENDPOINT}?username=${username}&password=${password}`,
+            });
+            return data[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+    async update(user) {
         const data = await this.api.fetchAPI({
-            url: `${API_ENDPOINT}?username=${username}&password=${password}`,
+            url: `${API_ENDPOINT}/${user.id}`,
+            data: user,
+            method: "PUT",
         });
-        return data[0];
+        return data;
     }
 }
 export { LoginModel };

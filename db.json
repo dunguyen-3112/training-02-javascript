@@ -21,18 +21,18 @@
   ],
   "users": [
     {
-        "id": 1,
-        "username": "admin",
-        "password": "password",
-        "_token":"123",
-        "isLogin": true
+      "id": 1,
+      "username": "admin",
+      "password": "password",
+      "isLogin": true,
+      "_token": "ae2d32b5b7eaa7d201d513990b8e7cc35535142"
     },
     {
-        "id": 2,
-        "username": "admin",
-        "password": "password",
-        "_token":"1234",
-        "isLogin": true
+      "id": 2,
+      "username": "admin",
+      "password": "password",
+      "_token": "1234",
+      "isLogin": true
     }
   ]
 }
