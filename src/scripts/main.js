@@ -1,18 +1,9 @@
-import EmployeesCtrl from "./Employees/controller";
-import { Employee, Employees } from "./Employees/model";
-import EmployeesView from "./Employees/view";
+import { LoginController } from "./Login/controller";
 
 class main {
-    /**
-     *
-     * @param  {EmployeesCtrl} ctrl
-     */
     constructor() {
-        new EmployeesCtrl(
-            new Employee(),
-            new Employees(),
-            new EmployeesView("employees")
-        );
+        const login = new LoginController("login-page");
+        login.render();
     }
 }
 

@@ -1,5 +1,5 @@
 body {
-    max-width: 1440px;
+    max-width: 1024px;
     margin: auto;
 }
 
@@ -9,27 +9,7 @@ body {
     color: #FFF;
     cursor: pointer;
 }
-.btn.btn-icon{
-    padding: 0;
-    width: 24px;
-    height: 24px;
-    background:url('../images/icon.png');
-    background-position: -48px 0;
-}
-.btn.btn-icon.btn-delete{
-    background-position: 0 0;
-}
 
-.btn.btn-icon.btn-update{
-    background-position: -24px 0;
-}
-.btn+.btn {
-    margin-left: 20px;
-}
-
-.btn:hover {
-    opacity: .8;
-}
 
 .btn.btn-info {
     background-color: #0dcaf0;
@@ -47,15 +27,124 @@ body {
     background-color: #778899;
 }
 
-.message {
-    display: none;
-    font-size: 14px;
-    color: #b02a37; grid-column: 2/3;
-    margin-top: 5px;
-    font-weight: 600;
-}
+
 
 .flex{
     display: flex;
-justify-content: space-between;
+    justify-content: space-between;
+    flex-direction: row-reverse;
 }
+
+.modal-container{
+    position: absolute;
+    display: none;
+    height: 100vh;
+    width: 100%;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsl(var(--light));
+}
+.modal-container form{
+    background-color: var(--white-color);
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    padding: 40px 20px;
+}
+.modal-content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 50px;
+    gap: 30px;
+}
+.modal-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    text-shadow: 4px 4px 5px #333;
+    text-align: center;
+    display: block;
+}
+
+
+
+.form-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+}
+
+.form-label {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 0;
+}
+
+.form-control {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #eee;
+    color: #444;
+    border: none;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.form-control:focus-visible {
+    border-color: #0dcaf0;
+    outline: #0dcaf0;
+}
+
+
+
+
+.form-radio-option {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-close {
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    float: right;
+    background-color: transparent;
+    top: 50px;
+    right: 50px;
+}
+
+.btn-close::after,
+.btn-close::before {
+    left: 50%;
+    top: 0;
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 100%;
+    background-color: var(--white-color);
+}
+
+.btn-close::after {
+    transform: rotate(45deg);
+}
+
+.btn-close::before {
+    transform: rotate(-45deg);
+}
+
+.btn-close:hover {
+    background-color: #333;
+}
+
+

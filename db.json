@@ -1,17 +1,8 @@
 {
   "employees": [
     {
-      "name": "Elex",
-      "phone": "0915518407",
-      "address": "Quang Nam",
-      "email": "alex@example.com",
-      "status": false,
-      "gender": "false",
-      "id": 1
-    },
-    {
       "name": "Jenk Oz",
-      "phone": "0283002890",
+      "phone": "028-300-2890",
       "address": "LonDon",
       "email": "jenk@gmail.com",
       "status": true,
@@ -20,30 +11,28 @@
     },
     {
       "name": "Petter",
-      "phone": "02332033",
+      "phone": "023-320-9933",
       "address": "NewJork",
       "email": "petter@gmail.com",
       "status": true,
       "gender": "true",
       "id": 4
+    }
+  ],
+  "users": [
+    {
+        "id": 1,
+        "username": "admin",
+        "password": "password",
+        "_token":"123",
+        "isLogin": true
     },
     {
-      "name": "Alex Leean Kin",
-      "phone": "123-902-0000",
-      "address": "California earthquake",
-      "email": "alexkin@gmail.com",
-      "status": true,
-      "gender": "true",
-      "id": 5
-    },
-    {
-      "name": "HuongLan",
-      "phone": "091-787-4915",
-      "address": "Quảng nam",
-      "email": "lanhuong123@gmail.com",
-      "status": true,
-      "gender": "true",
-      "id": 6
+        "id": 2,
+        "username": "admin",
+        "password": "password",
+        "_token":"1234",
+        "isLogin": true
     }
   ]
 }

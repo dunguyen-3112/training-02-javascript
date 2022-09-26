@@ -1,47 +1,80 @@
-import { Employees, Employee } from "./model";
+import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
 
 export default class EmployeesCtrl {
     /**
      *
-     * @param {Employee} employee
-     * @param {Employees} employee
-     * @param {EmployeesView} view
+     * @param  {String} rootSelector
      */
-    constructor(employee, employees, view) {
-        this.employee = employee;
-        this.employees = employees;
-        this.view = view;
-        if (this.view.selector == "employees") {
-            this.run();
-        }
+    constructor(rootSelector) {
+        this.model = new EmployeesModel();
+        this.view = new EmployeesView(rootSelector);
     }
 
-    render = async () => {
-        this.view.renderTable(await this.employees.findAll());
-    };
-    async initEvents() {
+    async render() {
+        const data = await this.model.findAll();
+        this.view.renderTable(data);
+    }
+
+    initEventSearch() {
         this.view.formSearch.keyword.addEventListener("keyup", (e) => {
             this.handleSearch(e.target.value);
         });
-
-        this.view.btnAdd.addEventListener("click", (e) => {
+    }
+    initEventNew() {
+        this.view.btnModalNew.addEventListener("click", (e) => {
             this.view.openModal("Add new Employee");
         });
-
-        let elements = this.view.tbody.querySelectorAll("tr");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i]
-                .querySelectorAll("button")[0]
-                .addEventListener("click", this.handleBtnDelete);
-            elements[i]
+    }
+    initEventUpdate(elements) {
+        elements.forEach((element) => {
+            element
                 .querySelectorAll("button")[1]
                 .addEventListener("click", this.handleBtnUpdate);
-        }
+        });
+    }
+    initEventDelete(elements) {
+        elements.forEach((element) => {
+            element
+                .querySelectorAll("button")[0]
+                .addEventListener("click", this.handleBtnDelete);
+        });
+    }
+    initEvents() {
+        const elements = this.view.tbody.querySelectorAll("tr");
 
-        this.view.form.btnSave.addEventListener("click", this.handleSave);
+        this.initEventDelete(elements);
+        this.initEventNew();
+        this.initEventSearch();
+        this.initEventUpdate(elements);
+        console.log(this.view.formNew);
+        this.view.formNew.btnSave.addEventListener("click", this.handleSave);
     }
 
+    destroyEventSave() {
+        this.view.form.btnSave.removeEventListener("click", (e) =>
+            this.handleSave(e)
+        );
+    }
+    destroyEventDelete(elements) {
+        elements.forEach((element) => {
+            element
+                .querySelectorAll("button")[0]
+                .removeEventListener("click", this.handleBtnDelete);
+        });
+    }
+    destroyEventUpdate(elements) {
+        elements.forEach((element) => {
+            element
+                .querySelectorAll("button")[1]
+                .removeEventListener("click", this.handleBtnUpdate);
+        });
+    }
+    destroyEvents() {
+        this.destroyEventDelete(elements);
+        this.destroyEventUpdate(elements);
+        this.destroyEventSave(elements);
+    }
     handleSave = (e) => {
         e.preventDefault();
 
@@ -49,53 +82,37 @@ export default class EmployeesCtrl {
         if (inputs?.id != null)
             this.employee.update(inputs).then(async (data) => {
                 if (data) {
-                    await this.destroyEvents();
+                    this.destroyEvents();
                     await this.render();
-                    await this.initEvents();
-                    alert("Save Employee Success!");
+                    this.initEvents();
                 }
             });
         else
             this.employee.create(inputs).then(async (data) => {
                 if (data) {
-                    await this.destroyEvents();
+                    this.destroyEvents();
                     await this.render();
-                    await this.initEvents();
-                    alert("Save Employee Success!");
+                    this.initEvents();
                 }
             });
     };
-    async destroyEvents() {
-        this.view.form.btnSave.removeEventListener("click", (e) =>
-            this.handleSave(e)
-        );
-        let elements = this.view.tbody.querySelectorAll("tr");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i]
-                .querySelectorAll("button")[0]
-                .removeEventListener("click", this.handleBtnDelete);
-            elements[i]
-                .querySelectorAll("button")[1]
-                .removeEventListener("click", this.handleBtnUpdate);
-        }
-    }
     handleSearch = (keyword) => {
         if (keyword.trim() === "") this.render();
         else
-            this.employees.search(keyword).then((data) => {
+            this.model.search(keyword).then((data) => {
                 this.view.renderTable(data);
             });
     };
     handleBtnDelete = (e) => {
         const id = e.path[2].getAttribute("data-id");
-        this.employees.findById(id).then((data) => {
+        this.model.findById(id).then((data) => {
             if (confirm(`You want to remove an employee "${data.name}"`))
-                this.employees.deleteById(id).then(async (data) => {
+                this.model.deleteById(id).then(async (data) => {
                     if (data) {
-                        await this.destroyEvents();
+                        this.view.showMessage("Delete Employee Success!");
+                        this.destroyEvents();
                         await this.render();
-                        await this.initEvents();
-                        alert("Delete Employee Success!");
+                        this.initEvents();
                     }
                 });
         });
@@ -103,7 +120,7 @@ export default class EmployeesCtrl {
 
     handleBtnUpdate = async (e) => {
         const id = e.path[2].getAttribute("data-id");
-        this.employees
+        this.model
             .findById(id)
             .then((data) => this.view.openModal("Update Employee", data));
     };
