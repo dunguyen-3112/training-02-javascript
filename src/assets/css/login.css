@@ -4,7 +4,7 @@
 }
 .login-page .modal-container form {
     width: 50%;
-    max-width: 550px;
+    max-width: 420px;
     background-color: transparent;
     color:var(--white-color);
 
@@ -59,4 +59,5 @@ input.hide-password:checked + .btn.btn-icon.btn-password{
 
 .login-page .modal-action{
     text-align: center;
+    margin-top: 40px;
 }

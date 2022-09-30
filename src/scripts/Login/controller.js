@@ -57,6 +57,7 @@ class LoginController {
         try {
             const user = await LoginController.model.login(username, password);
             const token = "ae2d32b5b7eaa7d201d513990b8e7cc35535142";
+            console.log(user);
             user._token = token;
             const user1 = await LoginController.model.update(user);
             document.cookie = `_token=${token}`;
