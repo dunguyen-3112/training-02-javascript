@@ -57,7 +57,3 @@ input.hide-password:checked + .btn.btn-icon.btn-password{
     appearance: none;
 }
 
-.login-page .modal-action{
-    text-align: center;
-    margin-top: 40px;
-}

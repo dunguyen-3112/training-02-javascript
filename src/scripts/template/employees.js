@@ -24,13 +24,13 @@ const TemPlateHeaderTableEmployees = `
 const TemplateModalFormAddEmployees = `
         <div class="modal-container">
         <button class="btn-close"></button>
-        <form action="#" method="post" name="formNewEmployee" class="form-add">
+        <form action="#" method="post" name="formNewEmployee" class="form-Employee">
             <title class="modal-title">Add new Employee</title>
             <div class="modal-content">
-                <label class="form-group">
+                <label class="form-group invalid">
                     <span class="form-label">Name</span>
-                    <input type="text" placeholder="Please type your name" name="name" class="form-control" required>
-                    <span class="message">Valid address, minimum 6 characters!</span>
+                    <input type="text" placeholder="Please type your name" name="name" class="form-control">
+                    <span class="form-message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label class="form-group">
                     <span class="form-label">Gender</span>
@@ -54,18 +54,18 @@ const TemplateModalFormAddEmployees = `
                 </label>
                 <label class="form-group">
                     <span class="form-label">Address</span>
-                    <input type="text" placeholder="Please type your address " name="address" class="form-control" required>
-                    <span class="message">Valid address, minimum 6 characters!</span>
+                    <input type="text" placeholder="Please type your address " name="address" class="form-control">
+                    <span class="form-message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label class="form-group">
                     <span class="form-label">Email</span>
-                    <input type your="email"  placeholder="Please type your email  " name="email" class="form-control" required>
-                    <span class="message">Valid email must include @!</span>
+                    <input type your="email"  placeholder="Please type your email  " name="email" class="form-control">
+                    <span class="form-message">Valid email must include @!</span>
                 </label>
                 <label class="form-group">
                     <span class="form-label">Phone</span>
-                    <input type="tel" placeholder="Please type your phone. Example: 123-123-1234" name="phone" class="form-control" required>
-                    <span class="message">Valid phone number, minimum 10 characters amd sample Format.</span>
+                    <input type="tel" placeholder="Please type your phone. Example: 123-123-1234" name="phone" class="form-control">
+                    <span class="form-message">Valid phone number, minimum 10 characters amd sample Format.</span>
                 </label>
             </div>
             <div class="modal-action">

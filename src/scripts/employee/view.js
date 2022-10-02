@@ -1,16 +1,25 @@
 import { EmployeeModel } from "./model";
-import { $ } from "../constant";
+import { $, employeeSelector } from "../constant";
 import { checkEmail, checkPhone, checkLength } from "../helpers/valid-helper";
+import { TemplateModalFormAddEmployees } from "../template/employees";
 
 export default class EmployeeView {
-    constructor(rootSelector) {}
+    constructor() {
+        const selector = $(`.${employeeSelector}`);
+        selector.innerHTML += TemplateModalFormAddEmployees;
+        this.formNew = document.formNewEmployee;
+        this.modalTitle = $(".employees .modal-title");
+        this.modalContainer = $(".employees .modal-container");
+        this.btn_close = $(".employees .btn-close");
+        this.btnSave = document.formNewEmployee.btnSave;
+    }
 
     closeModal() {
-        this.destroyValidateForm();
-        document.form.btnReset.click();
-        this.form_add.style.display = "none";
-        if (this.form.getAttribute("data-id"))
-            this.form.removeAttribute("data-id");
+        //this.destroyValidateForm();
+        this.formNew.btnReset.click();
+        this.modalContainer.style.display = "none";
+        if (this.formNew.getAttribute("data-id"))
+            this.formNew.removeAttribute("data-id");
     }
 
     /**
@@ -19,8 +28,8 @@ export default class EmployeeView {
      * @param {EmployeeModel} employee
      */
     openModal(title, employee) {
-        this.formTitle.innerHTML = title;
-        this.form_add.style.display = "block";
+        this.modalTitle.innerHTML = title;
+        this.modalContainer.style.display = "block";
         this.btn_close.addEventListener("click", (e) => {
             this.closeModal();
         });

@@ -89,7 +89,7 @@ body {
 
 .form-control {
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 3px;
     background-color: #eee;
     color: #444;
     border: none;
@@ -152,5 +152,21 @@ body {
 .btn-close:hover {
     background-color: #333;
 }
+.form-message {
+    display: none;
+    font-size: 12px;
+    color: #b02a37; grid-column: 2/3;
+    margin-top: 5px;
+}
 
+.modal-action{
+    text-align: center;
+    margin-top: 40px;
+}
+.form-group.invalid .form-control{
+    border: 1px solid #f33a58;
+}
+.form-group.invalid .form-message {
+    color: #f33a58;
+}
 

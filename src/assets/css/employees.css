@@ -1,8 +1,13 @@
-
+.form-Employee{
+    padding: 30px 25px;
+}
 .employees .form-control {
     color: #333333;
     background-color: #eee;
     border: 1px solid rgb(51, 51, 51,.7);
+}
+.employees .form-control::placeholder{
+    color: #333333;
 }
 .employees .form-control:focus{
     border: 2px solid rgba(34, 205, 214, 0.5);
@@ -25,3 +30,4 @@
 .employees .modal-action{
     text-align: right;
 }
+

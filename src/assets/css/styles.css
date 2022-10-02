@@ -27,13 +27,6 @@
 .btn:hover {
     opacity: .8;
 }
-.message {
-    display: none;
-    font-size: 14px;
-    color: #b02a37; grid-column: 2/3;
-    margin-top: 5px;
-    font-weight: 600;
-}
 
 
 .search-group {

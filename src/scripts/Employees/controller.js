@@ -1,6 +1,7 @@
 import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
 import { $, employeeSelector } from "../constant";
+import EmployeeCtrl from "../employee/controller";
 
 export default class EmployeesCtrl {
     /**
@@ -9,7 +10,8 @@ export default class EmployeesCtrl {
      */
     constructor() {
         this.model = new EmployeesModel();
-        this.view = new EmployeesView(employeeSelector);
+        this.view = new EmployeesView();
+        this.employeeCtrl = new EmployeeCtrl();
     }
 
     async render() {
@@ -23,8 +25,9 @@ export default class EmployeesCtrl {
         });
     }
     initEventNew() {
-        this.view.btnModalNew.addEventListener("click", (e) => {
-            this.view.openModal("Add new Employee");
+        $(".employees .btn-add").addEventListener("click", (e) => {
+            this.employeeCtrl.OpenModal("Add new employee");
+            this.employeeCtrl.initEvents();
         });
     }
     initEventUpdate(elements) {
