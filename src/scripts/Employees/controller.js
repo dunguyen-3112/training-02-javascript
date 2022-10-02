@@ -16,7 +16,21 @@ export default class EmployeesCtrl {
 
     async render() {
         const data = await this.model.findAll();
+        this.destroyEvents();
         this.view.renderTable(data);
+        this.elements = document.querySelectorAll(".employees .table-body tr");
+        this.initEvents();
+    }
+    initEvents() {
+        this.initEventNew();
+        this.initEventDelete();
+        // this.initEventSearch();
+        this.initEventUpdate();
+        // this.view.formNew.btnSave.addEventListener("click", this.handleSave);
+    }
+    destroyEvents() {
+        this.destroyEventDelete();
+        this.destroyEventUpdate();
     }
 
     initEventSearch() {
@@ -30,73 +44,61 @@ export default class EmployeesCtrl {
             this.employeeCtrl.initEvents();
         });
     }
-    initEventUpdate(elements) {
-        elements.forEach((element) => {
-            element
-                .querySelectorAll("button")[1]
-                .addEventListener("click", this.handleBtnUpdate);
-        });
+    initEventUpdate() {
+        if (this.elements)
+            this.elements.forEach((element) => {
+                element
+                    .querySelectorAll("button")[1]
+                    .addEventListener("click", this.handleBtnUpdate);
+            });
     }
-    initEventDelete(elements) {
-        elements.forEach((element) => {
-            element
-                .querySelectorAll("button")[0]
-                .addEventListener("click", this.handleBtnDelete);
-        });
-    }
-    initEvents() {
-        this.initEventNew();
-        // this.initEventDelete(elements);
-        // this.initEventSearch();
-        // this.initEventUpdate(elements);
-        // this.view.formNew.btnSave.addEventListener("click", this.handleSave);
+    initEventDelete() {
+        if (this.elements)
+            this.elements.forEach((element) => {
+                element
+                    .querySelectorAll("button")[0]
+                    .addEventListener("click", this.handleBtnDelete.bind(this));
+            });
     }
 
-    destroyEventSave() {
-        this.view.form.btnSave.removeEventListener("click", (e) =>
-            this.handleSave(e)
-        );
+    destroyEventDelete() {
+        if (this.elements)
+            this.elements.forEach((element) => {
+                element
+                    .querySelectorAll("button")[0]
+                    .removeEventListener("click", this.handleBtnDelete);
+            });
     }
-    destroyEventDelete(elements) {
-        elements.forEach((element) => {
-            element
-                .querySelectorAll("button")[0]
-                .removeEventListener("click", this.handleBtnDelete);
-        });
+    destroyEventUpdate() {
+        if (this.elements)
+            this.elements.forEach((element) => {
+                element
+                    .querySelectorAll("button")[1]
+                    .removeEventListener("click", this.handleBtnUpdate);
+            });
     }
-    destroyEventUpdate(elements) {
-        elements.forEach((element) => {
-            element
-                .querySelectorAll("button")[1]
-                .removeEventListener("click", this.handleBtnUpdate);
-        });
-    }
-    destroyEvents() {
-        this.destroyEventDelete(elements);
-        this.destroyEventUpdate(elements);
-        this.destroyEventSave(elements);
-    }
-    handleSave = (e) => {
-        e.preventDefault();
 
-        const inputs = this.view.handleSubmit();
-        if (inputs?.id != null)
-            this.employee.update(inputs).then(async (data) => {
-                if (data) {
-                    this.destroyEvents();
-                    await this.render();
-                    this.initEvents();
-                }
-            });
-        else
-            this.employee.create(inputs).then(async (data) => {
-                if (data) {
-                    this.destroyEvents();
-                    await this.render();
-                    this.initEvents();
-                }
-            });
-    };
+    // handleSave = (e) => {
+    //     e.preventDefault();
+
+    //     const inputs = this.view.handleSubmit();
+    //     if (inputs?.id != null)
+    //         this.employee.update(inputs).then(async (data) => {
+    //             if (data) {
+    //                 this.destroyEvents();
+    //                 await this.render();
+    //                 this.initEvents();
+    //             }
+    //         });
+    //     else
+    //         this.employee.create(inputs).then(async (data) => {
+    //             if (data) {
+    //                 this.destroyEvents();
+    //                 await this.render();
+    //                 this.initEvents();
+    //             }
+    //         });
+    // };
     handleSearch = (keyword) => {
         if (keyword.trim() === "") this.render();
         else
@@ -109,12 +111,7 @@ export default class EmployeesCtrl {
         this.model.findById(id).then((data) => {
             if (confirm(`You want to remove an employee "${data.name}"`))
                 this.model.deleteById(id).then(async (data) => {
-                    if (data) {
-                        this.view.showMessage("Delete Employee Success!");
-                        this.destroyEvents();
-                        await this.render();
-                        this.initEvents();
-                    }
+                    this.render();
                 });
         });
     };
@@ -125,9 +122,4 @@ export default class EmployeesCtrl {
             .findById(id)
             .then((data) => this.view.openModal("Update Employee", data));
     };
-
-    async run() {
-        await this.render();
-        this.initEvents();
-    }
 }

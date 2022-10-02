@@ -24,7 +24,6 @@ class LoginController {
 
             const ctrl = new EmployeesCtrl(employeeSelector);
             ctrl.render();
-            ctrl.initEvents();
         } else {
             this.view.renderFormLogin();
         }
