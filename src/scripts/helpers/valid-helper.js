@@ -1,13 +1,3 @@
-// const checkEmail = (email) => {
-//     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-// };
-// const checkPhone = (phone) => {
-//     return /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(phone);
-// };
-// const checkLength = (value, length) => {
-//     return value.length >= length;
-// };
-// export { checkPhone, checkEmail, checkLength };
 // Đối tượng `Validator`
 function Validator(options) {
     function getParent(element, selector) {
@@ -47,7 +37,6 @@ function Validator(options) {
             }
             if (errorMessage) break;
         }
-
         if (errorMessage) {
             errorElement.innerText = errorMessage;
             getParent(inputElement, options.formGroupSelector).classList.add(
@@ -64,7 +53,8 @@ function Validator(options) {
     }
 
     // Lấy element của form cần validate
-    var formElement = document.querySelector(options.form);
+    var formElement = document[options.form];
+
     if (formElement) {
         // Khi submit form
         formElement.onsubmit = function (e) {
@@ -74,7 +64,7 @@ function Validator(options) {
 
             // Lặp qua từng rules và validate
             options.rules.forEach(function (rule) {
-                var inputElement = formElement.querySelector(rule.selector);
+                var inputElement = formElement[rule.selector];
                 var isValid = validate(inputElement, rule);
                 if (!isValid) {
                     isFormValid = false;
@@ -115,6 +105,8 @@ function Validator(options) {
                         return values;
                     },
                     {});
+                    if (formElement.getAttribute("data-id"))
+                        formValues.id = formElement.getAttribute("data-id");
                     options.onSubmit(formValues);
                 }
                 // Trường hợp submit với hành vi mặc định
@@ -133,27 +125,26 @@ function Validator(options) {
                 selectorRules[rule.selector] = [rule.test];
             }
 
-            var inputElements = formElement.querySelectorAll(rule.selector);
+            var inputElement = formElement[rule.selector];
 
-            Array.from(inputElements).forEach(function (inputElement) {
-                // Xử lý trường hợp blur khỏi input
-                inputElement.onblur = function () {
-                    validate(inputElement, rule);
-                };
+            // Xử lý trường hợp blur khỏi input
+            inputElement.onblur = function () {
+                validate(inputElement, rule);
+            };
 
-                // Xử lý mỗi khi người dùng nhập vào input
-                inputElement.oninput = function () {
-                    var errorElement = getParent(
-                        inputElement,
-                        options.formGroupSelector
-                    ).querySelector(options.errorSelector);
-                    errorElement.innerText = "";
-                    getParent(
-                        inputElement,
-                        options.formGroupSelector
-                    ).classList.remove("invalid");
-                };
-            });
+            // Xử lý mỗi khi người dùng nhập vào input
+            inputElement.oninput = function () {
+                var errorElement = getParent(
+                    inputElement,
+                    options.formGroupSelector
+                ).querySelector(options.errorSelector);
+
+                errorElement.innerText = "";
+                getParent(
+                    inputElement,
+                    options.formGroupSelector
+                ).classList.remove("invalid");
+            };
         });
     }
 }
@@ -183,6 +174,18 @@ Validator.isEmail = function (selector, message) {
     };
 };
 
+Validator.isPhone = function (selector, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var regex = /^\d{9}$/;
+            return regex.test(value)
+                ? undefined
+                : message || "Trường này phải là Phone";
+        },
+    };
+};
+
 Validator.minLength = function (selector, min, message) {
     return {
         selector: selector,
@@ -203,5 +206,12 @@ Validator.isConfirmed = function (selector, getConfirmValue, message) {
                 : message || "Giá trị nhập vào không chính xác";
         },
     };
+};
+Validator.clear = function (form) {
+    document[form]
+        .querySelectorAll("label.form-group")
+        .forEach(function (element) {
+            element.classList.remove("invalid");
+        });
 };
 export { Validator };

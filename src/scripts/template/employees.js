@@ -1,5 +1,5 @@
 const TemPlateHeaderTableEmployees = `
-            <div class="flex">
+            <div class="wrapperSearch flex">
                 <form class="form-search" name="formSearch" action="#" method="post">
                     <input type="text" class="control-search" name="keyword" placeholder="Search...">
                     <button class="icon-search"></button>
@@ -27,9 +27,9 @@ const TemplateModalFormAddEmployees = `
         <form action="#" method="post" name="formNewEmployee" class="form-Employee">
             <title class="modal-title">Add new Employee</title>
             <div class="modal-content">
-                <label class="form-group invalid">
+                <label class="form-group">
                     <span class="form-label">Name</span>
-                    <input type="text" placeholder="Please type your name" name="name" class="form-control">
+                    <input type="text" placeholder="Please type your name" name="name"  class="form-control">
                     <span class="form-message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label class="form-group">

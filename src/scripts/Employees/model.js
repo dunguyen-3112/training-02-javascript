@@ -10,14 +10,25 @@ class EmployeesModel {
      * @returns {...Array<Employee>}
      */
     async findAll() {
-        return await helper.fetchAPI({ url: `${API_ENDPOINT}` });
+        try {
+            return await helper.fetchAPI({ url: `${API_ENDPOINT}` });
+        } catch (error) {
+            console.log("123");
+            throw error;
+        }
     }
     /**
      *
      * @param {string} keyword
      */
     search(keyword) {
-        return helper.fetchAPI({ url: `${API_ENDPOINT}?name_like=${keyword}` });
+        try {
+            return helper.fetchAPI({
+                url: `${API_ENDPOINT}?name_like=${keyword}`,
+            });
+        } catch (error) {
+            throw error;
+        }
     }
     /**
      *
@@ -25,28 +36,11 @@ class EmployeesModel {
      * @returns
      */
     findById(id) {
-        return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
-    }
-
-    /**
-     *
-     * @param {int} id
-     * @returns
-     */
-    deleteById(id) {
-        return helper.fetchAPI({
-            url: `${API_ENDPOINT}/${id}`,
-            method: "DELETE",
-            data: id,
-        });
-    }
-    /**
-     *
-     * @param {Employee} employee
-     * @returns
-     */
-    validate(employee) {
-        return true;
+        try {
+            return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

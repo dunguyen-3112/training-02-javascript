@@ -6,10 +6,15 @@ class LoginModel {
     }
 
     async getUser(token) {
-        const data = await this.api.fetchAPI({
-            url: `${API_ENDPOINT}?_token=${token}`,
-        });
-        return data[0];
+        try {
+            const data = await this.api.fetchAPI({
+                url: `${API_ENDPOINT}?_token=${token}`,
+            });
+            return data[0];
+        } catch (error) {
+            console.log("GetUser: ", error.message);
+            throw error;
+        }
     }
     async login(username, password) {
         try {

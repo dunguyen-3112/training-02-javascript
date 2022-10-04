@@ -21,11 +21,16 @@ class EmployeeModel {
      * @returns {Employee} Employee
      */
     create(Employee) {
-        return helper.fetchAPI({
-            url: `${API_ENDPOINT}`,
-            method: "POST",
-            data: Employee,
-        });
+        try {
+            return helper.fetchAPI({
+                url: `${API_ENDPOINT}`,
+                method: "POST",
+                data: Employee,
+            });
+        } catch (error) {
+            console.log("Create employee failed: " + error.message);
+            throw error;
+        }
     }
     /**
      *
@@ -33,13 +38,44 @@ class EmployeeModel {
      * @returns Employee
      */
     update(Employee) {
-        return helper.fetchAPI({
-            url: `${API_ENDPOINT}/${Employee.id}`,
-            method: "PUT",
-            data: Employee,
-        });
+        try {
+            return helper.fetchAPI({
+                url: `${API_ENDPOINT}/${Employee.id}`,
+                method: "PUT",
+                data: Employee,
+            });
+        } catch (error) {
+            throw error;
+        }
     }
-    validate(Employee) {}
+    /**
+     *
+     * @param {int} id
+     * @returns
+     */
+    findById(id) {
+        try {
+            return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+        } catch (error) {
+            throw error;
+        }
+    }
+    /**
+     *
+     * @param {int} id
+     * @returns
+     */
+    deleteById(id) {
+        try {
+            return helper.fetchAPI({
+                url: `${API_ENDPOINT}/${id}`,
+                method: "DELETE",
+                data: id,
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export { EmployeeModel };

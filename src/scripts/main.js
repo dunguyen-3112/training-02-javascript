@@ -2,9 +2,17 @@ import { LoginController } from "./Login/controller";
 
 class main {
     constructor() {
-        const login = new LoginController("login-page");
-        login.render();
+        try {
+            const login = new LoginController("login-page");
+            login.render();
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
-new main();
+try {
+    new main();
+} catch (error) {
+    console.log("Main Error: ", error.message);
+}

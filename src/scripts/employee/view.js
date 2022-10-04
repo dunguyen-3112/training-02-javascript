@@ -5,8 +5,9 @@ import { TemplateModalFormAddEmployees } from "../template/employees";
 
 export default class EmployeeView {
     constructor() {
-        const selector = $(`.${employeeSelector}`);
-        selector.innerHTML += TemplateModalFormAddEmployees;
+        this.selector = employeeSelector;
+        const elementSelector = $(`.${this.selector}`);
+        elementSelector.innerHTML += TemplateModalFormAddEmployees;
         this.formNew = document.formNewEmployee;
         this.modalTitle = $(".employees .modal-title");
         this.modalContainer = $(".employees .modal-container");
@@ -15,11 +16,8 @@ export default class EmployeeView {
     }
 
     closeModal() {
-        //this.destroyValidateForm();
-        this.formNew.btnReset.click();
-        this.modalContainer.style.display = "none";
-        if (this.formNew.getAttribute("data-id"))
-            this.formNew.removeAttribute("data-id");
+        this.view.formNew.btnReset.click();
+        this.view.modalContainer.style.display = "none";
     }
 
     /**
@@ -30,35 +28,43 @@ export default class EmployeeView {
     openModal(title, employee) {
         this.modalTitle.innerHTML = title;
         this.modalContainer.style.display = "block";
-        this.btn_close.addEventListener("click", (e) => {
-            this.closeModal();
-        });
+
         if (employee) {
-            this.form.setAttribute("data-id", employee.id);
-            document.form.name.value = employee.name;
-            document.form.email.value = employee.email;
-            document.form.phone.value = employee.phone;
-            document.form.address.value = employee.address;
-            document.form.status.value = employee.status
-                ? "active"
-                : "inactive";
-            document.form.gender.value = employee.gender;
+            this.formNew.setAttribute("data-id", employee.id);
+            this.formNew.name.value = employee.name;
+            this.formNew.email.value = employee.email;
+            this.formNew.phone.value = employee.phone;
+            this.formNew.address.value = employee.address;
+            this.formNew.status.value = employee.status ? "active" : "inactive";
+            this.formNew.gender.value = employee.gender;
         }
     }
-
-    handleSubmit() {
-        const body = {
-            name: this.form.name.value,
-            phone: this.form.phone.value,
-            address: this.form.address.value,
-            email: this.form.email.value,
-            status: this.form.status.value === "active" ? true : false,
-            gender: this.form.gender.value,
-            id: this.form.getAttribute("data-id")
-                ? this.form.getAttribute("data-id")
-                : null,
-        };
-
-        return body;
+    renderRow(index, employee) {
+        return (
+            `<tr data-id=${employee.id}>
+        <td>${index}</td>
+        <td>${employee.name}</td>
+        <td>${employee.address}</td>
+        <td>
+            <div class=` +
+            `${employee.status ? " active" : "inactive"}>
+            </div>
+        </td>
+        <td>
+            <button class="btn-delete btn btn-icon btn-delete"> </button>
+            <button class="btn-update btn btn-icon btn-update"></button>
+        </td>
+    </tr>`
+        );
+    }
+    updateRow(data) {
+        const row = $(
+            `.${employeeSelector} .table-body tr[data-id="${data.id}"]`
+        );
+        row.cells[1].innerHTML = data.name;
+        row.cells[2].innerHTML = data.address;
+        row.cells[3].innerHTML = ` <div class= '${
+            data.status ? " active" : "inactive"
+        }'></div>`;
     }
 }

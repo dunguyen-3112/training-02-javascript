@@ -1,0 +1,26 @@
+.employee-todo{
+    margin-left: 50px;
+    width: 430px;
+    grid-row: 1/3;
+    display: none;
+}
+.employee-todo table{
+    display: block;
+    width: 400px;
+    max-height: 200px;
+    height: 200px;
+    overflow-y: scroll;
+}
+.employee-todo .btn-close {
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    float: right;
+    background-color: #d91b1b;
+    top: 0;
+    right: -20px;
+}

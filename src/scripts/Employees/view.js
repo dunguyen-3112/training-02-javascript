@@ -4,36 +4,31 @@ import { TemPlateHeaderTableEmployees } from "../template/employees";
 export default class EmployeesView {
     constructor() {
         this.selector = employeeSelector;
-        const selector = document.createElement("div");
-        selector.classList.add(employeeSelector);
-        selector.innerHTML = TemPlateHeaderTableEmployees;
+        const elementSelector = document.createElement("div");
+        elementSelector.classList.add(employeeSelector);
+        elementSelector.innerHTML = TemPlateHeaderTableEmployees;
+        $("#root").appendChild(elementSelector);
 
-        $("#root").appendChild(selector);
+        this.formSearch = $(".form-search");
+    }
+    addRow(data) {
+        const tbody = $(`.${employeeSelector} .table-body`);
+        tbody.innerHTML += data;
+        return tbody.lastChild;
+    }
+    rows() {
+        return document.querySelectorAll(`.${employeeSelector} .table-body tr`);
+    }
+
+    numberRows() {
+        return this.rows().length;
     }
 
     /**
      *
      * @param {Array<Employee>} employees
      */
-    renderTable(employees) {
-        console.log(employees);
-        const rows = employees.map(
-            (employee, index) =>
-                `<tr data-id=${employee.id}>
-                    <td>${index}</td>
-                    <td>${employee.name}</td>
-                    <td>${employee.address}</td>
-                    <td>
-                        <div class=` +
-                `${employee.status ? " active" : "inactive"}>
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn-delete btn btn-icon btn-delete"> </button>
-                        <button class="btn-update btn btn-icon btn-update"></button>
-                    </td>
-                </tr>`
-        );
+    renderTable(rows) {
         $(".employees .list-employee tbody.table-body").innerHTML =
             rows.join("");
     }

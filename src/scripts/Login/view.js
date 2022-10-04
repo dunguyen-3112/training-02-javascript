@@ -1,9 +1,9 @@
 import { TemPlateFormLogin } from "../template/login";
-import { $ } from "../constant";
+import { $, loginSelector } from "../constant";
 
 class LoginView {
-    constructor(rootSelector) {
-        this.rootSelector = rootSelector;
+    constructor() {
+        this.rootSelector = loginSelector;
     }
 
     renderFormLogin() {
@@ -22,12 +22,8 @@ class LoginView {
         });
     }
     renderBtnLogout() {
-        $("#root").innerHTML +=
+        $("#root").innerHTML =
             '<button type="button" class="btn-logout btn btn-dark">Logout</button>';
-    }
-
-    clear() {
-        $("#root").innerHTML = "";
     }
 }
 export { LoginView };

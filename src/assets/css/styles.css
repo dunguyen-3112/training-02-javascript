@@ -3,6 +3,7 @@
 @import url(./variable.css);
 @import url(./employees.css);
 @import url(./login.css);
+@import url(todo.css);
 
 
 .btn.btn-icon{
@@ -85,32 +86,29 @@ button.icon-search::after {
 
 
 
-.list-employee {
-    width: 100%;
-}
 
-.list-employee tr {
+ tr {
     border: 1px solid #ccc;
     cursor: pointer;
 }
 
-.list-employee tr:hover {
+ tr:hover {
     background-color: #333 !important;
     color: #fff !important;
 }
 
-.list-employee th,
-.list-employee td {
+th,
+ td {
     padding: 6px 12px;
     text-align: center;
 }
 
-.list-employee th {
+ th {
     background-color: rgb(54, 62, 54);
     color: #fff;
 }
 
-.list-employee tr:nth-of-type(odd) {
+ tr:nth-of-type(odd) {
     background-color: rgb(204, 204, 204);
 }
 

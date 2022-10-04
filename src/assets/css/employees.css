@@ -1,3 +1,11 @@
+.employees{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+}
+.employees .wrapperSearch{
+    grid-column: 1/2;
+}
 .form-Employee{
     padding: 30px 25px;
 }
@@ -23,11 +31,17 @@
     color: #333333;
     text-shadow: 4px 4px 5px #f8f0f0;
 }
+.list-employee{
+    grid-row: 2/3;
+}
 
 .employees .form-group{
     grid-template-columns: 70px 1fr;
 }
 .employees .modal-action{
     text-align: right;
+}
+.employees .form-group>.form-group{
+    gap:40px;
 }
 
