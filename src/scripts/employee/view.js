@@ -1,5 +1,5 @@
 import { EmployeeModel } from "./model";
-import { $ } from "../constant";
+import { $, rootSelector } from "../constant";
 import { TemplateModalFormAddEmployees } from "./templates";
 
 export default class EmployeeView {
@@ -7,16 +7,10 @@ export default class EmployeeView {
         this.selector = selector;
 
         // this.formNew = document.formNewEmployee;
-        // this.modalTitle = $(`.${employeeSelector} .modal-title`);
+        //this.modalTitle = $(`.${employeeSelector} .modal-title`);
         // this.modalContainer = $(`.${employeeSelector} .modal-container`);
         // this.btn_close = $(`.${employeeSelector} .btn-close`);
         // this.btnSave = document.formNewEmployee.btnSave;
-    }
-
-    closeModal() {
-        this.view.formNew.btnReset.click();
-        this.view.formNew.removeAttribute("data-id");
-        this.view.modalContainer.style.display = "none";
     }
 
     /**
@@ -25,18 +19,23 @@ export default class EmployeeView {
      * @param {EmployeeModel} employee
      */
     openModal(title, employee) {
-        this.modalTitle.innerHTML = title;
-        this.modalContainer.style.display = "block";
+        this.content = document.createElement("div");
+        this.content.classList.add(this.selector);
+        $(rootSelector).appendChild(this.content);
+        this.content.innerHTML = TemplateModalFormAddEmployees;
 
-        if (employee) {
-            this.formNew.setAttribute("data-id", employee.id);
-            this.formNew.name.value = employee.name;
-            this.formNew.email.value = employee.email;
-            this.formNew.phone.value = employee.phone;
-            this.formNew.address.value = employee.address;
-            this.formNew.status.value = employee.status ? "active" : "inactive";
-            this.formNew.gender.value = employee.gender;
-        }
+        this.content.querySelector(".modal-title").innerHTML = title;
+        this.content.querySelector(".modal-container").style.display = "block";
+
+        // if (employee) {
+        //     this.formNew.setAttribute("data-id", employee.id);
+        //     this.formNew.name.value = employee.name;
+        //     this.formNew.email.value = employee.email;
+        //     this.formNew.phone.value = employee.phone;
+        //     this.formNew.address.value = employee.address;
+        //     this.formNew.status.value = employee.status ? "active" : "inactive";
+        //     this.formNew.gender.value = employee.gender;
+        // }
     }
     renderRow({ employee, index, selectorTableEmployee }) {
         const tbody = $(selectorTableEmployee);

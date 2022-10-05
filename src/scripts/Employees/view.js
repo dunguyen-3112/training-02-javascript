@@ -1,10 +1,10 @@
 import { $, rootSelector } from "../constant";
-
 import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
     constructor(selector, selectorTableEmployee) {
         this.selector = selector;
+        this.selectorTableEmployee = selectorTableEmployee;
 
         this.content = document.createElement("div");
         this.content.classList.add(`${selector}`);
@@ -23,8 +23,10 @@ export default class EmployeesView {
         tbody.innerHTML += data;
         return tbody.lastChild;
     }
-    rows(selectorTable) {
-        return this.content.querySelectorAll(`table.${selectorTable} tr`);
+    rows() {
+        return this.content.querySelectorAll(
+            `${rootSelector} .${this.selector} table.${this.selectorTableEmployee} tbody tr`
+        );
     }
 
     numberRows() {

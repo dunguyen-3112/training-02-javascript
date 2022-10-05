@@ -24,19 +24,20 @@ class EmployeeCtrl {
     render(action, params) {
         if (action === "row") {
             this.view.renderRow(params);
+        } else if (action === "new") {
+            Object.assign(this, params);
+            this.view.openModal("Add new employee", params);
+            this.initEvents();
+        } else if (action === "update") {
+            this.view.openModal("Update employee", params.employee);
+            this.initEvents();
+        } else {
+            console.log("Chua xu ly");
         }
-        //this.todoCtrl.closeTodo();
-        // if (action === "update") {
-        //     this.view.openModal("Update employee", obj);
-        //     this.initEventClose();
-        // } else {
-        //     this.keyAdd = obj;
-        //     this.view.openModal("Add new employee");
-        //     this.initEventClose();
-        // }
     }
     initEvents() {
-        Validator.clear("formNewEmployee");
+        this.initEventClose();
+        // Validator.clear("formNewEmployee");
         Validator({
             rules: [
                 Validator.isEmail("email", "Trường này phải là Email!"),
@@ -101,9 +102,14 @@ class EmployeeCtrl {
                 const data1 = await this.model.update(data);
             } else {
                 const data1 = await this.model.create(data);
-                this.keyAdd(data1);
+
+                this.view.renderRow({
+                    employee: data1,
+                    index: this.index,
+                    selectorTableEmployee: this.selectorTableEmployee,
+                });
             }
-            this.view.btn_close.click();
+            this.view.content.remove();
         } catch (error) {
             console.log("Error: " + error);
             //throw error;
@@ -164,10 +170,9 @@ class EmployeeCtrl {
     }
     initEventClose() {
         console.log("initEventClose");
-        this.view.btn_close.addEventListener(
-            "click",
-            this.view.closeModal.bind(this)
-        );
+        $(
+            `${rootSelector} .${this.view.selector} button.btn-close`
+        ).addEventListener("click", (e) => this.view.content.remove());
     }
 }
 export { EmployeeCtrl };

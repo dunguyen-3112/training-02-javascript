@@ -76,23 +76,20 @@ class EmployeesCtrl {
             this.handleSearch(e.target.value);
         });
     }
-    render1(data) {
-        const row = this.view.addRow(
-            this.employeeCtrl.view.renderRow(this.view.numberRows(), data)
-        );
-        this.destroyEventUpdate();
-        this.initEventUpdate();
-        this.destroyEventDelete();
-        this.initEventDelete();
-        this.initEventTodo();
-    }
+
     initEventNew() {
         $(`${rootSelector} .${this.view.selector} .btn-add`).addEventListener(
             "click",
-            (e) => {
-                alert("Please select your");
-            }
+            this.handleBtnNew.bind(this)
         );
+    }
+    handleBtnNew() {
+        console.log(this.view.numberRows());
+        goto("employee-page", {
+            employee: null,
+            index: this.view.numberRows(),
+            selectorTableEmployee: `${rootSelector} .${this.view.selector} table.${selectorTableEmployee} tbody`,
+        });
     }
 
     handleSearch = async (keyword) => {

@@ -6,42 +6,5 @@
 .employees-page .wrapperSearch{
     grid-column: 1/2;
 }
-.form-Employee{
-    padding: 30px 25px;
-}
-.employees-page .form-control {
-    color: #333333;
-    background-color: #eee;
-    border: 1px solid rgb(51, 51, 51,.7);
-}
-.employees-page .form-control::placeholder{
-    color: #333333;
-}
-.employees-page .form-control:focus{
-    border: 2px solid rgba(34, 205, 214, 0.5);
-    box-shadow: 0 0 10px 0 rgba(34, 205, 214, 0.5);
-}
 
-.employees-page .modal-container form {
-    width: 60%;
-    max-width: 650px;
-    color: #333333;
-}
-.employees-page .modal-title {
-    color: #333333;
-    text-shadow: 4px 4px 5px #f8f0f0;
-}
-.list-employee{
-    grid-row: 2/3;
-}
-
-.employees-page .form-group{
-    grid-template-columns: 70px 1fr;
-}
-.employees-page .modal-action{
-    text-align: right;
-}
-.employees-page .form-group>.form-group{
-    gap:40px;
-}
 

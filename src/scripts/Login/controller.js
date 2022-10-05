@@ -6,10 +6,10 @@ import { $ } from "../constant";
 import { goto } from "../helpers/routes-helper";
 
 class LoginController {
-    constructor(selector, parentSelector) {
-        console.log("LoginController:", selector, parentSelector);
+    constructor(selector) {
+        console.log("LoginController:", selector);
         this.model = new LoginModel();
-        this.view = new LoginView(selector, parentSelector);
+        this.view = new LoginView(selector);
         this.cookies = new CookiesHelper();
     }
 

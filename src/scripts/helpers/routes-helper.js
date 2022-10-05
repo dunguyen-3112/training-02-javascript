@@ -14,7 +14,9 @@ async function goto(page, params) {
             }
         } else if (page === "employee-page") {
             const ctrl = new EmployeeCtrl(page);
-            ctrl.render("row", params);
+            if (params.employee === null) {
+                ctrl.render("new", params);
+            } else ctrl.render("row", params);
         }
     } catch (error) {
         console.log("Error: " + error.message);
