@@ -10,24 +10,6 @@
       "id": 1
     },
     {
-      "name": "Jenk Oz",
-      "gender": true,
-      "status": true,
-      "address": "Lon Don ",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 2
-    },
-    {
-      "name": "Du Nguyen Huu12",
-      "gender": true,
-      "status": true,
-      "address": "Lon Don ",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 3
-    },
-    {
       "name": "Du Nguyen Huu12",
       "gender": true,
       "status": true,
@@ -35,15 +17,6 @@
       "email": "huu@gmail.com",
       "phone": "028002899",
       "id": 4
-    },
-    {
-      "name": "Jenk Oz1111118",
-      "gender": true,
-      "status": true,
-      "address": "Lon Don ",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 5
     }
   ],
   "users": [

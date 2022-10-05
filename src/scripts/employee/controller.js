@@ -24,6 +24,11 @@ class EmployeeCtrl {
     render(action, params) {
         if (action === "row") {
             this.view.renderRow(params);
+
+            const row = $(
+                `${params.selectorTableEmployee} tr[data-id="${params.employee.id}"]`
+            );
+            //this.initEventDelete(row);
         } else if (action === "new") {
             Object.assign(this, params);
             this.view.openModal("Add new employee", params);
@@ -70,19 +75,6 @@ class EmployeeCtrl {
     }
 
     destroyEvents() {}
-    initEventDelete(element) {
-        console.log("initEventDelete");
-        element
-            .querySelectorAll("button")[0]
-            .addEventListener("click", this.handleBtnDelete.bind(this));
-    }
-
-    destroyEventDelete(element) {
-        console.log("destroyEventDelete");
-        element
-            .querySelectorAll("button")[0]
-            .removeEventListener("click", this.handleBtnDelete);
-    }
 
     destroyEventUpdate(element) {
         console.log("destroyEventUpdate");
@@ -92,6 +84,8 @@ class EmployeeCtrl {
     }
 
     async handleSave(data) {
+        console.log(this.initEvents);
+
         try {
             data.gender = data.gender === "true";
             data.status = data.status === "active";
@@ -108,6 +102,7 @@ class EmployeeCtrl {
                     index: this.index,
                     selectorTableEmployee: this.selectorTableEmployee,
                 });
+                this._initEvents();
             }
             this.view.content.remove();
         } catch (error) {
@@ -130,44 +125,7 @@ class EmployeeCtrl {
             console.log("Error: " + error.message);
         }
     }
-    async handleBtnDelete(e) {
-        const id = e.path[2].getAttribute("data-id");
 
-        try {
-            const data = await this.model.findById(id);
-            if (
-                data &&
-                confirm(`You want to remove an employee "${data.name}"`)
-            ) {
-                try {
-                    const d = await this.model.deleteById(id);
-                    if (d != undefined) {
-                        this.destroyEventDelete(e.path[2]);
-                        this.destroyEventUpdate(e.path[2]);
-                        const rows = e.path[3].rows,
-                            len = rows.length,
-                            index = e.path[2].rowIndex;
-                        for (let i = index; i < len; i++) {
-                            rows[i].cells[0].innerHTML = i - 1;
-                        }
-                        e.path[2].remove();
-                    } else {
-                        console.log(
-                            "Error: ",
-                            "Failed to internet connection..."
-                        );
-                    }
-                } catch (error) {
-                    throw error;
-                }
-            } else
-                console.log(
-                    "Couldn't findById or failed  to internet connection"
-                );
-        } catch (error) {
-            console.log("Error: " + error.message);
-        }
-    }
     initEventClose() {
         console.log("initEventClose");
         $(

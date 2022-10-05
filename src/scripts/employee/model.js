@@ -68,22 +68,6 @@ class EmployeeModel {
             throw error;
         }
     }
-    /**
-     *
-     * @param {int} id
-     * @returns
-     */
-    deleteById(id) {
-        try {
-            return helper.fetchAPI({
-                url: `${API_ENDPOINT}/${id}`,
-                method: "DELETE",
-                data: id,
-            });
-        } catch (error) {
-            throw error;
-        }
-    }
 }
 
 export { EmployeeModel };
