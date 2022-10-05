@@ -1,30 +1,33 @@
-import { $, employeeSelector, rootSelector } from "../constant";
-import { TemPlateHeaderTableEmployees } from "../template/employees";
+import { $, rootSelector } from "../constant";
+
+import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
-    constructor() {
-        this.selector = employeeSelector;
-        const elementSelector = document.createElement("div");
-        elementSelector.classList.add(employeeSelector);
-        elementSelector.innerHTML = TemPlateHeaderTableEmployees;
-        $(`#${rootSelector}`).appendChild(elementSelector);
+    constructor(selector, selectorTableEmployee) {
+        this.selector = selector;
 
-        this.formSearch = $(".form-search");
+        this.content = document.createElement("div");
+        this.content.classList.add(`${selector}`);
+        this.content.innerHTML = TemPlateHeaderTableEmployee(
+            selectorTableEmployee
+        );
+        $(rootSelector).appendChild(this.content);
+    }
+
+    renderBtnNew() {
+        this.content.innerHTML +=
+            '<button class="btn btn-icon btn-add"> </button>';
     }
     addRow(data) {
         const tbody = $(`.${employeeSelector} .table-body`);
         tbody.innerHTML += data;
         return tbody.lastChild;
     }
-    rows() {
-        return document.querySelectorAll(`.${employeeSelector} .table-body tr`);
+    rows(selectorTable) {
+        return this.content.querySelectorAll(`table.${selectorTable} tr`);
     }
 
     numberRows() {
         return this.rows().length;
-    }
-
-    renderTable(rows) {
-        $(`.${employeeSelector} tbody.table-body`).innerHTML = rows.join("");
     }
 }

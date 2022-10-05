@@ -1,16 +1,17 @@
-import { TemPlateFormLogin } from "../template/login";
-import { $, loginSelector } from "../constant";
+import { TemPlateFormLogin } from "./templates";
+import { $ } from "../constant";
 
 class LoginView {
-    constructor() {
-        this.rootSelector = loginSelector;
+    constructor(selector, parentSelector) {
+        this.selector = selector;
+        this.parentSelector = parentSelector;
     }
 
     renderFormLogin() {
         let content = document.createElement("div");
-        content.classList.add(this.rootSelector);
+        content.classList.add(this.selector);
         content.innerHTML = TemPlateFormLogin;
-        document.querySelector("#root").innerHTML = content.outerHTML;
+        $(this.parentSelector).innerHTML = content.outerHTML;
 
         const check = document.querySelector("input.hide-password");
         check.addEventListener("click", function (e) {
@@ -22,7 +23,7 @@ class LoginView {
         });
     }
     renderBtnLogout() {
-        $("#root").innerHTML =
+        $(this.parentSelector).innerHTML =
             '<button type="button" class="btn-logout btn btn-dark">Logout</button>';
     }
 }

@@ -1,17 +1,16 @@
 import { EmployeeModel } from "./model";
-import { $, employeeSelector } from "../constant";
-import { TemplateModalFormAddEmployees } from "../template/employees";
+import { $ } from "../constant";
+import { TemplateModalFormAddEmployees } from "./templates";
 
 export default class EmployeeView {
-    constructor() {
-        this.selector = employeeSelector;
-        const elementSelector = $(`.${this.selector}`);
-        elementSelector.innerHTML += TemplateModalFormAddEmployees;
-        this.formNew = document.formNewEmployee;
-        this.modalTitle = $(`.${employeeSelector} .modal-title`);
-        this.modalContainer = $(`.${employeeSelector} .modal-container`);
-        this.btn_close = $(`.${employeeSelector} .btn-close`);
-        this.btnSave = document.formNewEmployee.btnSave;
+    constructor(selector) {
+        this.selector = selector;
+
+        // this.formNew = document.formNewEmployee;
+        // this.modalTitle = $(`.${employeeSelector} .modal-title`);
+        // this.modalContainer = $(`.${employeeSelector} .modal-container`);
+        // this.btn_close = $(`.${employeeSelector} .btn-close`);
+        // this.btnSave = document.formNewEmployee.btnSave;
     }
 
     closeModal() {
@@ -39,23 +38,23 @@ export default class EmployeeView {
             this.formNew.gender.value = employee.gender;
         }
     }
-    renderRow(index, employee) {
-        return (
+    renderRow({ employee, index, selectorTableEmployee }) {
+        const tbody = $(selectorTableEmployee);
+        tbody.innerHTML +=
             `<tr data-id=${employee.id}>
-        <td>${index}</td>
-        <td>${employee.name}</td>
-        <td>${employee.address}</td>
-        <td>
-            <div class=` +
+                        <td>${index}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.address}</td>
+                        <td>
+                            <div class=` +
             `${employee.status ? " active" : "inactive"}>
-            </div>
-        </td>
-        <td>
-            <button class="btn-delete btn btn-icon btn-delete"> </button>
-            <button class="btn-update btn btn-icon btn-update"></button>
-        </td>
-    </tr>`
-        );
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn-delete btn btn-icon btn-delete"> </button>
+                            <button class="btn-update btn btn-icon btn-update"></button>
+                        </td>
+                    </tr>`;
     }
     updateRow(data) {
         try {

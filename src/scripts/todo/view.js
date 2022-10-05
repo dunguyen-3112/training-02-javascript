@@ -1,5 +1,5 @@
 import { $, rootSelector as root } from "../constant";
-import { headerTableTodo } from "../template/todo";
+import { headerTableTodo } from "./templates";
 class TodoView {
     constructor(employeeTodoSelector, employeeSelector) {
         this.employeeSelector = employeeSelector;

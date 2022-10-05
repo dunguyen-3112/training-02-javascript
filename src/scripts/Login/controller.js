@@ -1,13 +1,15 @@
-import EmployeesCtrl from "../employees/controller";
+import { EmployeesCtrl } from "../employees/controller";
 import { CookiesHelper } from "../helpers/cookies-helper";
 import { LoginModel } from "./model";
 import { LoginView } from "./view";
-import { $, employeeSelector } from "../constant";
+import { $ } from "../constant";
+import { goto } from "../helpers/routes-helper";
 
 class LoginController {
-    constructor() {
+    constructor(selector, parentSelector) {
+        console.log("LoginController:", selector, parentSelector);
         this.model = new LoginModel();
-        this.view = new LoginView();
+        this.view = new LoginView(selector, parentSelector);
         this.cookies = new CookiesHelper();
     }
 
@@ -18,27 +20,18 @@ class LoginController {
                 token?.length > 0 &&
                 (await this.model.getUser(token))?.isLogin
             ) {
-                this.view.renderBtnLogout();
-
-                const ctrl = new EmployeesCtrl(employeeSelector);
-                ctrl.render();
-                this.initEventLogoutBtn();
+                return true;
             } else {
                 this.view.renderFormLogin();
+                this.initEventLoginBtn();
             }
-            this.initEvents();
         } catch (error) {
             console.log("LoginController render:", error.message);
-            throw error;
         }
     }
     initEvents() {
         this.initEventLoginBtn();
     }
-    initEventLogoutBtn() {
-        $(".btn-logout")?.addEventListener("click", this.handleBtnLogout);
-    }
-
     initEventLoginBtn() {
         console.log("initEventLoginBtn");
 
@@ -46,6 +39,10 @@ class LoginController {
             "click",
             this.handleLogin.bind(this)
         );
+    }
+
+    initEventLogoutBtn() {
+        $(".btn-logout")?.addEventListener("click", this.handleBtnLogout);
     }
 
     handleBtnLogout() {

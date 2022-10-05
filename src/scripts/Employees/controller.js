@@ -1,41 +1,48 @@
 import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
-import { $, employeeSelector } from "../constant";
+import { $, rootSelector } from "../constant";
 import EmployeeCtrl from "../employee/controller";
+import { goto } from "../helpers/routes-helper";
+import { selectorTableEmployee } from "./constant";
 
-export default class EmployeesCtrl {
-    constructor() {
+class EmployeesCtrl {
+    constructor(selector) {
+        this.view = new EmployeesView(selector, selectorTableEmployee);
         this.model = new EmployeesModel();
-        this.view = new EmployeesView();
-        this.employeeCtrl = new EmployeeCtrl();
         this.data = null;
     }
 
+    renderBtnNew() {
+        this.view.renderBtnNew();
+    }
+
     async render(data) {
+        this.renderBtnNew();
         try {
             if (data == undefined) {
                 this.data = await this.model.findAll();
             } else this.data = data;
 
-            const rows = [];
             this.data.forEach((employee, index) => {
-                let row = this.employeeCtrl.render("row", employee, index);
-                rows.push(row);
+                goto("employee-page", {
+                    employee: employee,
+                    index: index,
+                    selectorTableEmployee: `${rootSelector} .${this.view.selector} table.${selectorTableEmployee} tbody`,
+                });
             });
-            this.view.renderTable(rows);
-            this.initEvents();
         } catch (error) {
             console.log("Error1: ", error.message);
             throw error;
         }
+        this.initEvents();
     }
     initEvents() {
-        this.initEventDelete();
-        this.initEventUpdate();
+        // this.initEventDelete();
+        // this.initEventUpdate();
         this.initEventNew();
-        this.initEventSearch();
-        this.initEventTodo();
-        this.employeeCtrl.initEvents();
+        // this.initEventSearch();
+        // this.initEventTodo();
+        // this.employeeCtrl.initEvents();
     }
     destroyEvents() {}
     initEventTodo() {
@@ -80,9 +87,12 @@ export default class EmployeesCtrl {
         this.initEventTodo();
     }
     initEventNew() {
-        $(".employees .btn-add").addEventListener("click", (e) => {
-            this.employeeCtrl.render("new", this.render1.bind(this));
-        });
+        $(`${rootSelector} .${this.view.selector} .btn-add`).addEventListener(
+            "click",
+            (e) => {
+                alert("Please select your");
+            }
+        );
     }
 
     handleSearch = async (keyword) => {
@@ -96,3 +106,4 @@ export default class EmployeesCtrl {
             }
     };
 }
+export { EmployeesCtrl };

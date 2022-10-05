@@ -2,12 +2,12 @@ import { EmployeeModel } from "./model";
 import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
 import { TodoCtrl } from "../todo/ctrl";
-import { employeeTodoSelector, employeeSelector, $ } from "../constant";
+import { $, rootSelector } from "../constant";
+import { selectorTableEmployee } from "../employees/constant";
 
-export default class EmployeeCtrl {
-    constructor() {
-        this.view = new EmployeeView();
-
+class EmployeeCtrl {
+    constructor(selector) {
+        this.view = new EmployeeView(selector);
         const employee = {
             id: null,
             address: null,
@@ -18,22 +18,22 @@ export default class EmployeeCtrl {
             status: null,
         };
         this.model = new EmployeeModel(employee);
-        this.todoCtrl = new TodoCtrl(employeeTodoSelector, employeeSelector);
+        //this.todoCtrl = new TodoCtrl(employeeTodoSelector, employeeSelector);
     }
 
-    render(action, obj, index) {
+    render(action, params) {
         if (action === "row") {
-            return this.view.renderRow(index, obj);
+            this.view.renderRow(params);
         }
-        this.todoCtrl.closeTodo();
-        if (action === "update") {
-            this.view.openModal("Update employee", obj);
-            this.initEventClose();
-        } else {
-            this.keyAdd = obj;
-            this.view.openModal("Add new employee");
-            this.initEventClose();
-        }
+        //this.todoCtrl.closeTodo();
+        // if (action === "update") {
+        //     this.view.openModal("Update employee", obj);
+        //     this.initEventClose();
+        // } else {
+        //     this.keyAdd = obj;
+        //     this.view.openModal("Add new employee");
+        //     this.initEventClose();
+        // }
     }
     initEvents() {
         Validator.clear("formNewEmployee");
@@ -170,3 +170,4 @@ export default class EmployeeCtrl {
         );
     }
 }
+export { EmployeeCtrl };
