@@ -1,6 +1,5 @@
 import { EmployeeModel } from "./model";
 import { $, employeeSelector } from "../constant";
-import { checkEmail, checkPhone, checkLength } from "../helpers/valid-helper";
 import { TemplateModalFormAddEmployees } from "../template/employees";
 
 export default class EmployeeView {
@@ -9,14 +8,15 @@ export default class EmployeeView {
         const elementSelector = $(`.${this.selector}`);
         elementSelector.innerHTML += TemplateModalFormAddEmployees;
         this.formNew = document.formNewEmployee;
-        this.modalTitle = $(".employees .modal-title");
-        this.modalContainer = $(".employees .modal-container");
-        this.btn_close = $(".employees .btn-close");
+        this.modalTitle = $(`.${employeeSelector} .modal-title`);
+        this.modalContainer = $(`.${employeeSelector} .modal-container`);
+        this.btn_close = $(`.${employeeSelector} .btn-close`);
         this.btnSave = document.formNewEmployee.btnSave;
     }
 
     closeModal() {
         this.view.formNew.btnReset.click();
+        this.view.formNew.removeAttribute("data-id");
         this.view.modalContainer.style.display = "none";
     }
 
@@ -58,13 +58,17 @@ export default class EmployeeView {
         );
     }
     updateRow(data) {
-        const row = $(
-            `.${employeeSelector} .table-body tr[data-id="${data.id}"]`
-        );
-        row.cells[1].innerHTML = data.name;
-        row.cells[2].innerHTML = data.address;
-        row.cells[3].innerHTML = ` <div class= '${
-            data.status ? " active" : "inactive"
-        }'></div>`;
+        try {
+            const row = $(
+                `.${employeeSelector} .table-body tr[data-id="${data.id}"]`
+            );
+            row.cells[1].innerHTML = data.name;
+            row.cells[2].innerHTML = data.address;
+            row.cells[3].innerHTML = ` <div class= '${
+                data.status ? " active" : "inactive"
+            }'></div>`;
+        } catch (error) {
+            console.log("Error: " + error.message);
+        }
     }
 }

@@ -29,7 +29,10 @@ class EmployeeModel {
             });
         } catch (error) {
             console.log("Create employee failed: " + error.message);
-            throw error;
+            throw {
+                message: error.message,
+                detail: `ERROR connection to ${API_ENDPOINT} failed`,
+            };
         }
     }
     /**
@@ -45,7 +48,12 @@ class EmployeeModel {
                 data: Employee,
             });
         } catch (error) {
-            throw error;
+            const err = {
+                message: error.message,
+                detail: `Not Found for employee with id ${Employee.id}`,
+            };
+            console.log(err);
+            throw err;
         }
     }
     /**

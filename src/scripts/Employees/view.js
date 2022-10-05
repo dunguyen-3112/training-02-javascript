@@ -1,4 +1,4 @@
-import { $, employeeSelector } from "../constant";
+import { $, employeeSelector, rootSelector } from "../constant";
 import { TemPlateHeaderTableEmployees } from "../template/employees";
 
 export default class EmployeesView {
@@ -7,7 +7,7 @@ export default class EmployeesView {
         const elementSelector = document.createElement("div");
         elementSelector.classList.add(employeeSelector);
         elementSelector.innerHTML = TemPlateHeaderTableEmployees;
-        $("#root").appendChild(elementSelector);
+        $(`#${rootSelector}`).appendChild(elementSelector);
 
         this.formSearch = $(".form-search");
     }
@@ -24,12 +24,7 @@ export default class EmployeesView {
         return this.rows().length;
     }
 
-    /**
-     *
-     * @param {Array<Employee>} employees
-     */
     renderTable(rows) {
-        $(".employees .list-employee tbody.table-body").innerHTML =
-            rows.join("");
+        $(`.${employeeSelector} tbody.table-body`).innerHTML = rows.join("");
     }
 }

@@ -1,31 +1,31 @@
 {
   "employees": [
     {
-      "name": "Jenk Oz",
-      "gender": true,
-      "status": false,
-      "address": "Lon Don ",
-      "email": "jenk@gmail.com",
-      "phone": "028002899",
-      "id": 3
-    },
-    {
-      "name": "Petter 12",
-      "gender": true,
-      "status": true,
-      "address": "New Jork",
-      "email": "petter@gmail.com",
-      "phone": "023209933",
-      "id": 4
-    },
-    {
       "name": "Du Nguyen Huu",
       "gender": true,
       "status": true,
-      "address": "Quảng Nam",
+      "address": "Lon Don ",
       "email": "huu@gmail.com",
-      "phone": "091892873",
-      "id": 5
+      "phone": "028002899",
+      "id": 1
+    },
+    {
+      "name": "Jenk Oz",
+      "gender": true,
+      "status": true,
+      "address": "Lon Don ",
+      "email": "huu@gmail.com",
+      "phone": "028002899",
+      "id": 2
+    },
+    {
+      "name": "ppppppppppppppp",
+      "gender": true,
+      "status": true,
+      "address": "Lon Don ",
+      "email": "huu@gmail.com",
+      "phone": "028002899",
+      "id": 4
     }
   ],
   "users": [
@@ -51,7 +51,7 @@
       "description": "Home Work",
       "date": "2015-01-01",
       "status": true,
-      "uid": 5
+      "uid": 1
     },
     {
       "id": 2,
@@ -59,7 +59,7 @@
       "description": "Home Work 2",
       "date": "2015-01-01",
       "status": false,
-      "uid": 3
+      "uid": 1
     },
     {
       "id": 3,
@@ -67,7 +67,7 @@
       "description": "Home Work 3",
       "date": "2015-01-01",
       "status": true,
-      "uid": 3
+      "uid": 2
     },
     {
       "id": 4,
@@ -75,7 +75,7 @@
       "description": "Home Work 4",
       "date": "2015-01-01",
       "status": false,
-      "uid": 4
+      "uid": 2
     },
     {
       "id": 5,

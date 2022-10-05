@@ -1,8 +1,8 @@
 const TemPlateHeaderTableEmployees = `
             <div class="wrapperSearch flex">
-                <form class="form-search" name="formSearch" action="#" method="post">
+                <form class="form-search" name="formSearch" action="/" method="post">
                     <input type="text" class="control-search" name="keyword" placeholder="Search...">
-                    <button class="icon-search"></button>
+                    <button class="icon-search" type="button"></button>
                 </form>
                 <button class="btn btn-icon btn-add"> </button>
             </div>

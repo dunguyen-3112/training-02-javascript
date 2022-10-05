@@ -98,7 +98,6 @@ export default class EmployeeCtrl {
             delete data.btnReset;
             if (data.id) {
                 this.view.updateRow(data);
-
                 const data1 = await this.model.update(data);
             } else {
                 const data1 = await this.model.create(data);
@@ -106,30 +105,62 @@ export default class EmployeeCtrl {
             }
             this.view.btn_close.click();
         } catch (error) {
-            throw error;
+            console.log("Error: " + error);
+            //throw error;
         }
     }
     async handleBtnUpdate(e) {
-        const data = await this.model.findById(
-            e.path[2].getAttribute("data-id")
-        );
-        this.render("update", data);
+        try {
+            const data = await this.model.findById(
+                e.path[2].getAttribute("data-id")
+            );
+            if (data) this.render("update", data);
+            else
+                console.log(
+                    "Error: ",
+                    "Not Found Employee By Id or failed to internet connection"
+                );
+        } catch (error) {
+            console.log("Error: " + error.message);
+        }
     }
-    handleBtnDelete(e) {
+    async handleBtnDelete(e) {
         const id = e.path[2].getAttribute("data-id");
 
-        this.model.findById(id).then(async (data) => {
-            if (confirm(`You want to remove an employee "${data.name}"`)) {
+        try {
+            const data = await this.model.findById(id);
+            if (
+                data &&
+                confirm(`You want to remove an employee "${data.name}"`)
+            ) {
                 try {
-                    await this.model.deleteById(id);
-                    this.destroyEventDelete(e.path[2]);
-                    this.destroyEventUpdate(e.path[2]);
-                    e.path[2].remove();
+                    const d = await this.model.deleteById(id);
+                    if (d != undefined) {
+                        this.destroyEventDelete(e.path[2]);
+                        this.destroyEventUpdate(e.path[2]);
+                        const rows = e.path[3].rows,
+                            len = rows.length,
+                            index = e.path[2].rowIndex;
+                        for (let i = index; i < len; i++) {
+                            rows[i].cells[0].innerHTML = i - 1;
+                        }
+                        e.path[2].remove();
+                    } else {
+                        console.log(
+                            "Error: ",
+                            "Failed to internet connection..."
+                        );
+                    }
                 } catch (error) {
                     throw error;
                 }
-            }
-        });
+            } else
+                console.log(
+                    "Couldn't findById or failed  to internet connection"
+                );
+        } catch (error) {
+            console.log("Error: " + error.message);
+        }
     }
     initEventClose() {
         console.log("initEventClose");

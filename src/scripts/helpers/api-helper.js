@@ -9,7 +9,6 @@ export default class API_Helper {
      * @returns
      */
     fetchAPI = async ({ url, data, method }) => {
-        let data1 = null;
         try {
             if (data) {
                 const option = {
@@ -17,12 +16,12 @@ export default class API_Helper {
                     headers: { "Content-Type": "application/json" },
                 };
                 if (method !== "DELETE") option.body = JSON.stringify(data);
-                data1 = await fetch(`${url}`, option);
-            } else data1 = await fetch(`${url}`);
-            return data1.json();
+                return (await fetch(`${url}`, option)).json();
+            }
+            return (await fetch(`${url}`)).json();
         } catch (error) {
             console.log("Fetch API: ", error.message);
-            throw error;
+            //throw error;
         }
     };
 }
