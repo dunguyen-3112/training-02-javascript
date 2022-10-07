@@ -1,9 +1,7 @@
-import { EmployeesCtrl } from "../employees/controller";
+/* eslint-disable no-undef */
 import { CookiesHelper } from "../helpers/cookies-helper";
 import { LoginModel } from "./model";
 import { LoginView } from "./view";
-import { $ } from "../constant";
-import { goto } from "../helpers/routes-helper";
 
 class LoginController {
     constructor(selector) {
@@ -24,7 +22,10 @@ class LoginController {
                 this.view.renderFormLogin();
                 this.initEventLoginBtn();
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
     initEvents() {
         this.initEventLoginBtn();
@@ -36,14 +37,6 @@ class LoginController {
         );
     }
 
-    initEventLogoutBtn() {
-        $(".btn-logout")?.addEventListener("click", this.handleBtnLogout);
-    }
-
-    handleBtnLogout() {
-        document.cookie = "_token=;";
-        location.reload();
-    }
     async handleLogin(e) {
         e.preventDefault();
         const username = document.formLogin.username.value,
@@ -52,12 +45,12 @@ class LoginController {
             const token = "ae2d32b5b7eaa7d201d513990b8e7cc35535142";
             const user = await this.model.login(username, password);
             user._token = token;
-            const user1 = await this.model.update(user);
+            await this.model.update(user);
             document.cookie = `_token=${token}`;
             location.reload();
         } catch (error) {
-            console.log(
-                "Error: ",
+            console.log(error);
+            throw new Error(
                 "username and password are invalid or fail internet connection"
             );
         }

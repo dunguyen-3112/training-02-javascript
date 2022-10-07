@@ -1,15 +1,16 @@
-import { $, rootSelector as root, rootSelector } from "../constant";
+/* eslint-disable no-undef */
+import { $, rootSelector as root } from "../constant";
 import { headerTableTodo } from "./templates";
 class TodoView {
     constructor(selector) {
         this.selector = selector;
-        const tam = $(`${rootSelector} .${selector}`);
-        this.content = tam ? tam : document.createElement("div");
+        const tam = $(`${root} .${selector}`);
+        this.content = tam ? tam : document.createElement("section");
         this.content.className = this.selector;
         this.content.innerHTML = headerTableTodo;
-        $(rootSelector).appendChild(this.content);
-        this.btnClose = $(`${rootSelector} .${selector} .btn-close`);
-        this.tbody = $(`${rootSelector} .${selector} tbody`);
+        $(root).appendChild(this.content);
+        this.btnClose = $(`${root} .${selector} .btn-close`);
+        this.tbody = $(`${root} .${selector} tbody`);
     }
     render(data) {
         this.tbody.innerHTML = "";

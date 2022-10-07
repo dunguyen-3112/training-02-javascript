@@ -65,6 +65,7 @@ class EmployeeModel {
         try {
             return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
         } catch (error) {
+            console.log("object");
             throw error;
         }
     }

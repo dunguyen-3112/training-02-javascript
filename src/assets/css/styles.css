@@ -1,6 +1,7 @@
 @import url(./reset.css);
 @import url(./common.css);
 @import url(./variable.css);
+@import url(./header.css);
 @import url(./employees.css);
 @import url(./login.css);
 @import url(todo.css);
@@ -8,6 +9,7 @@
 
 #root{
     display: grid;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
-    gap:10px
+    gap:10px;
 }

@@ -1,4 +1,3 @@
-import { $ } from "../constant";
 import { TodoModel } from "./model";
 import { TodoView } from "./view";
 

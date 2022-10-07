@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { TemPlateFormLogin } from "./templates";
 import { $, rootSelector } from "../constant";
 
@@ -7,13 +8,13 @@ class LoginView {
     }
 
     renderFormLogin() {
-        let content = document.createElement("div");
+        let content = document.createElement("section");
         content.classList.add(this.selector);
         content.innerHTML = TemPlateFormLogin;
         $(rootSelector).innerHTML = content.outerHTML;
 
         const check = document.querySelector("input.hide-password");
-        check.addEventListener("click", function (e) {
+        check.addEventListener("click", () => {
             check.checked
                 ? (document.querySelector('input[name="password"]').type =
                       "text")

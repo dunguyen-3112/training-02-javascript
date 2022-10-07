@@ -23,6 +23,7 @@ class LoginModel {
             });
             return data[0];
         } catch (error) {
+            console.log("object");
             throw error;
         }
     }

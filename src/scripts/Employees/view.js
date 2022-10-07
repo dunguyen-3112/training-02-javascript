@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { $, rootSelector } from "../constant";
 import { TemPlateHeaderTableEmployee } from "./templates";
 
@@ -5,7 +6,7 @@ export default class EmployeesView {
     constructor(selector, selectorTable) {
         this.selector = selector;
         this.selectorTable = selectorTable;
-        this.content = document.createElement("div");
+        this.content = document.createElement("section");
         this.content.classList.add(`${selector}`);
         this.content.innerHTML = TemPlateHeaderTableEmployee(selectorTable);
         $(rootSelector).appendChild(this.content);

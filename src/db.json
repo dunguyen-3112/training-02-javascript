@@ -26,15 +26,6 @@
       "email": "anh@gmail.com",
       "phone": "028002899",
       "id": 4
-    },
-    {
-      "name": "Jenk Oz",
-      "gender": true,
-      "status": true,
-      "address": "Quảng Nam",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 6
     }
   ],
   "users": [

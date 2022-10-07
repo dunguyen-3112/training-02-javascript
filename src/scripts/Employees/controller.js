@@ -41,11 +41,6 @@ class EmployeesCtrl {
             this.__initEventSearch
         );
     }
-    initEventTodo() {
-        this.view.rows().forEach((element) => {
-            this.employeeCtrl.initEventTodo(element);
-        });
-    }
     initEventUpdate() {
         this._initEventUpdate = this.handleBtnUpdate.bind(this);
         this.view.rows().forEach((element) => {
@@ -145,6 +140,7 @@ class EmployeesCtrl {
         const id = e.path[2].getAttribute("data-id");
 
         const data = await this.model.findById(id);
+        // eslint-disable-next-line no-undef
         if (data && confirm(`You want to remove an employee "${data.name}"`)) {
             const d = await this.model.deleteById(id);
             if (d != undefined) {

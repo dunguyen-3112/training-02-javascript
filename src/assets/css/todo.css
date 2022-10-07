@@ -1,4 +1,7 @@
-
+.todo-page{
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
 .todo-page .btn-close {
     display: block;
     width: 30px;

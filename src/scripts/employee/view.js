@@ -1,4 +1,4 @@
-import { EmployeeModel } from "./model";
+/* eslint-disable no-undef */
 import { $, rootSelector } from "../constant";
 import { TemplateModalFormAddEmployees } from "./templates";
 import { NAME_FORM } from "./constant";
@@ -14,7 +14,7 @@ export default class EmployeeView {
      * @param {EmployeeModel} employee
      */
     openModal(title, employee) {
-        this.content = document.createElement("div");
+        this.content = document.createElement("section");
         this.content.classList.add(this.selector);
         $(rootSelector).appendChild(this.content);
         this.content.innerHTML = TemplateModalFormAddEmployees(NAME_FORM);

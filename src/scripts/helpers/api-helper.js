@@ -1,5 +1,3 @@
-import { API_BASE } from "../constant";
-
 export default class API_Helper {
     constructor() {}
     /**
