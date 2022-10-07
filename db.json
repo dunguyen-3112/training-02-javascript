@@ -1,22 +1,13 @@
 {
   "employees": [
     {
-      "name": "Du Nguyen Huu",
+      "name": "Jenk Oz",
       "gender": true,
       "status": true,
       "address": "Lon Don ",
       "email": "huu@gmail.com",
       "phone": "028002899",
       "id": 1
-    },
-    {
-      "name": "Du Nguyen Huu12",
-      "gender": true,
-      "status": true,
-      "address": "Lon Don ",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 4
     }
   ],
   "users": [

@@ -3,12 +3,11 @@ import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
 import { TodoCtrl } from "../todo/ctrl";
 import { $, rootSelector } from "../constant";
-import { selectorTableEmployee } from "../employees/constant";
 
 class EmployeeCtrl {
     constructor(selector) {
         this.view = new EmployeeView(selector);
-        const employee = {
+        this.model = new EmployeeModel({
             id: null,
             address: null,
             email: null,
@@ -16,24 +15,17 @@ class EmployeeCtrl {
             name: null,
             phone: null,
             status: null,
-        };
-        this.model = new EmployeeModel(employee);
+        });
         //this.todoCtrl = new TodoCtrl(employeeTodoSelector, employeeSelector);
     }
 
     render(action, params) {
-        if (action === "row") {
-            this.view.renderRow(params);
-
-            const row = $(
-                `${params.selectorTableEmployee} tr[data-id="${params.employee.id}"]`
-            );
-            //this.initEventDelete(row);
-        } else if (action === "new") {
-            Object.assign(this, params);
-            this.view.openModal("Add new employee", params);
+        if (action === "new") {
+            this.ctrl = params;
+            this.view.openModal("Add new employee");
             this.initEvents();
         } else if (action === "update") {
+            this.ctrl = params.ctrl;
             this.view.openModal("Update employee", params.employee);
             this.initEvents();
         } else {
@@ -42,7 +34,6 @@ class EmployeeCtrl {
     }
     initEvents() {
         this.initEventClose();
-        // Validator.clear("formNewEmployee");
         Validator({
             rules: [
                 Validator.isEmail("email", "Trường này phải là Email!"),
@@ -56,7 +47,7 @@ class EmployeeCtrl {
             formGroupSelector: ".form-group",
             errorSelector: ".form-message",
             onSubmit: this.handleSave.bind(this),
-            form: "formNewEmployee",
+            form: "form",
         });
     }
 
@@ -67,70 +58,30 @@ class EmployeeCtrl {
         });
     }
 
-    initEventUpdate(element) {
-        console.log("initEventUpdate");
-        element
-            .querySelectorAll("button")[1]
-            .addEventListener("click", this.handleBtnUpdate.bind(this));
-    }
-
     destroyEvents() {}
 
-    destroyEventUpdate(element) {
-        console.log("destroyEventUpdate");
-        element
-            .querySelectorAll("button")[1]
-            .removeEventListener("click", this.handleBtnUpdate);
-    }
-
     async handleSave(data) {
-        console.log(this.initEvents);
-
-        try {
-            data.gender = data.gender === "true";
-            data.status = data.status === "active";
-            delete data.btnSave;
-            delete data.btnReset;
-            if (data.id) {
-                this.view.updateRow(data);
-                const data1 = await this.model.update(data);
-            } else {
-                const data1 = await this.model.create(data);
-
-                this.view.renderRow({
-                    employee: data1,
-                    index: this.index,
-                    selectorTableEmployee: this.selectorTableEmployee,
-                });
-                this._initEvents();
-            }
-            this.view.content.remove();
-        } catch (error) {
-            console.log("Error: " + error);
-            //throw error;
+        data.gender = data.gender === "true";
+        data.status = data.status === "active";
+        delete data.btnSave;
+        delete data.btnReset;
+        if (data.id) {
+            this.ctrl.updateRow({ employee: data });
+            const data1 = await this.model.update(data);
+        } else {
+            const data1 = await this.model.create(data);
+            this.ctrl.renderRow({ employee: data1 });
         }
-    }
-    async handleBtnUpdate(e) {
-        try {
-            const data = await this.model.findById(
-                e.path[2].getAttribute("data-id")
-            );
-            if (data) this.render("update", data);
-            else
-                console.log(
-                    "Error: ",
-                    "Not Found Employee By Id or failed to internet connection"
-                );
-        } catch (error) {
-            console.log("Error: " + error.message);
-        }
+        this.ctrl.initEvents();
+        this.view.content.remove();
     }
 
     initEventClose() {
         console.log("initEventClose");
-        $(
-            `${rootSelector} .${this.view.selector} button.btn-close`
-        ).addEventListener("click", (e) => this.view.content.remove());
+        this.view.btnClose.addEventListener("click", (e) => {
+            this.ctrl.initEvents();
+            this.view.content.remove();
+        });
     }
 }
 export { EmployeeCtrl };

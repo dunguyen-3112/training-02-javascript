@@ -1,11 +1,11 @@
-//  <div class="wrapperSearch flex">
-//  <form class="form-search" name="formSearch" action="/" method="post">
-//      <input type="text" class="control-search" name="keyword" placeholder="Search...">
-//      <button class="icon-search" type="button"></button>
-//  </form>
-//  <button class="btn btn-icon btn-add"> </button>
-// </div>
 const TemPlateHeaderTableEmployee = (selectorTable) => `
+            <button class="btn btn-icon btn-add"> </button>
+            <div class="wrapperSearch flex">
+                <form class="form-search" name="formSearch" action="/" method="post">
+                    <input type="text" class="control-search" name="keyword" placeholder="Search...">
+                    <button class="icon-search" type="button"></button>
+                </form>
+           </div>
             <table class="${selectorTable}">
                 <thead>
                     <tr>

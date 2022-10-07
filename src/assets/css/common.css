@@ -11,6 +11,20 @@ body {
     cursor: pointer;
 }
 
+.btn.btn-icon{
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+}
+
+.btn+.btn {
+    margin-left: 20px;
+}
+
+.btn:hover {
+    opacity: .8;
+}
 
 .btn.btn-info {
     background-color: #0dcaf0;
@@ -172,6 +186,85 @@ body {
     color: #f33a58;
     display: block;
 }
+
+tr {
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+ tr:hover {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+th,
+ td {
+    padding: 6px 12px;
+    text-align: center;
+}
+
+ th {
+    background-color: rgb(54, 62, 54);
+    color: #fff;
+}
+
+ tr:nth-of-type(odd) {
+    background-color: rgb(204, 204, 204);
+}
+
+
+.active {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #7FFF00;
+    position: relative;
+    margin: auto;
+}
+
+.active::after {
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 5px;
+    border-right: 2px solid var(--green-color);
+    border-bottom: 2px solid var(--green-color);
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.inactive {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--red-color);
+    position: relative;
+    margin: auto;
+}
+
+.inactive::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background-color: var(--red-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.inactive::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background-color: var(--red-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
 
 
 

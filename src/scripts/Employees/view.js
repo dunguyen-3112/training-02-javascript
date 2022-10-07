@@ -2,34 +2,57 @@ import { $, rootSelector } from "../constant";
 import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
-    constructor(selector, selectorTableEmployee) {
+    constructor(selector, selectorTable) {
         this.selector = selector;
-        this.selectorTableEmployee = selectorTableEmployee;
-
+        this.selectorTable = selectorTable;
         this.content = document.createElement("div");
         this.content.classList.add(`${selector}`);
-        this.content.innerHTML = TemPlateHeaderTableEmployee(
-            selectorTableEmployee
-        );
+        this.content.innerHTML = TemPlateHeaderTableEmployee(selectorTable);
         $(rootSelector).appendChild(this.content);
+        this.btnAdd = $(`${rootSelector} .${this.selector} .btn-add`);
     }
 
-    renderBtnNew() {
-        this.content.innerHTML +=
-            '<button class="btn btn-icon btn-add"> </button>';
-    }
-    addRow(data) {
-        const tbody = $(`.${employeeSelector} .table-body`);
-        tbody.innerHTML += data;
-        return tbody.lastChild;
-    }
     rows() {
-        return this.content.querySelectorAll(
-            `${rootSelector} .${this.selector} table.${this.selectorTableEmployee} tbody tr`
+        return document.querySelectorAll(
+            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody tr`
         );
     }
 
     numberRows() {
         return this.rows().length;
+    }
+    renderRow({ employee, index }) {
+        const tbody = $(
+            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody`
+        );
+
+        if (index === undefined) {
+            index = this.numberRows();
+        }
+        tbody.innerHTML +=
+            `<tr data-id=${employee.id}>
+                        <td>${index}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.address}</td>
+                        <td>
+                            <div class=` +
+            `${employee.status ? " active" : "inactive"}>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn-delete btn btn-icon btn-delete"> </button>
+                            <button class="btn-update btn btn-icon btn-update"></button>
+                        </td>
+                    </tr>`;
+    }
+    updateRow(data) {
+        const row = $(
+            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody tr[data-id="${data.id}"]`
+        );
+        row.cells[1].innerHTML = data.name;
+        row.cells[2].innerHTML = data.address;
+        row.cells[3].innerHTML = ` <div class= '${
+            data.status ? " active" : "inactive"
+        }'></div>`;
     }
 }
