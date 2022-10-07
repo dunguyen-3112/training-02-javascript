@@ -22,8 +22,7 @@
 - Clone repository
 
 ```
-    git clone https://github.com/google
-```
+    git clone https://github.com/dunguyen-3112/training-02-javascript.git
 
 - Checkout branch: Develop
 
