@@ -1,7 +1,5 @@
 import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
-import { $, rootSelector } from "../constant";
-import EmployeeCtrl from "../employee/controller";
 import { goto } from "../helpers/routes-helper";
 import { selectorTableEmployee } from "./constant";
 
@@ -15,20 +13,33 @@ class EmployeesCtrl {
         if (data == undefined) {
             this.data = await this.model.findAll();
         } else this.data = data;
-
+        this.view.tbody.innerHTML = "";
+        console.log("clear");
         this.data.forEach((employee, index) => {
             this.renderRow({ employee, index });
         });
     }
     initEvents() {
+        console.log("initEvents");
         this.initEventDelete();
         this.initEventUpdate();
         this.initEventNew();
+        this.initEventSearch();
+        this.initEventTodo();
     }
     destroyEvents() {
+        console.log("destroyEvents");
         this.destroyEventDelete();
         this.destroyEventUpdate();
         this.destroyEventNew();
+        this.destroyEventSearch();
+        this.destroyEventTodo();
+    }
+    destroyEventSearch() {
+        this.view.formSearch["keyword"].removeEventListener(
+            "keyup",
+            this.__initEventSearch
+        );
     }
     initEventTodo() {
         this.view.rows().forEach((element) => {
@@ -36,7 +47,6 @@ class EmployeesCtrl {
         });
     }
     initEventUpdate() {
-        console.log("initEventUpdate");
         this._initEventUpdate = this.handleBtnUpdate.bind(this);
         this.view.rows().forEach((element) => {
             element
@@ -45,7 +55,6 @@ class EmployeesCtrl {
         });
     }
     initEventDelete() {
-        console.log("initEventDelete");
         this._initEventDelete = this.handleBtnDelete.bind(this);
         this.view.rows().forEach((element) => {
             element
@@ -54,7 +63,6 @@ class EmployeesCtrl {
         });
     }
     destroyEventUpdate() {
-        console.log("destroyEventUpdate");
         this.view.rows().forEach((element) => {
             element
                 .querySelectorAll("button")[1]
@@ -62,27 +70,41 @@ class EmployeesCtrl {
         });
     }
     destroyEventDelete() {
-        console.log("destroyEventDelete");
         this.view.rows().forEach((element) => {
             element
                 .querySelectorAll("button")[0]
                 .removeEventListener("click", this._initEventDelete);
         });
     }
+    initEventTodo() {
+        this._initEventTodo = this.handleTodo.bind(this);
+        this.view.rows().forEach((element) => {
+            element.addEventListener("dblclick", this._initEventTodo);
+        });
+    }
+    destroyEventTodo() {
+        this.view.rows().forEach((element) => {
+            element.removeEventListener("dblclick", this._initEventTodo);
+        });
+    }
+    handleTodo(e) {
+        const id = e.path[1].getAttribute("data-id");
+        goto("todo-page", id);
+    }
 
     initEventSearch() {
-        $(".form-search").keyword.addEventListener("keyup", (e) => {
-            this.handleSearch(e.target.value);
-        });
+        this.__initEventSearch = this.handleSearch.bind(this);
+        this.view.formSearch["keyword"].addEventListener(
+            "keyup",
+            this.__initEventSearch
+        );
     }
 
     initEventNew() {
-        console.log("initEventNew");
         this._initEventNew = this.handleBtnNew.bind(this);
         this.view.btnAdd.addEventListener("click", this._initEventNew);
     }
     destroyEventNew() {
-        console.log("destroyEventNew");
         this.view.btnAdd.removeEventListener("click", this._initEventNew);
     }
     renderRow(params) {
@@ -109,12 +131,15 @@ class EmployeesCtrl {
         });
     }
 
-    handleSearch = async (keyword) => {
-        if (keyword.trim() === "") this.render();
+    handleSearch = async (e) => {
+        const keyword = e.target.value;
+        this.destroyEvents();
+        if (keyword.trim() === "") await this.render();
         else {
             const data = await this.model.search(keyword);
-            this.render(data);
+            await this.render(data);
         }
+        this.initEvents();
     };
     async handleBtnDelete(e) {
         const id = e.path[2].getAttribute("data-id");

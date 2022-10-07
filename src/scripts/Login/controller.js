@@ -7,7 +7,6 @@ import { goto } from "../helpers/routes-helper";
 
 class LoginController {
     constructor(selector) {
-        console.log("LoginController:", selector);
         this.model = new LoginModel();
         this.view = new LoginView(selector);
         this.cookies = new CookiesHelper();
@@ -25,16 +24,12 @@ class LoginController {
                 this.view.renderFormLogin();
                 this.initEventLoginBtn();
             }
-        } catch (error) {
-            console.log("LoginController render:", error.message);
-        }
+        } catch (error) {}
     }
     initEvents() {
         this.initEventLoginBtn();
     }
     initEventLoginBtn() {
-        console.log("initEventLoginBtn");
-
         document.formLogin?.btnLogin?.addEventListener(
             "click",
             this.handleLogin.bind(this)

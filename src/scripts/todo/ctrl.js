@@ -3,25 +3,24 @@ import { TodoModel } from "./model";
 import { TodoView } from "./view";
 
 class TodoCtrl {
-    constructor(employeeTodoSelector, employeeSelector) {
-        this.view = new TodoView(employeeTodoSelector, employeeSelector);
-
-        this.model = new TodoModel();
+    constructor(selector, employeeId) {
+        this.uid = employeeId;
+        this.view = new TodoView(selector);
+        this.model = new TodoModel(employeeId);
     }
 
-    async render(uid) {
-        const data = await this.model.findAllByUid(uid);
+    async render() {
+        const data = await this.model.findAll();
         this.view.render(data);
-        this.initEvents();
     }
 
     initEvents() {
-        $(".employee-todo .btn-close").addEventListener("click", () => {
+        this.view.btnClose.addEventListener("click", () => {
             this.closeTodo();
         });
     }
     closeTodo() {
-        $(".employee-todo").style.display = "none";
+        this.view.close();
     }
 }
 export { TodoCtrl };

@@ -1,13 +1,31 @@
 {
   "employees": [
     {
-      "name": "Jenk Oz",
+      "name": "Hoa Hoa",
       "gender": true,
       "status": true,
+      "address": "02 Da Nang",
+      "email": "hoahoa@gmail.com",
+      "phone": "028002899",
+      "id": 1
+    },
+    {
+      "name": "Nguyen Huu Du",
+      "gender": true,
+      "status": false,
       "address": "Lon Don ",
       "email": "huu@gmail.com",
       "phone": "028002899",
-      "id": 1
+      "id": 3
+    },
+    {
+      "name": "Duy Oanh",
+      "gender": true,
+      "status": true,
+      "address": "Dong Thap",
+      "email": "anh@gmail.com",
+      "phone": "028002899",
+      "id": 4
     }
   ],
   "users": [

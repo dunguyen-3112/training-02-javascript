@@ -1,8 +1,6 @@
 import { EmployeeModel } from "./model";
 import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
-import { TodoCtrl } from "../todo/ctrl";
-import { $, rootSelector } from "../constant";
 
 class EmployeeCtrl {
     constructor(selector) {
@@ -16,7 +14,6 @@ class EmployeeCtrl {
             phone: null,
             status: null,
         });
-        //this.todoCtrl = new TodoCtrl(employeeTodoSelector, employeeSelector);
     }
 
     render(action, params) {
@@ -48,13 +45,6 @@ class EmployeeCtrl {
             errorSelector: ".form-message",
             onSubmit: this.handleSave.bind(this),
             form: "form",
-        });
-    }
-
-    initEventTodo(element) {
-        console.log("initEventTodo");
-        element.addEventListener("dblclick", () => {
-            this.todoCtrl.render(element.getAttribute("data-id"));
         });
     }
 

@@ -5,3 +5,9 @@
 @import url(./login.css);
 @import url(todo.css);
 @import url(employee.css);
+
+#root{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap:10px
+}

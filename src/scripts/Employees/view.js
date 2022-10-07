@@ -10,12 +10,14 @@ export default class EmployeesView {
         this.content.innerHTML = TemPlateHeaderTableEmployee(selectorTable);
         $(rootSelector).appendChild(this.content);
         this.btnAdd = $(`${rootSelector} .${this.selector} .btn-add`);
+        this.formSearch = $(`${rootSelector} .${this.selector} .form-search`);
+        this.tbody = $(
+            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody`
+        );
     }
 
     rows() {
-        return document.querySelectorAll(
-            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody tr`
-        );
+        return this.tbody.querySelectorAll("tr");
     }
 
     numberRows() {
