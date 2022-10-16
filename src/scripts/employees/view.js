@@ -1,19 +1,18 @@
 /* eslint-disable no-undef */
-import { $, rootSelector } from "../constant";
+import { $, rootSelector as root } from "../constant";
 import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
     constructor(selector, selectorTable) {
         this.selector = selector;
         this.selectorTable = selectorTable;
-        this.content = document.createElement("section");
-        this.content.classList.add(`${selector}`);
-        this.content.innerHTML = TemPlateHeaderTableEmployee(selectorTable);
-        $(rootSelector).appendChild(this.content);
-        this.btnAdd = $(`${rootSelector} .${this.selector} .btn-add`);
-        this.formSearch = $(`${rootSelector} .${this.selector} .form-search`);
+        $(root).innerHTML = `<section class="${this.selector}"></section>`;
+        $(`${root} .${selector}`).innerHTML =
+            TemPlateHeaderTableEmployee(selectorTable);
+        this.btnAdd = $(`${root} .${this.selector} .btn-add`);
+        this.formSearch = $(`${root} .${this.selector} .form-search`);
         this.tbody = $(
-            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody`
+            `${root} .${this.selector} table.${this.selectorTable} tbody`
         );
     }
 
@@ -24,9 +23,16 @@ export default class EmployeesView {
     numberRows() {
         return this.rows().length;
     }
+    renderList(employees) {
+        this.tbody.innerHTML = "";
+        employees.forEach((employee, index) => {
+            this.renderRow({ employee, index });
+        });
+    }
+
     renderRow({ employee, index }) {
         const tbody = $(
-            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody`
+            `${root} .${this.selector} table.${this.selectorTable} tbody`
         );
 
         if (index === undefined) {

@@ -1,3 +1,8 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-undef */
+
+import { $ } from "../constant";
+
 // Đối tượng `Validator`
 function Validator(options) {
     function getParent(element, selector) {
@@ -53,7 +58,7 @@ function Validator(options) {
     }
 
     // Lấy element của form cần validate
-    var formElement = document[options.form];
+    var formElement = $(options.form);
 
     if (formElement) {
         // Khi submit form

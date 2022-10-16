@@ -3,7 +3,7 @@ import API_Helper from "../helpers/api-helper";
 
 const helper = new API_Helper();
 
-class EmployeeModel {
+class Employee {
     constructor({ id, name, email, phone, status, gender, address }) {
         Object.assign(this, {
             id,
@@ -15,6 +15,8 @@ class EmployeeModel {
             address,
         });
     }
+}
+class EmployeeModel {
     /**
      *
      * @param {Employee} Employee
@@ -71,4 +73,4 @@ class EmployeeModel {
     }
 }
 
-export { EmployeeModel };
+export { EmployeeModel, Employee };

@@ -1,31 +1,13 @@
 {
   "employees": [
     {
-      "name": "Hoa Hoa",
-      "gender": true,
+      "name": "huu du nguyen12",
+      "gender": false,
       "status": true,
-      "address": "02 Da Nang",
-      "email": "hoahoa@gmail.com",
-      "phone": "028002899",
-      "id": 1
-    },
-    {
-      "name": "Nguyen Huu Du",
-      "gender": true,
-      "status": false,
-      "address": "Lon Don ",
+      "address": "Quảng Nam",
       "email": "huu@gmail.com",
       "phone": "028002899",
-      "id": 3
-    },
-    {
-      "name": "Duy Oanh",
-      "gender": true,
-      "status": true,
-      "address": "Dong Thap",
-      "email": "anh@gmail.com",
-      "phone": "028002899",
-      "id": 4
+      "id": 13
     }
   ],
   "users": [
@@ -50,48 +32,42 @@
       "title": "Home Work",
       "description": "Home Work",
       "date": "2015-01-01",
-      "status": true,
-      "uid": 1
+      "status": true
     },
     {
       "id": 2,
       "title": "Home Work 2",
       "description": "Home Work 2",
       "date": "2015-01-01",
-      "status": false,
-      "uid": 1
+      "status": false
     },
     {
       "id": 3,
       "title": "Home Work 3",
       "description": "Home Work 3",
       "date": "2015-01-01",
-      "status": true,
-      "uid": 2
+      "status": true
     },
     {
       "id": 4,
       "title": "Home Work 4",
       "description": "Home Work 4",
       "date": "2015-01-01",
-      "status": false,
-      "uid": 2
+      "status": false
     },
     {
       "id": 5,
       "title": "Home Work 5",
       "description": "Home Work 5",
       "date": "2015-01-01",
-      "status": true,
-      "uid": 3
+      "status": true
     },
     {
       "id": 6,
       "title": "Home Work 6",
       "description": "Home Work 6",
       "date": "2015-01-01",
-      "status": false,
-      "uid": 4
+      "status": false
     }
   ]
 }
