@@ -4,12 +4,8 @@ import { headerTableTodo } from "./templates";
 class TodoView {
     constructor(selector) {
         this.selector = selector;
-        const tam = $(`${root} .${selector}`);
-        this.content = tam ? tam : document.createElement("section");
-        this.content.className = this.selector;
-        this.content.innerHTML = headerTableTodo;
-        $(root).appendChild(this.content);
-        this.btnClose = $(`${root} .${selector} .btn-close`);
+        $(root).innerHTML = `<section class="${selector}"></section>`;
+        $(`${root} .${selector}`).innerHTML = headerTableTodo;
         this.tbody = $(`${root} .${selector} tbody`);
     }
     render(data) {
@@ -30,9 +26,6 @@ class TodoView {
                 `
         );
         this.tbody.innerHTML = rows.join("");
-    }
-    close() {
-        this.content.remove();
     }
 }
 export { TodoView };

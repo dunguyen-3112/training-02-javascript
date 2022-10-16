@@ -6,10 +6,14 @@
 @import url(./login.css);
 @import url(todo.css);
 @import url(employee.css);
-
+@import url(navigation.css);
+body{
+    display: flex;
+    flex-direction: column;
+}
 #root{
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
-    gap:10px;
+    gap:10px;order:2;
 }

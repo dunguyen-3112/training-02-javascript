@@ -186,6 +186,9 @@ body {
     color: #f33a58;
     display: block;
 }
+table{
+    width: 100%;
+}
 
 tr {
     border: 1px solid #ccc;

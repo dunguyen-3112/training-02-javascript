@@ -1,33 +1,26 @@
-import { EmployeeModel } from "./model";
+import { Employee, EmployeeModel } from "./model";
 import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
+import { rootSelector } from "../constant";
+import { subPublish } from "../helpers/state-manager";
 
 class EmployeeCtrl {
     constructor(selector) {
         this.view = new EmployeeView(selector);
-        this.model = new EmployeeModel({
-            id: null,
-            address: null,
-            email: null,
-            gender: null,
-            name: null,
-            phone: null,
-            status: null,
-        });
+        this.model = new EmployeeModel();
     }
 
-    render(action, params) {
-        if (action === "new") {
-            this.ctrl = params;
-            this.view.openModal("Add new employee");
-            this.initEvents();
-        } else if (action === "update") {
-            this.ctrl = params.ctrl;
-            this.view.openModal("Update employee", params.employee);
-            this.initEvents();
-        } else {
-            console.log("Chua xu ly");
-        }
+    setEmployee(employee) {
+        this.employee = employee ? new Employee(employee) : {};
+        this.render();
+        this.initEvents();
+    }
+
+    render() {
+        let title = "";
+        if (this.employee instanceof Employee) title = "Update Employee";
+        else title = "New Employee";
+        this.view.openModal(title, this.employee);
     }
     initEvents() {
         this.initEventClose();
@@ -44,33 +37,33 @@ class EmployeeCtrl {
             formGroupSelector: ".form-group",
             errorSelector: ".form-message",
             onSubmit: this.handleSave.bind(this),
-            form: "form",
+            form: `${rootSelector} .${this.view.selector} form[name="form"]`,
         });
     }
 
     destroyEvents() {}
 
     async handleSave(data) {
-        data.gender = data.gender === "true";
+        data.gender = data.gender === "male";
         data.status = data.status === "active";
         delete data.btnSave;
         delete data.btnReset;
         if (data.id) {
-            this.ctrl.updateRow({ employee: data });
-            const data1 = await this.model.update(data);
+            console.log("update");
+            const employee = await this.model.update(data);
+            subPublish.publish("update", employee);
         } else {
-            const data1 = await this.model.create(data);
-            this.ctrl.renderRow({ employee: data1 });
+            console.log("create");
+            const employee = await this.model.create(data);
+            subPublish.publish("create", employee);
         }
-        this.ctrl.initEvents();
         this.view.content.remove();
     }
 
     initEventClose() {
-        console.log("initEventClose");
-        this.view.btnClose.addEventListener("click", (e) => {
-            this.ctrl.initEvents();
+        this.view.btnClose.addEventListener("click", () => {
             this.view.content.remove();
+            subPublish.publish("close");
         });
     }
 }

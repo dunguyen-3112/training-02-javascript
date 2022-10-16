@@ -10,16 +10,18 @@ class EmployeesModel {
      * @returns {...Array<Employee>}
      */
     async findAll() {
-        return await helper.fetchAPI({ url: `${API_ENDPOINT}` });
+        const employees = await helper.fetchAPI({ url: `${API_ENDPOINT}` });
+        return employees;
     }
     /**
      *
      * @param {string} keyword
      */
-    search(keyword) {
-        return helper.fetchAPI({
-            url: `${API_ENDPOINT}?name_like=${keyword}`,
+    search(filter, property) {
+        const employees = helper.fetchAPI({
+            url: `${API_ENDPOINT}?${property}_like=${filter}`,
         });
+        return employees;
     }
     /**
      *

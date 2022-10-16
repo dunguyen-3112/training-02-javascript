@@ -2,6 +2,7 @@
 import { $, rootSelector } from "../constant";
 import { TemplateModalFormAddEmployees } from "./templates";
 import { NAME_FORM } from "./constant";
+import { Employee } from "./model";
 
 export default class EmployeeView {
     constructor(selector) {
@@ -10,8 +11,8 @@ export default class EmployeeView {
 
     /**
      *
-     * @param {string} title
-     * @param {EmployeeModel} employee
+     * @param {String} title
+     * @param {Employee} employee
      */
     openModal(title, employee) {
         this.content = document.createElement("section");
@@ -25,7 +26,7 @@ export default class EmployeeView {
         this.content.querySelector(".modal-title").innerHTML = title;
         this.content.querySelector(".modal-container").style.display = "block";
 
-        if (employee) {
+        if (employee instanceof Employee) {
             this.form.setAttribute("data-id", employee.id);
             this.form.name.value = employee.name;
             this.form.email.value = employee.email;

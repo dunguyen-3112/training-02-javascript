@@ -1,14 +1,16 @@
-const TemPlateFormLogin = `
+const templateFormLogin = `
 
     <div class="modal-container" style="display: block;">
-        <form action="/users" method="post" class="form-login" name="formLogin">
+        <form method="post" class="form-login" name="formLogin">
             <title class="modal-title">Login</title>
             <div class="modal-content">
                 <label for="" class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
+                    <span class="form-message">Valid address, minimum 6 characters!</span>
                 </label>
                 <label for="" class="form-group">
                     <input type="password" class="form-control" name="password" placeholder="Password">
+                    <span class="form-message">Valid address, minimum 6 characters!</span>
                     <label  class="hide-password">
                         <input type="checkbox" class="hide-password">
                         <div class="btn btn-icon btn-password">
@@ -22,4 +24,4 @@ const TemPlateFormLogin = `
         </form>
     </div>
 `;
-export { TemPlateFormLogin };
+export { templateFormLogin };
