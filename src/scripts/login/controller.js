@@ -1,5 +1,8 @@
 /* eslint-disable no-undef */
+import { $, rootSelector as root } from "../constant";
 import { CookiesHelper } from "../helpers/cookies-helper";
+import { goto } from "../helpers/routes-helper";
+import { Validator } from "../helpers/valid-helper";
 import { LoginModel } from "./model";
 import { LoginView } from "./view";
 
@@ -9,45 +12,44 @@ class LoginController {
         this.view = new LoginView(selector);
         this.cookies = new CookiesHelper();
     }
-
-    async render() {
+    async checkLogin() {
         const token = this.cookies.get("_token");
-        try {
-            if (
-                token?.length > 0 &&
-                (await this.model.getUser(token))?.isLogin
-            ) {
-                return true;
-            } else {
-                this.view.renderFormLogin();
-                this.initEventLoginBtn();
-            }
-        } catch (error) {
-            console.log(error);
-            throw error;
+        if (token?.length > 0) {
+            const user = await this.model.getUser(token);
+            this.user = user;
+            return user.isLogin;
         }
     }
-    initEvents() {
-        this.initEventLoginBtn();
+
+    render() {
+        this.view.renderFormLogin();
+        this.form = $(`${root} .${this.view.selector} form[name="formLogin"]`);
+        this.initEvents();
     }
-    initEventLoginBtn() {
-        document.formLogin?.btnLogin?.addEventListener(
-            "click",
-            this.handleLogin.bind(this)
-        );
+    initEvents() {
+        //this.initEventLoginBtn();
+        Validator({
+            rules: [
+                Validator.minLength("username", 6),
+                Validator.minLength("password", 4),
+            ],
+            formGroupSelector: ".form-group",
+            errorSelector: ".form-message",
+            onSubmit: this.handleLogin.bind(this),
+            form: `${root} .${this.view.selector} form[name="formLogin"]`,
+        });
     }
 
-    async handleLogin(e) {
-        e.preventDefault();
-        const username = document.formLogin.username.value,
-            password = document.formLogin.password.value;
+    async handleLogin(data) {
+        const username = data.username;
+        const password = data.password;
         try {
             const token = "ae2d32b5b7eaa7d201d513990b8e7cc35535142";
             const user = await this.model.login(username, password);
             user._token = token;
             await this.model.update(user);
             document.cookie = `_token=${token}`;
-            location.reload();
+            goto("login-page");
         } catch (error) {
             console.log(error);
             throw new Error(
