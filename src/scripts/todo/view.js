@@ -4,12 +4,17 @@ import { headerTableTodo } from "./templates";
 class TodoView {
     constructor(selector) {
         this.selector = selector;
-        $(root).innerHTML = `<section class="${selector}"></section>`;
-        $(`${root} .${selector}`).innerHTML = headerTableTodo;
-        this.tbody = $(`${root} .${selector} tbody`);
     }
+
     render(data) {
-        this.tbody.innerHTML = "";
+        if (!$(`${root} .${this.selector}`)) {
+            $(root).innerHTML = `
+                    <section class="${this.selector}">
+                        ${headerTableTodo}
+                    </section>`;
+        }
+        const tbody = $(`${root} .${this.selector} tbody`);
+        tbody.innerHTML = "";
         const rows = data.map(
             (item, index) =>
                 `
@@ -25,7 +30,7 @@ class TodoView {
                     </tr>
                 `
         );
-        this.tbody.innerHTML = rows.join("");
+        tbody.innerHTML = rows.join("");
     }
 }
 export { TodoView };

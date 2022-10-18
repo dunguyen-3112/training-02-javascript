@@ -3,7 +3,12 @@
 
 import { $ } from "../constant";
 
-// Đối tượng `Validator`
+/**
+ *
+ * @param {{rules:[],formGroupSelector:String,errorSelector:String,onSubmit:function,form:String}} options
+ *
+ *
+ */
 function Validator(options) {
     function getParent(element, selector) {
         while (element.parentElement) {
@@ -154,10 +159,12 @@ function Validator(options) {
     }
 }
 
-// Định nghĩa rules
-// Nguyên tắc của các rules:
-// 1. Khi có lỗi => Trả ra message lỗi
-// 2. Khi hợp lệ => Không trả ra cái gì cả (undefined)
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.isRequired = function (selector, message) {
     return {
         selector: selector,
@@ -166,7 +173,12 @@ Validator.isRequired = function (selector, message) {
         },
     };
 };
-
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.isEmail = function (selector, message) {
     return {
         selector: selector,
@@ -178,7 +190,12 @@ Validator.isEmail = function (selector, message) {
         },
     };
 };
-
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.isPhone = function (selector, message) {
     return {
         selector: selector,
@@ -190,7 +207,12 @@ Validator.isPhone = function (selector, message) {
         },
     };
 };
-
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.minLength = function (selector, min, message) {
     return {
         selector: selector,
@@ -201,7 +223,12 @@ Validator.minLength = function (selector, min, message) {
         },
     };
 };
-
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.isConfirmed = function (selector, getConfirmValue, message) {
     return {
         selector: selector,
@@ -212,6 +239,12 @@ Validator.isConfirmed = function (selector, getConfirmValue, message) {
         },
     };
 };
+/**
+ *
+ * @param {String} selector
+ * @param {String} message
+ * @returns
+ */
 Validator.clear = function (form) {
     document[form]
         .querySelectorAll("label.form-group")

@@ -3,42 +3,42 @@ import { $, rootSelector as root } from "../constant";
 import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
-    constructor(selector, selectorTable) {
+    /**
+     * @param {string} selector
+     */
+
+    constructor(selector) {
         this.selector = selector;
-        this.selectorTable = selectorTable;
-        $(root).innerHTML = `<section class="${this.selector}"></section>`;
-        $(`${root} .${selector}`).innerHTML =
-            TemPlateHeaderTableEmployee(selectorTable);
-        this.btnAdd = $(`${root} .${this.selector} .btn-add`);
-        this.formSearch = $(`${root} .${this.selector} .form-search`);
-        this.tbody = $(
-            `${root} .${this.selector} table.${this.selectorTable} tbody`
-        );
+
+        $(root).innerHTML = `
+                <section class="${this.selector}">
+                    ${TemPlateHeaderTableEmployee}
+                </section>`;
     }
 
-    rows() {
-        return this.tbody.querySelectorAll("tr");
+    /**
+     * @param {Array<Employee>} employees
+     */
+
+    template(employees) {
+        const tbody = $(`${root} .${this.selector} table.list-employee tbody`);
+        if (employees) {
+            tbody.innerHTML = "";
+            const rows = employees.map((employee, index) =>
+                this.templateRow(employee, index)
+            );
+            tbody.innerHTML = rows.join("");
+        } else tbody.innerHTML = '<div class="loader"></div>';
     }
 
-    numberRows() {
-        return this.rows().length;
-    }
-    renderList(employees) {
-        this.tbody.innerHTML = "";
-        employees.forEach((employee, index) => {
-            this.renderRow({ employee, index });
-        });
-    }
-
-    renderRow({ employee, index }) {
-        const tbody = $(
-            `${root} .${this.selector} table.${this.selectorTable} tbody`
-        );
-
-        if (index === undefined) {
-            index = this.numberRows();
-        }
-        tbody.innerHTML +=
+    /**
+     *
+     * @param {Employee} employee
+     * @param {int} index
+     * @returns
+     */
+    templateRow(employee, index) {
+        return (
             `<tr data-id=${employee.id}>
                         <td>${index}</td>
                         <td>${employee.name}</td>
@@ -52,16 +52,7 @@ export default class EmployeesView {
                             <button class="btn-delete btn btn-icon btn-delete"> </button>
                             <button class="btn-update btn btn-icon btn-update"></button>
                         </td>
-                    </tr>`;
-    }
-    updateRow(data) {
-        const row = $(
-            `${rootSelector} .${this.selector} table.${this.selectorTable} tbody tr[data-id="${data.id}"]`
+                    </tr>`
         );
-        row.cells[1].innerHTML = data.name;
-        row.cells[2].innerHTML = data.address;
-        row.cells[3].innerHTML = ` <div class= '${
-            data.status ? " active" : "inactive"
-        }'></div>`;
     }
 }

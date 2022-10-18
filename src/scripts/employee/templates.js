@@ -1,8 +1,8 @@
-const TemplateModalFormAddEmployees = (name) => `
+const TemplateModalFormAddEmployees = (title) => `
         <div class="modal-container">
         <button class="btn-close"></button>
-        <form action="#" method="post" name="${name}" class="form-Employee">
-            <title class="modal-title">Add new Employee</title>
+        <form action="#" method="post" name="form-employee" class="form-Employee">
+            <title class="modal-title">${title}</title>
             <div class="modal-content">
                 <label class="form-group">
                     <span class="form-label">Name</span>

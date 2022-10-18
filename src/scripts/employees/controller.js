@@ -1,16 +1,43 @@
+/* eslint-disable no-undef */
 import { EmployeesModel } from "./model";
 import EmployeesView from "./view";
 import { goto } from "../helpers/routes-helper";
-import { selectorTableEmployee } from "./constant";
 import { subPublish } from "../helpers/state-manager";
+// eslint-disable-next-line no-unused-vars
+import { Employee } from "../employee/model";
+import { $, rootSelector as root } from "../constant";
 
 class EmployeesCtrl {
+    /**
+     *
+     * @param {String} selector
+     */
     constructor(selector) {
-        this.view = new EmployeesView(selector, selectorTableEmployee);
+        this.selector = selector;
+        this.view = new EmployeesView(selector);
         this.model = new EmployeesModel();
-        this.isLoading = true;
+    }
+    /**
+     *
+     * @param {String} filter
+     * @param {String} property
+     */
+    async loadData(filter, property) {
+        this.view.template();
 
-        subPublish.subscribe("update", (employee) => {
+        let employees = null;
+
+        if (filter) {
+            employees = await this.model.search(filter, property);
+        } else employees = await this.model.findAll();
+        this.setEmployees(employees);
+
+        subPublish.subscribe(`${this.selector}:create`, (employee) => {
+            const employees = [employee, ...this.employees];
+            this.setEmployees(employees);
+        });
+
+        subPublish.subscribe(`${this.selector}:update`, (employee) => {
             const employees = this.employees;
             for (let i = 0; i < employees.length; i++) {
                 if (employees[i].id === employee.id) {
@@ -20,35 +47,20 @@ class EmployeesCtrl {
             }
             this.setEmployees(employees);
         });
-
-        subPublish.subscribe("create", (employee) => {
-            const employees = [employee, ...this.employees];
-            this.setEmployees(employees);
-        });
-
-        subPublish.subscribe("close", () => {
+        subPublish.subscribe(`${this.selector}:redirect`, () => {
             this.initEvents();
         });
+
+        localStorage.setItem(
+            this.selector,
+            JSON.stringify({ events: ["redirect", "update", "create"] })
+        );
     }
 
-    loading() {
-        console.log("... Loading...");
-    }
-
-    async getEmployees(filter, property) {
-        this.loading();
-        this.isLoading = true;
-
-        let employees = null;
-
-        if (filter) {
-            employees = await this.model.search(filter, property);
-        } else employees = await this.model.findAll();
-
-        this.setEmployees(employees);
-        this.isLoading = false;
-    }
-
+    /**
+     *
+     * @param {Array<Employee>} employees
+     */
     setEmployees(employees) {
         this.employees = employees;
         this.render();
@@ -56,11 +68,17 @@ class EmployeesCtrl {
     }
 
     render() {
-        this.view.renderList(this.employees);
+        this.view.template(this.employees);
     }
 
     initEvents() {
-        console.log("initEvents");
+        this.rows = this.view.tbody.querySelectorAll("tr");
+        this.view.tbody = $(
+            `${root} .${this.view.selector} table.list-employee tbody`
+        );
+        this.view.btnAdd = $(`${root} .${this.view.selector} .btn-add`);
+        this.view.formSearch = $(`${root} .${this.view.selector} .form-search`);
+
         this.initEventDelete();
         this.initEventUpdate();
         this.initEventNew();
@@ -69,7 +87,8 @@ class EmployeesCtrl {
 
     initEventUpdate() {
         this._initEventUpdate = this.handleBtnUpdate.bind(this);
-        this.view.rows().forEach((element) => {
+
+        this.rows.forEach((element) => {
             element
                 .querySelectorAll("button")[1]
                 .addEventListener("click", this._initEventUpdate);
@@ -77,24 +96,17 @@ class EmployeesCtrl {
     }
     initEventDelete() {
         this._initEventDelete = this.handleBtnDelete.bind(this);
-        this.view.rows().forEach((element) => {
+        this.rows.forEach((element) => {
             element
                 .querySelectorAll("button")[0]
                 .addEventListener("click", this._initEventDelete);
         });
     }
-    initEventTodo() {
-        this._initEventTodo = this.handleTodo.bind(this);
-        this.view.rows().forEach((element) => {
-            element.addEventListener("dblclick", this._initEventTodo);
-        });
-    }
     initEventSearch() {
         this.__initEventSearch = this.handleSearch.bind(this);
-        this.view.formSearch["keyword"].addEventListener(
-            "keyup",
-            this.__initEventSearch
-        );
+        $(`${root} .${this.view.selector} .form-search`)[
+            "keyword"
+        ].addEventListener("keyup", this.__initEventSearch);
     }
 
     initEventNew() {
@@ -102,7 +114,6 @@ class EmployeesCtrl {
         this.view.btnAdd.addEventListener("click", this._initEventNew);
     }
     destroyEvents() {
-        console.log("destroyEvents");
         this.destroyEventDelete();
         this.destroyEventUpdate();
         this.destroyEventNew();
@@ -115,14 +126,14 @@ class EmployeesCtrl {
         );
     }
     destroyEventUpdate() {
-        this.view.rows().forEach((element) => {
+        this.rows.forEach((element) => {
             element
                 .querySelectorAll("button")[1]
                 .removeEventListener("click", this._initEventUpdate);
         });
     }
     destroyEventDelete() {
-        this.view.rows().forEach((element) => {
+        this.rows.forEach((element) => {
             element
                 .querySelectorAll("button")[0]
                 .removeEventListener("click", this._initEventDelete);
@@ -134,38 +145,57 @@ class EmployeesCtrl {
     }
     handleBtnNew() {
         this.destroyEvents();
-
         goto("employee-page");
     }
+    /**
+     *
+     * @param {Event} e
+     */
 
     async handleBtnUpdate(e) {
-        this.destroyEvents();
-
         const id = e.path[2].getAttribute("data-id");
         const employee = await this.model.findById(id);
 
+        this.destroyEvents();
+        history.pushState(employee, "", `/${this.selector}/${id}`);
         goto("employee-page", employee);
     }
 
+    /**
+     *
+     * @param {Event} e
+     */
     handleSearch = async (e) => {
         const keyword = e.target.value;
         this.destroyEvents();
-        await this.getEmployees(keyword, "name");
+        await this.loadData(keyword, "name");
     };
-    async handleBtnDelete(e) {
-        this.destroyEvents();
-        const id = e.path[2].getAttribute("data-id");
 
+    /**
+     *
+     * @param {Event} e
+     */
+    async handleBtnDelete(e) {
+        const id = e.path[2].getAttribute("data-id");
         const data = await this.model.findById(id);
+
+        history.pushState({}, "", `/${this.selector}/delete?id=${id}`);
+
         // eslint-disable-next-line no-undef
         if (data && confirm(`You want to remove an employee "${data.name}"`)) {
+            this.destroyEvents();
+
             await this.model.deleteById(id);
+
             const employees = this.employees.filter(
                 (employee) => employee.id != id
             );
 
             this.setEmployees(employees);
         }
+
+        history.back();
     }
 }
+
 export { EmployeesCtrl };

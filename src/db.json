@@ -1,13 +1,22 @@
 {
   "employees": [
     {
-      "name": "huu du nguyen12",
+      "name": "huudunguyen",
       "gender": false,
       "status": true,
-      "address": "Quảng Nam",
-      "email": "huu@gmail.com",
-      "phone": "028002899",
-      "id": 13
+      "address": "Quang Nam",
+      "email": "nguyenvanhuan2122001@gmail.com",
+      "phone": "030239029",
+      "id": 21
+    },
+    {
+      "name": "Petter ",
+      "gender": false,
+      "status": true,
+      "address": "Quang Nam",
+      "email": "nguyenvanhuan2122001@gmail.com",
+      "phone": "030239029",
+      "id": 25
     }
   ],
   "users": [

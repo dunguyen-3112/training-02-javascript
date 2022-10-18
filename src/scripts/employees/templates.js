@@ -1,4 +1,4 @@
-const TemPlateHeaderTableEmployee = (selectorTable) => `
+const TemPlateHeaderTableEmployee = `
             <button class="btn btn-icon btn-add"> </button>
             <div class="wrapperSearch flex">
                 <form class="form-search" name="formSearch" action="/" method="post">
@@ -6,7 +6,7 @@ const TemPlateHeaderTableEmployee = (selectorTable) => `
                     <button class="icon-search" type="button"></button>
                 </form>
            </div>
-            <table class="${selectorTable}">
+            <table class="list-employee">
                 <thead>
                     <tr>
                         <th>Of</th>

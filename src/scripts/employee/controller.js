@@ -1,29 +1,41 @@
+/* eslint-disable no-undef */
 import { Employee, EmployeeModel } from "./model";
 import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
-import { rootSelector } from "../constant";
+import { $, rootSelector as root } from "../constant";
 import { subPublish } from "../helpers/state-manager";
 
 class EmployeeCtrl {
     constructor(selector) {
-        this.view = new EmployeeView(selector);
+        this.selector = selector;
         this.model = new EmployeeModel();
     }
 
     setEmployee(employee) {
         this.employee = employee ? new Employee(employee) : {};
+        const title =
+            this.employee instanceof Employee
+                ? "Update Employee"
+                : "New Employee";
+
+        this.view = new EmployeeView(this.selector, title);
+
         this.render();
+
         this.initEvents();
     }
 
     render() {
-        let title = "";
-        if (this.employee instanceof Employee) title = "Update Employee";
-        else title = "New Employee";
-        this.view.openModal(title, this.employee);
+        this.view.setModal(this.employee);
     }
+
     initEvents() {
+        this.view.btnClose = $(
+            `${root} .${this.view.selector} button.btn-close`
+        );
+
         this.initEventClose();
+
         Validator({
             rules: [
                 Validator.isEmail("email", "Trường này phải là Email!"),
@@ -37,34 +49,48 @@ class EmployeeCtrl {
             formGroupSelector: ".form-group",
             errorSelector: ".form-message",
             onSubmit: this.handleSave.bind(this),
-            form: `${rootSelector} .${this.view.selector} form[name="form"]`,
+            form: `${root} .${this.view.selector} form[name="form-employee"]`,
         });
     }
 
-    destroyEvents() {}
+    destroyEvents() {
+        this.view.btnClose.removeEventListener("click", this._handleClose);
+    }
 
+    /**
+     *
+     * @param {Employee} data
+     */
     async handleSave(data) {
         data.gender = data.gender === "male";
         data.status = data.status === "active";
         delete data.btnSave;
         delete data.btnReset;
+
+        this.destroyEvents();
+        this.view.closeModal();
+
         if (data.id) {
-            console.log("update");
             const employee = await this.model.update(data);
-            subPublish.publish("update", employee);
+            subPublish.publish("employees-page:update", employee);
         } else {
-            console.log("create");
             const employee = await this.model.create(data);
-            subPublish.publish("create", employee);
+            subPublish.publish("employees-page:create", employee);
         }
-        this.view.content.remove();
+
+        history.back();
     }
 
     initEventClose() {
-        this.view.btnClose.addEventListener("click", () => {
-            this.view.content.remove();
-            subPublish.publish("close");
-        });
+        this._handleClose = this.handleClose.bind(this);
+        this.view.btnClose.addEventListener("click", this._handleClose);
+    }
+
+    handleClose() {
+        this.destroyEvents();
+        this.view.closeModal();
+        subPublish.publish("employees-page:redirect");
+        history.back();
     }
 }
 export { EmployeeCtrl };

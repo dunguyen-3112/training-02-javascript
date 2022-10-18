@@ -1,11 +1,21 @@
 /* eslint-disable no-undef */
-import { $ } from "../constant";
+import { $, rootSelector as root } from "../constant";
 
 class HomePageView {
+    /**
+     *
+     * @param {String} selector
+     */
     constructor(selector) {
         this.selector = selector;
-        $("#root").innerHTML = `<section class="${selector}"></section>`;
-        $(`#root .${selector}`).innerHTML += "<h1>Home Page</h1>";
+        this.render();
+    }
+
+    render() {
+        $(root).innerHTML = `
+                <section class="${this.selector}">
+                    <h1>Home Page</h1>
+                </section>`;
     }
 }
 

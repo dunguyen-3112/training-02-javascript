@@ -1,5 +1,7 @@
 import { API_ENDPOINT } from "./constant";
 import API_Helper from "../helpers/api-helper";
+// eslint-disable-next-line no-unused-vars
+import { Employee } from "../employee/model";
 
 const helper = new API_Helper();
 
@@ -15,7 +17,9 @@ class EmployeesModel {
     }
     /**
      *
-     * @param {string} keyword
+     * @param {String} filter
+     * @param {String} property
+     * @returns Array<Employee>
      */
     search(filter, property) {
         const employees = helper.fetchAPI({
@@ -38,7 +42,7 @@ class EmployeesModel {
     /**
      *
      * @param {int} id
-     * @returns
+     * @returns Employee
      */
     findById(id) {
         return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
