@@ -2,10 +2,12 @@
 class CookiesHelper {
     constructor() {}
     get(attribute) {
-        const cookies = document.cookie;
-        for (let cookie of cookies.split(";")) {
-            let [key, value] = cookie.split("=");
-            if (key === attribute) return value;
+        let cookies = document.cookie;
+        cookies = cookies.split(";");
+        const lenCookies = cookies.length;
+        for (let i = 0; i < lenCookies; i++) {
+            let [key, value] = cookies[i].trim().split("=");
+            if (key.localeCompare(attribute) == 0) return value;
         }
     }
     set(key, value) {

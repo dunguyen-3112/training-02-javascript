@@ -3,16 +3,25 @@ import { $ } from "../constant";
 
 class NavigationView {
     constructor(selector) {
-        this.content = document.createElement("nav");
-        this.content.className = selector;
-        $("body").append(this.content);
+        this.selector = selector;
+        if ($("header")) $("header").remove();
     }
 
     templateRoute(route) {
-        console.log(route);
-        this.content.innerHTML += `
-            <a href="/${route}">${route.split("-").join(" ")}</a>
+        if (!$(`header nav.${this.selector}`)) {
+            $("body").innerHTML += `
+                    <header>
+                        <nav class="${this.selector}"></nav>
+                    </header>`;
+        }
+        $(`header nav.${this.selector}`).innerHTML += `
+                <a href="/${route}">
+                    ${route.split("-").join(" ")}
+                </a>
         `;
+    }
+    clearTemplate() {
+        $(`header`).remove();
     }
 }
 

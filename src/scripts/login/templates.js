@@ -6,11 +6,11 @@ const templateFormLogin = `
             <div class="modal-content">
                 <label for="" class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Username">
-                    <span class="form-message">Valid address, minimum 6 characters!</span>
+                    <span class="form-message"></span>
                 </label>
                 <label for="" class="form-group">
                     <input type="password" class="form-control" name="password" placeholder="Password">
-                    <span class="form-message">Valid address, minimum 6 characters!</span>
+                    <span class="form-message"></span>
                     <label  class="hide-password">
                         <input type="checkbox" class="hide-password">
                         <div class="btn btn-icon btn-password">

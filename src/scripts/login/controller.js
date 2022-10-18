@@ -1,33 +1,57 @@
 /* eslint-disable no-undef */
 import { $, rootSelector as root } from "../constant";
 import { CookiesHelper } from "../helpers/cookies-helper";
-import { goto } from "../helpers/routes-helper";
 import { Validator } from "../helpers/valid-helper";
+import { HomePageController } from "../home-page/controller";
 import { LoginModel } from "./model";
 import { LoginView } from "./view";
+import { NavigationController } from "../navigation/controller";
 
+const cookies = new CookiesHelper();
 class LoginController {
     constructor(selector) {
+        this.selector = selector;
         this.model = new LoginModel();
-        this.view = new LoginView(selector);
-        this.cookies = new CookiesHelper();
     }
-    async checkLogin() {
-        const token = this.cookies.get("_token");
-        if (token?.length > 0) {
-            const user = await this.model.getUser(token);
+    async loadData() {
+        const _token = cookies.get("_token");
+        if (_token?.length > 0) {
+            const user = await this.model.checkLogin(_token);
+            this.setUser(user);
+            return;
+        }
+        this.setUser();
+    }
+    setUser(user) {
+        if (user) {
             this.user = user;
-            return user.isLogin;
+            const nav = new NavigationController("navigation");
+            nav.render();
+            new HomePageController("home-page");
+            history.pushState("", "", "/home-page");
+        } else {
+            this.render();
+            this.initEvents();
         }
     }
 
     render() {
+        this.view = new LoginView(this.selector);
         this.view.renderFormLogin();
         this.form = $(`${root} .${this.view.selector} form[name="formLogin"]`);
         this.initEvents();
     }
     initEvents() {
-        //this.initEventLoginBtn();
+        const check = $(`${root} .${this.view.selector} input.hide-password`);
+        check.addEventListener("click", () => {
+            const inputPassword = $(
+                `${root} .${this.view.selector} input[name="password"]`
+            );
+            check.checked
+                ? (inputPassword.type = "text")
+                : (inputPassword.type = "password");
+        });
+
         Validator({
             rules: [
                 Validator.minLength("username", 6),
@@ -48,8 +72,10 @@ class LoginController {
             const user = await this.model.login(username, password);
             user._token = token;
             await this.model.update(user);
-            document.cookie = `_token=${token}`;
-            goto("login-page");
+            cookies.set("_token", token);
+            cookies.set("_uid", user.id);
+            cookies.set("_isLogin", user.isLogin);
+            this.setUser(user);
         } catch (error) {
             console.log(error);
             throw new Error(

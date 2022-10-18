@@ -8,19 +8,11 @@ class LoginView {
     }
 
     renderFormLogin() {
-        let content = document.createElement("section");
-        content.classList.add(this.selector);
-        content.innerHTML = templateFormLogin;
-        $(root).innerHTML += content.outerHTML;
-
-        const check = document.querySelector("input.hide-password");
-        check.addEventListener("click", () => {
-            check.checked
-                ? (document.querySelector('input[name="password"]').type =
-                      "text")
-                : (document.querySelector('input[name="password"]').type =
-                      "password");
-        });
+        $(root).innerHTML = `
+                <section class="${this.selector}">
+                    ${templateFormLogin}
+                </section>`;
     }
 }
+
 export { LoginView };

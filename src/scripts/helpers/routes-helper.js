@@ -1,32 +1,34 @@
 /* eslint-disable no-undef */
 import { EmployeeCtrl } from "../employee/controller";
 import { EmployeesCtrl } from "../employees/controller";
-import { HomePageController } from "../home-page/controller";
 import { LoginController } from "../login/controller";
-import { NavigationController } from "../navigation/controller";
-import { TodoCtrl } from "../todo/ctrl";
+import { TodoController } from "../todo/controller";
+import { subPublish } from "./state-manager";
+
+/**
+ *
+ * @param {String} page
+ * @param {any} params
+ */
 async function goto(page, params) {
     try {
         let ctrl = null;
 
         switch (page) {
             case "home-page":
-                ctrl = new HomePageController(page);
+                goto("login-page");
                 break;
             case "todo-page":
-                ctrl = new TodoCtrl(page, params);
-                ctrl.render();
-                ctrl.initEvents();
+                ctrl = new TodoController(page);
+                subPublish.subscribe("todo-page", () => {
+                    ctrl.destroyEvents();
+                });
+                ctrl.loadData();
                 break;
             case "login-page":
                 ctrl = new LoginController("login-page");
-
-                if (!(await ctrl.checkLogin())) ctrl.render();
-                else {
-                    const nav = new NavigationController("navigation");
-                    nav.render();
-                    goto("home-page");
-                }
+                history.pushState({}, "", `/${page}`);
+                await ctrl.loadData();
                 break;
 
             case "employee-page":
@@ -35,11 +37,10 @@ async function goto(page, params) {
                 break;
             case "employees-page":
                 ctrl = new EmployeesCtrl(page);
-                await ctrl.getEmployees();
+                await ctrl.loadData();
                 break;
 
             default:
-                document.cookie = "_token=";
                 goto("login-page");
                 break;
         }

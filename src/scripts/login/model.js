@@ -5,12 +5,12 @@ class LoginModel {
         this.api = new API_Helper();
     }
 
-    async getUser(token) {
+    async checkLogin(token) {
         try {
             const data = await this.api.fetchAPI({
                 url: `${API_ENDPOINT}?_token=${token}`,
             });
-            return data[0];
+            return { id: data[0].id, isLogin: data[0].isLogin };
         } catch (error) {
             console.log("GetUser: ", error.message);
             throw error;
