@@ -72,10 +72,10 @@ class EmployeesCtrl {
     }
 
     initEvents() {
-        this.rows = this.view.tbody.querySelectorAll("tr");
         this.view.tbody = $(
             `${root} .${this.view.selector} table.list-employee tbody`
         );
+        this.rows = this.view.tbody.querySelectorAll("tr");
         this.view.btnAdd = $(`${root} .${this.view.selector} .btn-add`);
         this.view.formSearch = $(`${root} .${this.view.selector} .form-search`);
 
