@@ -1,17 +1,21 @@
 .employees-page{
     display: grid;
     grid-template-columns: auto auto;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     grid-row: 2/3;
     grid-column: 1/2;
+    height: calc(100vh - 44px);
+    padding: 20px 0;
 }
 .employees-page .wrapperSearch{
     grid-column: 2/3;
     grid-row: 1/2;
+    padding-bottom: 20px;
 }
 .list-employee{
     grid-row: 2/3;
     grid-column: 1/3;
+    padding-top: 20px;
 }
 .btn.btn-icon{
     background:url('../images/icon.png');
@@ -71,5 +75,6 @@ button.icon-search::after {
     top: 15px;
     left: 5px;
 }
+
 
 

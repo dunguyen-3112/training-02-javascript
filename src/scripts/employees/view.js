@@ -21,14 +21,16 @@ export default class EmployeesView {
      */
 
     template(employees) {
-        const tbody = $(`${root} .${this.selector} table.list-employee tbody`);
-        if (employees) {
-            tbody.innerHTML = "";
-            const rows = employees.map((employee, index) =>
-                this.templateRow(employee, index)
-            );
-            tbody.innerHTML = rows.join("");
-        } else tbody.innerHTML = '<div class="loader"></div>';
+        const rows = employees.map((employee, index) =>
+            this.templateRow(employee, index)
+        );
+
+        this.tbody.innerHTML = rows.join("");
+    }
+
+    templateLoader() {
+        this.tbody = $(`${root} .${this.selector} table.list-employee tbody`);
+        this.tbody.innerHTML = '<div class="loader"></div>';
     }
 
     /**
@@ -49,8 +51,8 @@ export default class EmployeesView {
                             </div>
                         </td>
                         <td>
-                            <button class="btn-delete btn btn-icon btn-delete"> </button>
-                            <button class="btn-update btn btn-icon btn-update"></button>
+                            <button class="btn-delete btn btn-icon"> </button>
+                            <button class="btn-update btn btn-icon"></button>
                         </td>
                     </tr>`
         );

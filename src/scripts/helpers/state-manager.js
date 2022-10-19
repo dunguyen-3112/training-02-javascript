@@ -18,7 +18,11 @@ class SubPub {
         return this.events[event].push(callback);
     }
 
-    clear(route) {
+    clear(route, event) {
+        if (event) {
+            this.events[`${route}:${event}`] = [];
+            return;
+        }
         const _events = JSON.parse(localStorage.getItem(route))?.events;
 
         _events?.forEach((event) => {

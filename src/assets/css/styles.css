@@ -8,6 +8,7 @@
 @import url(todo.css);
 @import url(employee.css);
 @import url(navigation.css);
+@import url(pagination.css);
 body{
     display: flex;
     flex-direction: column;
@@ -16,5 +17,9 @@ body{
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
-    gap:10px;order:2;
+    order:2;
 }
+
+
+
+

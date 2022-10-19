@@ -3,21 +3,27 @@
 ### 1. Overview
 
 - Create a website with JAVASCRIPT.
+
 ### 2. Technical
 
 - HTML/CSS/JavaScript
 - HTML DOM
 - MVC model
+
 ### 3. Editor
 
 - Visual Studio Code
+
 ### 4. Target
 
 - Understand and apply ES6 syntax
 - Practice DOM manipulation
 - Understand and apply basic asynchronous and synchronous
 - Use JSON server for working with full fake REST API
+
 ### 5. Getting started
+
+- Node version: 16.17.1
 
 - Clone repository
 

@@ -31,9 +31,6 @@
     color: #333333;
     text-shadow: 4px 4px 5px #f8f0f0;
 }
-.list-employee{
-    grid-row: 2/3;
-}
 
 .employee-page .form-group{
     grid-template-columns: 70px 1fr;

@@ -20,6 +20,7 @@ const TemPlateHeaderTableEmployee = `
 
                 </tbody>
             </table>
+            <div></div>
             `;
 
 export { TemPlateHeaderTableEmployee };

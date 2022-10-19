@@ -6,6 +6,7 @@ import { subPublish } from "../helpers/state-manager";
 // eslint-disable-next-line no-unused-vars
 import { Employee } from "../employee/model";
 import { $, rootSelector as root } from "../constant";
+import { PaginationController } from "../pagination/controller";
 
 class EmployeesCtrl {
     /**
@@ -16,21 +17,7 @@ class EmployeesCtrl {
         this.selector = selector;
         this.view = new EmployeesView(selector);
         this.model = new EmployeesModel();
-    }
-    /**
-     *
-     * @param {String} filter
-     * @param {String} property
-     */
-    async loadData(filter, property) {
-        this.view.template();
-
-        let employees = null;
-
-        if (filter) {
-            employees = await this.model.search(filter, property);
-        } else employees = await this.model.findAll();
-        this.setEmployees(employees);
+        this.paginationController = new PaginationController(this.selector);
 
         subPublish.subscribe(`${this.selector}:create`, (employee) => {
             const employees = [employee, ...this.employees];
@@ -47,14 +34,49 @@ class EmployeesCtrl {
             }
             this.setEmployees(employees);
         });
+
         subPublish.subscribe(`${this.selector}:redirect`, () => {
             this.initEvents();
+            subPublish.publish(`${this.selector}:pagination-init`);
+        });
+
+        subPublish.subscribe(`${this.selector}:page-changed`, (currentPage) => {
+            this.destroyEvents();
+
+            const employees = this.employees.slice(
+                (currentPage - 1) * 10,
+                currentPage * 10
+            );
+
+            this.view.template(employees);
         });
 
         localStorage.setItem(
             this.selector,
-            JSON.stringify({ events: ["redirect", "update", "create"] })
+            JSON.stringify({
+                events: [
+                    "redirect",
+                    "update",
+                    "create",
+                    "page-changed",
+                    "pagination-init",
+                ],
+            })
         );
+    }
+    /**
+     *
+     * @param {String} filter
+     * @param {String} property
+     */
+    async loadData(filter, property) {
+        this.view.templateLoader();
+
+        let employees = null;
+        if (filter) {
+            employees = await this.model.search(filter, property);
+        } else employees = await this.model.findAll();
+        this.setEmployees(employees);
     }
 
     /**
@@ -63,47 +85,56 @@ class EmployeesCtrl {
      */
     setEmployees(employees) {
         this.employees = employees;
+        const pageC = this.employees.length / 10;
+        this.paginationController.pageC = Math.ceil(pageC);
+
+        subPublish.publish(`${this.selector}:currentPage-changed`);
+
         this.render();
-        this.initEvents();
+
+        this.paginationController.setCurrentPage(1);
     }
 
     render() {
-        this.view.template(this.employees);
+        this.view.template(this.employees.slice(0, 10));
     }
 
     initEvents() {
+        console.log("employees initialized");
         this.view.tbody = $(
             `${root} .${this.view.selector} table.list-employee tbody`
         );
+
         this.rows = this.view.tbody.querySelectorAll("tr");
         this.view.btnAdd = $(`${root} .${this.view.selector} .btn-add`);
         this.view.formSearch = $(`${root} .${this.view.selector} .form-search`);
-
-        this.initEventDelete();
-        this.initEventUpdate();
+        this.initEventTbody();
         this.initEventNew();
         this.initEventSearch();
     }
 
-    initEventUpdate() {
-        this._initEventUpdate = this.handleBtnUpdate.bind(this);
-
-        this.rows.forEach((element) => {
-            element
-                .querySelectorAll("button")[1]
-                .addEventListener("click", this._initEventUpdate);
-        });
+    initEventTbody() {
+        this.__initEventTbody = this.handleEventTbody.bind(this);
+        this.view.tbody.addEventListener("click", this.__initEventTbody);
     }
-    initEventDelete() {
-        this._initEventDelete = this.handleBtnDelete.bind(this);
-        this.rows.forEach((element) => {
-            element
-                .querySelectorAll("button")[0]
-                .addEventListener("click", this._initEventDelete);
-        });
+
+    handleEventTbody(e) {
+        if (e.path[0].className.match("btn-delete")) {
+            this.initEventDelete(e.path[2].getAttribute("data-id"));
+        } else if (e.path[0].className.match("btn-update")) {
+            this.initEventUpdate(e.path[2].getAttribute("data-id"));
+        }
+    }
+
+    initEventUpdate(id) {
+        this.handleBtnUpdate(id);
+    }
+    initEventDelete(id) {
+        this.handleBtnDelete(id);
     }
     initEventSearch() {
         this.__initEventSearch = this.handleSearch.bind(this);
+
         $(`${root} .${this.view.selector} .form-search`)[
             "keyword"
         ].addEventListener("keyup", this.__initEventSearch);
@@ -111,19 +142,76 @@ class EmployeesCtrl {
 
     initEventNew() {
         this._initEventNew = this.handleBtnNew.bind(this);
+
         this.view.btnAdd.addEventListener("click", this._initEventNew);
     }
+
+    handleBtnNew() {
+        this.destroyEvents();
+        subPublish.publish(`${this.selector}:currentPage-changed`);
+        goto("employee-page");
+    }
+    /**
+     *
+     * @param {Event} e
+     */
+
+    async handleBtnUpdate(id) {
+        const employee = await this.model.findById(id);
+
+        this.destroyEvents();
+        subPublish.publish(`${this.selector}:currentPage-changed`);
+        history.pushState(employee, "", `/${this.selector}/${id}`);
+        goto("employee-page", employee);
+    }
+
+    /**
+     *
+     * @param {Event} e
+     */
+    handleSearch = (e) => {
+        const keyword = e.target.value;
+        this.destroyEvents();
+        this.loadData(keyword, "name");
+    };
+
+    /**
+     *
+     * @param {Event} e
+     */
+    async handleBtnDelete(id) {
+        const data = await this.model.findById(id);
+
+        history.pushState({}, "", `/${this.selector}/delete?id=${id}`);
+
+        // eslint-disable-next-line no-undef
+        if (data && confirm(`You want to remove an employee "${data.name}"`)) {
+            this.destroyEvents();
+            await this.model.deleteById(id);
+
+            const employees = this.employees.filter(
+                (employee) => employee.id != id
+            );
+
+            this.setEmployees(employees);
+        }
+
+        history.back();
+    }
+
     destroyEvents() {
-        this.destroyEventDelete();
-        this.destroyEventUpdate();
+        this.destroyEventTbody();
+
         this.destroyEventNew();
         this.destroyEventSearch();
     }
+    destroyEventTbody() {
+        this.view.tbody.removeEventListener("click", this.__initEventTbody);
+    }
     destroyEventSearch() {
-        this.view.formSearch["keyword"].removeEventListener(
-            "keyup",
-            this.__initEventSearch
-        );
+        $(`${root} .${this.view.selector} .form-search`)[
+            "keyword"
+        ].removeEventListener("keyup", this.__initEventSearch);
     }
     destroyEventUpdate() {
         this.rows.forEach((element) => {
@@ -141,60 +229,10 @@ class EmployeesCtrl {
     }
 
     destroyEventNew() {
-        this.view.btnAdd.removeEventListener("click", this._initEventNew);
-    }
-    handleBtnNew() {
-        this.destroyEvents();
-        goto("employee-page");
-    }
-    /**
-     *
-     * @param {Event} e
-     */
-
-    async handleBtnUpdate(e) {
-        const id = e.path[2].getAttribute("data-id");
-        const employee = await this.model.findById(id);
-
-        this.destroyEvents();
-        history.pushState(employee, "", `/${this.selector}/${id}`);
-        goto("employee-page", employee);
-    }
-
-    /**
-     *
-     * @param {Event} e
-     */
-    handleSearch = async (e) => {
-        const keyword = e.target.value;
-        this.destroyEvents();
-        await this.loadData(keyword, "name");
-    };
-
-    /**
-     *
-     * @param {Event} e
-     */
-    async handleBtnDelete(e) {
-        const id = e.path[2].getAttribute("data-id");
-        const data = await this.model.findById(id);
-
-        history.pushState({}, "", `/${this.selector}/delete?id=${id}`);
-
-        // eslint-disable-next-line no-undef
-        if (data && confirm(`You want to remove an employee "${data.name}"`)) {
-            this.destroyEvents();
-
-            await this.model.deleteById(id);
-
-            const employees = this.employees.filter(
-                (employee) => employee.id != id
-            );
-
-            this.setEmployees(employees);
-        }
-
-        history.back();
+        $(`${root} .${this.view.selector} .btn-add`).removeEventListener(
+            "click",
+            this._initEventNew
+        );
     }
 }
 

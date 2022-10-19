@@ -24,8 +24,9 @@ class NavigationController {
             let link = $(`nav.navigation a[href="/${route}"]`);
             link.addEventListener("click", (e) => {
                 e.preventDefault();
+
+                subPublish.clear(route);
                 subPublish.publish(`${this.currentRoute}:redirect`);
-                subPublish.clear(this.currentRoute);
                 this.currentRoute = route;
                 if (route === "logout") {
                     cookies.set("_token", "");
