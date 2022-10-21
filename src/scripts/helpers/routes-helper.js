@@ -10,25 +10,19 @@ import { subPublish } from "./state-manager";
  * @param {String} page
  * @param {any} params
  */
-async function goto(page, params) {
+function goto(page, params) {
     try {
         let ctrl = null;
 
         switch (page) {
-            case "home-page":
-                goto("login-page");
-                break;
             case "todo-page":
                 ctrl = new TodoController(page);
-                subPublish.subscribe("todo-page", () => {
-                    ctrl.destroyEvents();
-                });
-                ctrl.loadData();
+                ctrl.render();
                 break;
             case "login-page":
                 ctrl = new LoginController("login-page");
                 history.pushState({}, "", `/${page}`);
-                await ctrl.loadData();
+                ctrl.render();
                 break;
 
             case "employee-page":
@@ -37,7 +31,7 @@ async function goto(page, params) {
                 break;
             case "employees-page":
                 ctrl = new EmployeesCtrl(page);
-                await ctrl.loadData();
+                ctrl.render();
                 break;
 
             default:
