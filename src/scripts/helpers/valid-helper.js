@@ -21,7 +21,6 @@ function Validator(options) {
 
     var selectorRules = {};
 
-    // Hàm thực hiện validate
     function validate(inputElement, rule) {
         var errorElement = getParent(
             inputElement,
@@ -29,11 +28,10 @@ function Validator(options) {
         ).querySelector(options.errorSelector);
         var errorMessage;
 
-        // Lấy ra các rules của selector
+        // Get rule of selector
         var rules = selectorRules[rule.selector];
 
-        // Lặp qua từng rule & kiểm tra
-        // Nếu có lỗi thì dừng việc kiểm
+        // For rule & check if error then stop check
         for (var i = 0; i < rules.length; ++i) {
             switch (inputElement.type) {
                 case "radio":
@@ -62,17 +60,18 @@ function Validator(options) {
         return !errorMessage;
     }
 
-    // Lấy element của form cần validate
+    // get element of form need validate
+
     var formElement = $(options.form);
 
     if (formElement) {
-        // Khi submit form
+        // Submit form
         formElement.onsubmit = function (e) {
             e.preventDefault();
 
             var isFormValid = true;
 
-            // Lặp qua từng rules và validate
+            // For rules and validate
             options.rules.forEach(function (rule) {
                 var inputElement = formElement[rule.selector];
                 var isValid = validate(inputElement, rule);
@@ -82,7 +81,7 @@ function Validator(options) {
             });
 
             if (isFormValid) {
-                // Trường hợp submit với javascript
+                //submitwith javascript
                 if (typeof options.onSubmit === "function") {
                     var enableInputs = formElement.querySelectorAll("[name]");
                     var formValues = Array.from(enableInputs).reduce(function (
@@ -119,16 +118,16 @@ function Validator(options) {
                         formValues.id = formElement.getAttribute("data-id");
                     options.onSubmit(formValues);
                 }
-                // Trường hợp submit với hành vi mặc định
+                //submit default
                 else {
                     formElement.submit();
                 }
             }
         };
 
-        // Lặp qua mỗi rule và xử lý (lắng nghe sự kiện blur, input, ...)
+        // for rule and listens event
         options.rules.forEach(function (rule) {
-            // Lưu lại các rules cho mỗi input
+            // Save rules input
             if (Array.isArray(selectorRules[rule.selector])) {
                 selectorRules[rule.selector].push(rule.test);
             } else {
@@ -137,12 +136,12 @@ function Validator(options) {
 
             var inputElement = formElement[rule.selector];
 
-            // Xử lý trường hợp blur khỏi input
+            // Handle when use blur input
             inputElement.onblur = function () {
                 validate(inputElement, rule);
             };
 
-            // Xử lý mỗi khi người dùng nhập vào input
+            // handle when user type input
             inputElement.oninput = function () {
                 var errorElement = getParent(
                     inputElement,
@@ -169,7 +168,7 @@ Validator.isRequired = function (selector, message) {
     return {
         selector: selector,
         test: function (value) {
-            return value ? undefined : message || "Vui lòng nhập trường này";
+            return value ? undefined : message || "Please enter this field!";
         },
     };
 };
@@ -186,7 +185,7 @@ Validator.isEmail = function (selector, message) {
             var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             return regex.test(value)
                 ? undefined
-                : message || "Trường này phải là email";
+                : message || "This Field is email";
         },
     };
 };
@@ -203,7 +202,7 @@ Validator.isPhone = function (selector, message) {
             var regex = /^\d{9}$/;
             return regex.test(value)
                 ? undefined
-                : message || "Trường này phải là Phone";
+                : message || "This Field is Phone and include 9 number!";
         },
     };
 };
@@ -219,7 +218,7 @@ Validator.minLength = function (selector, min, message) {
         test: function (value) {
             return value.length >= min
                 ? undefined
-                : message || `Vui lòng nhập tối thiểu ${min} kí tự`;
+                : message || `Please type minimum ${min} characters`;
         },
     };
 };
@@ -235,7 +234,7 @@ Validator.isConfirmed = function (selector, getConfirmValue, message) {
         test: function (value) {
             return value === getConfirmValue()
                 ? undefined
-                : message || "Giá trị nhập vào không chính xác";
+                : message || "Invalid value!";
         },
     };
 };
