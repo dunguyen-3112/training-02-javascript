@@ -1,62 +1,69 @@
-import { $, rootSelector } from "../constant";
 import { subPublish } from "../helpers/state-manager";
 import { PaginationView } from "./view";
 class PaginationController {
+    #selector;
+    #view;
+    #_initEventPagination;
+    #currentPage;
+    #pageC;
+
     constructor(selector) {
-        this.selector = selector;
+        this.#selector = selector;
 
-        this.view = new PaginationView(selector);
+        this.#view = new PaginationView(selector);
 
-        subPublish.subscribe(`${this.selector}:pagination-init`, () => {
-            this.initEvents();
-        });
-        subPublish.subscribe(`${this.selector}:currentPage-changed`, () => {
-            this.destroyEvents();
-            subPublish.clear(this.selector, "currentPage-changed");
+        // initialize DOM success => initEvents
+        subPublish.subscribe({
+            event: `${this.#selector}:DOM`,
+            callback: () => this.#initEvents(),
         });
 
-        // eslint-disable-next-line no-undef
-        localStorage.setItem(
-            this.selector,
-            JSON.stringify({
-                events: ["redirect", "update", "create", "page-changed"],
-            })
-        );
+        // DOM changing => destroyEvents
+        subPublish.subscribe({
+            event: `${this.#selector}:DOM-change`,
+            callback: (pageC) => {
+                if (Object.keys(pageC).length !== 0) {
+                    this.#pageC = pageC.value;
+                }
+                this.#destroyEvents();
+                if (this.#pageC === 0) {
+                    this.#view.getPagination().innerHTML = "";
+                }
+            },
+        });
     }
 
     setCurrentPage(currentPage) {
-        this.destroyEvents();
-        subPublish.publish(`${this.selector}:page-changed`, currentPage);
+        this.#currentPage = currentPage;
+        subPublish.publish(
+            `${this.#selector}:currentPage-changed`,
+            currentPage
+        );
 
-        this.view.template(this.pageC, currentPage);
-
-        this.currentPage = currentPage;
-
-        subPublish.publish(`${this.selector}:redirect`);
+        this.#view.template(this.#pageC, currentPage);
+        this.#initEvents();
+        return;
     }
     render() {}
 
-    initEvents() {
-        this.view.pagination = $(
-            `${rootSelector} .${this.selector} .pagination`
-        );
-        this._initEventPagination = this.handleEventPagination.bind(this);
-        this.view.pagination.addEventListener(
-            "click",
-            this._initEventPagination
-        );
+    #initEvents() {
+        this.#_initEventPagination = this.#handleEventPagination.bind(this);
+        this.#view
+            .getPagination()
+            .addEventListener("click", this.#_initEventPagination);
     }
 
-    destroyEvents() {
-        if (this._initEventPagination)
-            this.view.pagination.removeEventListener(
-                "click",
-                this._initEventPagination
-            );
+    #destroyEvents() {
+        if (this.#_initEventPagination)
+            this.#view
+                .getPagination()
+                .removeEventListener("click", this.#_initEventPagination);
     }
-    handleEventPagination(e) {
+
+    #handleEventPagination(e) {
         if (e.path[0].className.match("page")) {
             const page = parseInt(e.path[0].innerHTML);
+            this.#destroyEvents();
             this.setCurrentPage(page);
         }
     }
