@@ -41,7 +41,7 @@ const TemplateModalFormAddEmployees = (title) => `
                 </label>
                 <label class="form-group">
                     <span class="form-label">Phone</span>
-                    <input type="tel" placeholder="Please type your phone. Example: 123-123-1234" name="phone" class="form-control">
+                    <input type="tel" placeholder="Please type your phone include 9 number!" name="phone" class="form-control">
                     <span class="form-message">Valid phone number, minimum 10 characters amd sample Format.</span>
                 </label>
             </div>

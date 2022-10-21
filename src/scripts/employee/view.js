@@ -4,8 +4,10 @@ import { TemplateModalFormAddEmployees } from "./templates";
 import { Employee } from "./model";
 
 export default class EmployeeView {
+    #selector;
+
     constructor(selector, title) {
-        this.selector = selector;
+        this.#selector = selector;
 
         $(root).innerHTML += `
                 <section class="${selector}">
@@ -13,8 +15,9 @@ export default class EmployeeView {
                 </section>`;
     }
 
+    getBtnClose = () => $(`${root} .${this.#selector} button.btn-close`);
     closeModal() {
-        $(`${root} .${this.selector}`).remove();
+        $(`${root} .${this.#selector}`).remove();
     }
 
     /**
@@ -23,7 +26,7 @@ export default class EmployeeView {
      * @param {Employee} employee
      */
     setModal(employee) {
-        const form = $(`${root} .${this.selector} form[name='form-employee']`);
+        const form = $(`${root} .${this.#selector} form[name='form-employee']`);
 
         if (employee instanceof Employee) {
             form.setAttribute("data-id", employee.id);

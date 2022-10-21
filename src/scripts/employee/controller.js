@@ -6,89 +6,90 @@ import { $, rootSelector as root } from "../constant";
 import { subPublish } from "../helpers/state-manager";
 
 class EmployeeCtrl {
+    #model;
+    #employee;
+    #view;
+    #selector;
+    #_handleClose;
+
     constructor(selector) {
-        this.selector = selector;
-        this.model = new EmployeeModel();
+        this.#selector = selector;
+        this.#model = new EmployeeModel();
     }
 
     setEmployee(employee) {
-        this.employee = employee ? new Employee(employee) : {};
+        this.#employee = employee ? new Employee(employee) : {};
         const title =
-            this.employee instanceof Employee
+            this.#employee instanceof Employee
                 ? "Update Employee"
                 : "New Employee";
 
-        this.view = new EmployeeView(this.selector, title);
+        this.#view = new EmployeeView(this.#selector, title);
 
-        this.render();
+        this.#render();
 
-        this.initEvents();
+        this.#initEvents();
     }
 
-    render() {
-        this.view.setModal(this.employee);
+    #render() {
+        this.#view.setModal(this.#employee);
     }
 
-    initEvents() {
-        this.view.btnClose = $(
-            `${root} .${this.view.selector} button.btn-close`
-        );
-
-        this.initEventClose();
+    #initEvents() {
+        this.#initEventClose();
 
         Validator({
             rules: [
-                Validator.isEmail("email", "Trường này phải là Email!"),
+                Validator.isEmail("email"),
                 Validator.minLength("name", 6),
                 Validator.minLength("address", 8),
-                Validator.isPhone(
-                    "phone",
-                    "Trường này phải là Phone. Gồm 9 số nguyên!"
-                ),
+                Validator.isPhone("phone"),
             ],
             formGroupSelector: ".form-group",
             errorSelector: ".form-message",
-            onSubmit: this.handleSave.bind(this),
-            form: `${root} .${this.view.selector} form[name="form-employee"]`,
+            onSubmit: this.#handleSave.bind(this),
+            form: `${root} .${this.#selector} form[name="form-employee"]`,
         });
     }
 
-    destroyEvents() {
-        this.view.btnClose.removeEventListener("click", this._handleClose);
+    #destroyEvents() {
+        this.#view
+            .getBtnClose()
+            .removeEventListener("click", this._handleClose);
     }
 
     /**
      *
      * @param {Employee} data
      */
-    async handleSave(data) {
+    async #handleSave(data) {
         data.gender = data.gender === "male";
         data.status = data.status === "active";
         delete data.btnSave;
         delete data.btnReset;
 
-        this.destroyEvents();
-        this.view.closeModal();
+        this.#destroyEvents();
+        this.#view.closeModal();
 
         if (data.id) {
-            const employee = await this.model.update(data);
+            const employee = await this.#model.update(data);
             subPublish.publish("employees-page:update", employee);
         } else {
-            const employee = await this.model.create(data);
+            const employee = await this.#model.create(data);
             subPublish.publish("employees-page:create", employee);
         }
 
         history.back();
     }
 
-    initEventClose() {
-        this._handleClose = this.handleClose.bind(this);
-        this.view.btnClose.addEventListener("click", this._handleClose);
+    #initEventClose() {
+        this.#_handleClose = this.#handleClose.bind(this);
+        this.#view.getBtnClose().addEventListener("click", this.#_handleClose);
     }
 
-    handleClose() {
-        this.destroyEvents();
-        this.view.closeModal();
+    #handleClose() {
+        this.#destroyEvents();
+        this.#view.closeModal();
         subPublish.publish("employees-page:redirect");
         history.back();
     }

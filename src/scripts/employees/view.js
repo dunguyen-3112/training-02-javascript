@@ -3,17 +3,32 @@ import { $, rootSelector as root } from "../constant";
 import { TemPlateHeaderTableEmployee } from "./templates";
 
 export default class EmployeesView {
+    #selector;
+    #tbody;
+
     /**
      * @param {string} selector
      */
 
     constructor(selector) {
-        this.selector = selector;
+        this.#selector = selector;
 
         $(root).innerHTML = `
-                <section class="${this.selector}">
+                <section class="${this.#selector}">
                     ${TemPlateHeaderTableEmployee}
                 </section>`;
+    }
+
+    getTbody() {
+        return $(`${root} .${this.#selector} table.list-employee tbody`);
+    }
+
+    getFormSearch() {
+        return $(`${root} .${this.#selector} .form-search`)["keyword"];
+    }
+
+    getBtnAdd() {
+        return $(`${root} .${this.#selector} .btn-add`);
     }
 
     /**
@@ -22,15 +37,14 @@ export default class EmployeesView {
 
     template(employees) {
         const rows = employees.map((employee, index) =>
-            this.templateRow(employee, index)
+            this.#templateRow(employee, index)
         );
 
-        this.tbody.innerHTML = rows.join("");
+        this.getTbody().innerHTML = rows.join("");
     }
 
     templateLoader() {
-        this.tbody = $(`${root} .${this.selector} table.list-employee tbody`);
-        this.tbody.innerHTML = '<div class="loader"></div>';
+        this.getTbody().innerHTML = '<div class="loader"></div>';
     }
 
     /**
@@ -39,7 +53,7 @@ export default class EmployeesView {
      * @param {int} index
      * @returns
      */
-    templateRow(employee, index) {
+    #templateRow(employee, index) {
         return (
             `<tr data-id=${employee.id}>
                         <td>${index}</td>
