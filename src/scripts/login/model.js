@@ -1,16 +1,21 @@
 import { API_ENDPOINT } from "./constant";
 import API_Helper from "../helpers/api-helper";
 class LoginModel {
+    #api;
     constructor() {
-        this.api = new API_Helper();
+        this.#api = new API_Helper();
     }
 
     async checkLogin(token) {
         try {
-            const data = await this.api.fetchAPI({
+            const data = await this.#api.fetchAPI({
                 url: `${API_ENDPOINT}?_token=${token}`,
             });
-            return { id: data[0].id, isLogin: data[0].isLogin };
+            return {
+                id: data[0].id,
+                isLogin: data[0].isLogin,
+                name: data[0].name,
+            };
         } catch (error) {
             console.log("GetUser: ", error.message);
             throw error;
@@ -18,7 +23,7 @@ class LoginModel {
     }
     async login(username, password) {
         try {
-            const data = await this.api.fetchAPI({
+            const data = await this.#api.fetchAPI({
                 url: `${API_ENDPOINT}?username=${username}&password=${password}`,
             });
             return data[0];
@@ -28,7 +33,7 @@ class LoginModel {
         }
     }
     async update(user) {
-        const data = await this.api.fetchAPI({
+        const data = await this.#api.fetchAPI({
             url: `${API_ENDPOINT}/${user.id}`,
             data: user,
             method: "PUT",
