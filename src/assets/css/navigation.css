@@ -3,12 +3,13 @@ nav{
     gap: 20px;
     justify-content: end;
     width: 100%;
-    background-color: rgb(20, 22, 22);
+    background-color: #d9cccc;
     order: 1;
+    margin-bottom: 5px;
 }
 nav a{
     text-decoration: none;
-    color: white;
+    color: #333;
     font-size: 16px;
     text-transform: uppercase;
     padding: 14px 10px;
