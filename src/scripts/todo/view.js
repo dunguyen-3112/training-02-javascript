@@ -1,18 +1,18 @@
 /* eslint-disable no-undef */
 import { $, rootSelector as root } from "../constant";
 import { headerTableTodo } from "./templates";
+
 class TodoView {
     constructor(selector) {
         this.selector = selector;
+        $(root).innerHTML = `
+                <section class="${this.selector}">
+                    ${headerTableTodo}
+                    <div></div>
+                </section>`;
     }
 
     render(data) {
-        if (!$(`${root} .${this.selector}`)) {
-            $(root).innerHTML = `
-                    <section class="${this.selector}">
-                        ${headerTableTodo}
-                    </section>`;
-        }
         const tbody = $(`${root} .${this.selector} tbody`);
         tbody.innerHTML = "";
         const rows = data.map(
@@ -20,7 +20,7 @@ class TodoView {
                 `
                     <tr>
                         <td>${index}</td>
-                        <td>${item.title}</td>
+                        <td>${item.name}</td>
                         <td>${item.date}</td>
                         <td>
                             <div class=` +
