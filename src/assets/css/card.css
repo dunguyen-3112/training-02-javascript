@@ -1,0 +1,20 @@
+.card{
+    display: inline-block;
+    min-width: 200px;
+    min-height: 140px;
+    background-color: #ccc;
+    border-radius: 20px;
+    padding: 20px 16px;
+    color: #ffffff;
+    text-align: center;
+}
+.card-title{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.card-desc{
+    margin-top: 20px;
+    color: #18eb15;
+    font-size: 40px;
+}
