@@ -1,0 +1,38 @@
+.btn {
+    padding: 10px 18px;
+    border: none;
+    color: var(--white-color);
+    cursor: pointer;
+}
+
+.btn.btn-icon{
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+}
+
+.btn+.btn {
+    margin-left: 20px;
+}
+
+.btn:hover {
+    opacity: .8;
+}
+
+.btn.btn-info {
+    background-color: var(--info-color);
+}
+
+.btn.btn-warning {
+    background-color: var(--warning-color);
+}
+
+.btn.btn-danger {
+    background-color: var(--danger-color);
+}
+
+.btn.btn-dark {
+    background-color: var(--dark-color);
+}
+

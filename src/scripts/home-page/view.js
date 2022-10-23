@@ -25,7 +25,11 @@ class HomePageView {
     template(title, number) {
         $(`${root} section.${this.#selector} .loader`)?.remove();
         $(`${root} section.${this.#selector} .cards`).innerHTML += `
-                <div class="card">
+                <div class="card" style="background-color:#${
+                    number < 1000
+                        ? (1000 - (number % 1000)) * 8
+                        : (10000000 - (number % 10000000)) * 8
+                };">
                     <h2 class="card-title">${title}</h2>
                     <h4 class="card-desc">${number}</h4>
                 </div>`;

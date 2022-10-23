@@ -18,7 +18,7 @@
     padding-top: 20px;
 }
 .btn.btn-icon{
-    background:url('../images/icon.png');
+    background:url('../../images/icon.png');
     background-position: -48px 0;
 }
 .btn.btn-icon.btn-delete{
@@ -38,8 +38,8 @@
     border: none;
     border-radius: 20px;
     outline: none;
-    border: 1px solid #555;
-    color: #888;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .icon-search {
@@ -51,7 +51,7 @@
     cursor: pointer;
     left: -32px;
     transform: rotate(-45deg) translateY(3px);
-    background-color: #fff;
+    background-color: var(--white-color);
 }
 
 button.icon-search::after {
@@ -59,7 +59,7 @@ button.icon-search::after {
     content: '';
     width: 12px;
     height: 12px;
-    border: 2px solid #555;
+    border: 2px solid var(--border-color);
     border-radius: 50%;
     position: absolute;
     top: 5px;
@@ -70,7 +70,7 @@ button.icon-search::after {
     content: '';
     width: 2px;
     height: 8px;
-    background: #555;
+    background: var(--border-color);
     position: absolute;
     top: 15px;
     left: 5px;

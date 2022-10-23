@@ -2,5 +2,14 @@
     --white-color: #FFFFFF;
     --red-color: #b02a37;
     --green-color: #7FFF00;
-    --light: 200, 20%, 10%, .8;
+    --light-color: 200, 20%, 10%, .8;
+    --black-color:#000000;
+    --text-color:#333;
+    --background-color: #eee;
+    --border-color:rgba(34, 205, 214, 0.5);
+    --info-color:#0dcaf0;
+    --warning-color:#ffc107;
+    --danger-color:#b02a37;
+    --dark-color:#778899;
+
 }

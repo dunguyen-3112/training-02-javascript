@@ -1,15 +1,9 @@
 @import url(./reset.css);
 @import url(./common.css);
 @import url(./variable.css);
-@import url(homePage.css);
-@import url(./employees.css);
-@import url(./login.css);
-@import url(loader.css);
-@import url(todo.css);
-@import url(employee.css);
-@import url(navigation.css);
-@import url(pagination.css);
-@import url(card.css);
+@import url(./pages/__init__.css);
+@import url(./components/__init__.css);
+
 body{
     display: flex;
     flex-direction: column;

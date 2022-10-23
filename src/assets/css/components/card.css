@@ -2,10 +2,10 @@
     display: inline-block;
     min-width: 200px;
     min-height: 140px;
-    background-color: #ccc;
+    background-color: var(--background-color);
     border-radius: 20px;
     padding: 20px 16px;
-    color: #ffffff;
+    color: var(--white-color);
     text-align: center;
 }
 .card-title{
@@ -15,6 +15,6 @@
 
 .card-desc{
     margin-top: 20px;
-    color: #18eb15;
+    color: var(--green-color);
     font-size: 40px;
 }

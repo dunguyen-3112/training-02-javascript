@@ -1,0 +1,135 @@
+.modal-container{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsl(var(--light-color));
+}
+.modal-container form{
+    background-color: var(--white-color);
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+
+}
+.modal-container .modal-content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+}
+.modal-container .modal-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-transform: uppercase;
+    text-shadow: 4px 4px 5px var(--text-color);
+    text-align: center;
+    display: block;
+}
+
+
+
+.modal-container .form-group {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+}
+
+.modal-container .form-label {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 0;
+}
+
+.modal-container .form-control {
+    padding: 10px 20px;
+    border-radius: 3px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: none;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.modal-container .form-control:focus-visible {
+    border-color: #0dcaf0;
+    outline: #0dcaf0;
+}
+
+
+
+
+.modal-container .form-radio-option {
+    display: flex;
+    gap: 5px;
+}
+.modal-container .modal-action .btn{
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+.modal-container .btn-close {
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    float: right;
+    background-color: transparent;
+    top: 50px;
+    right: 50px;
+}
+
+.modal-container .btn-close::after,
+.modal-container .btn-close::before {
+    left: 50%;
+    top: 0;
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 100%;
+    background-color: var(--white-color);
+}
+
+.modal-container .btn-close::after {
+    transform: rotate(45deg);
+}
+
+.modal-container .btn-close::before {
+    transform: rotate(-45deg);
+}
+
+.modal-container .btn-close:hover {
+    background-color: #333;
+}
+.modal-container .form-message {
+    display: none;
+    font-size: 12px;
+    color: #b02a37; grid-column: 2/3;
+    margin-top: 10px;
+}
+
+.modal-container .modal-action{
+    text-align: right;
+    margin-top: 40px;
+}
+.modal-container .form-group.invalid .form-control{
+    border: 2px solid #f33a58;
+
+}
+.modal-container .form-group.invalid .form-message {
+    color: #f33a58;
+    display: block;
+}

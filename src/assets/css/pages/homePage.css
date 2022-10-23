@@ -14,5 +14,5 @@
     text-transform: uppercase;
     text-align: left;
     margin: 50px 0 0 80px;
-    color: rgb(250, 231, 231);
+    color: var(--white-color);
 }

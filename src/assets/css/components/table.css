@@ -1,0 +1,28 @@
+tbody.table-tbody{
+    position: relative;
+}
+
+tr {
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+ tr:hover {
+    background-color: var(--text-color) !important;
+    color: var(--white-color) !important;
+}
+
+th,
+ td {
+    padding: 6px 12px;
+    text-align: center;
+}
+
+ th {
+    background-color: var(--text-color);
+    color: var(--white-color);
+}
+
+ tr:nth-of-type(odd) {
+    background-color: var(--background-color);
+}
