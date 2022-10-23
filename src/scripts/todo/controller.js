@@ -1,5 +1,6 @@
 import { CookiesHelper } from "../helpers/cookies-helper";
 import { subPublish } from "../helpers/state-manager";
+import { HomePageModel } from "../home-page/model";
 import { PaginationController } from "../pagination/controller";
 import { TodoModel } from "./model";
 import { TodoView } from "./view";
@@ -11,7 +12,9 @@ class TodoController {
     #todos = [];
     #cookieHeader;
     #paginationController;
-    #currentPage;
+    #pageC = 0;
+    #currentPage = 1;
+    #metaModel;
 
     constructor(selector) {
         this.#view = new TodoView(selector);
@@ -19,9 +22,11 @@ class TodoController {
         this.#selector = selector;
         this.#cookieHeader = new CookiesHelper();
         this.#paginationController = new PaginationController(selector);
+        this.#metaModel = new HomePageModel();
 
+        subPublish.clear("page");
         subPublish.subscribe({
-            event: "todo-page",
+            event: "page",
             callback: () => this.#destroyEvents(),
         });
 
@@ -35,39 +40,42 @@ class TodoController {
     }
 
     async #loadData() {
+        this.pageC = Math.ceil(
+            (await (await this.#metaModel.getMeta()).todoC) / 10
+        );
         const id = this.#cookieHeader.get("_uid");
-        const data = await this.#model.findById(id);
-        this.#setData(data);
+        const data = await this.#model.findById(id, this.#currentPage);
+        this.#setTodos(data);
+
+        subPublish.publish(`${this.#selector}:DOM-changed`, this.pageC);
     }
 
-    #setData(data) {
+    #setTodos(data) {
         this.#todos = data;
         this.render();
-        this.#initEvents();
     }
 
     render() {
         if (this.#todos.length > 0) {
-            const pageC = Math.ceil(this.#todos.length / 10);
-            subPublish.publish(`${this.#selector}:DOM-change`, {
-                value: pageC,
-            });
-            this.#paginationController.setCurrentPage(1);
-            this.#setCurrentPage(1);
+            this.#view.render(this.#todos);
+            this.#initEvents();
             return;
         }
+
+        this.#view.templateLoader();
         this.#loadData();
     }
 
     #setCurrentPage(currentPage) {
-        this.#currentPage = currentPage;
-
-        this.#view.render(
-            this.#todos.slice((currentPage - 1) * 10, currentPage * 10)
-        );
+        if (this.#currentPage !== currentPage) {
+            this.#currentPage = currentPage;
+            this.#loadData();
+        }
     }
 
-    #initEvents() {}
+    #initEvents() {
+        console.log("Todo: initEvents");
+    }
 
     #destroyEvents() {}
 }

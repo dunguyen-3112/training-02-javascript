@@ -7,6 +7,7 @@ import { subPublish } from "../helpers/state-manager";
 import { Employee } from "../employee/model";
 import { $, rootSelector as root } from "../constant";
 import { PaginationController } from "../pagination/controller";
+import { HomePageModel } from "../home-page/model";
 
 class EmployeesCtrl {
     #model = new EmployeesModel();
@@ -18,7 +19,9 @@ class EmployeesCtrl {
     #__initEventNew;
     #__initEventSearch;
     #currentPage = 1;
+    #pageC = 0;
     #managerStates = [];
+    #metaModel;
 
     /**
      *
@@ -28,8 +31,16 @@ class EmployeesCtrl {
         this.#selector = selector;
         this.#view = new EmployeesView(selector);
         this.#paginationController = new PaginationController(selector);
+        this.#metaModel = new HomePageModel();
 
         this.#managerStates = [
+            {
+                event: `${this.#selector}:init`,
+                callback: () => {
+                    this.#initEvents();
+                },
+            },
+
             {
                 event: `${this.#selector}:create`,
                 callback: (employee) => {
@@ -51,13 +62,6 @@ class EmployeesCtrl {
                 },
             },
             {
-                event: `${this.#selector}:redirect`,
-                callback: () => {
-                    this.#initEvents();
-                    subPublish.publish(`${this.#selector}:DOM`);
-                },
-            },
-            {
                 event: `${this.#selector}:currentPage-changed`,
                 callback: (currentPage) => this.#setCurrentPage(currentPage),
             },
@@ -74,30 +78,34 @@ class EmployeesCtrl {
      * @param {String} filter
      * @param {String} property
      */
-    async #loadData(filter, property) {
-        this.#view.templateLoader();
+    async #loadData() {
+        const filter = this.#view.getFormSearch().value.trim();
 
         let employees = null;
-        if (filter) {
-            employees = await this.#model.search(filter, property);
-        } else employees = await this.#model.findAll();
+
+        if (filter.localeCompare("") !== 0) {
+            employees = await this.#model.search(filter);
+            this.#pageC = Math.ceil(employees.length / 10);
+            employees = employees.slice(
+                (this.#currentPage - 1) * 10,
+                this.#currentPage * 10
+            );
+        } else {
+            employees = await this.#model.findAll(this.#currentPage);
+
+            this.#pageC = Math.ceil(
+                (await (await this.#metaModel.getMeta()).employeeC) / 10
+            );
+        }
         this.#setEmployees(employees);
     }
 
     #setCurrentPage(currentPage) {
-        this.#currentPage = currentPage;
+        if (this.#currentPage !== currentPage) {
+            this.#currentPage = currentPage;
 
-        this.#destroyEvents();
-
-        const employees = this.#employees.slice(
-            (currentPage - 1) * 10,
-            currentPage * 10
-        );
-
-        subPublish.publish(`${this.#selector}:DOM-change`);
-
-        this.#view.template(employees);
-        this.#initEvents();
+            this.#loadData();
+        }
     }
 
     /**
@@ -106,38 +114,31 @@ class EmployeesCtrl {
      */
     #setEmployees(employees) {
         this.#employees = employees;
-        const pageC = Math.ceil(this.#employees.length / 10);
-        if (pageC === 0) {
-            this.#destroyEvents();
-            subPublish.publish(`${this.#selector}:DOM-change`, {
-                value: pageC,
-            });
-            this.#view.getTbody().innerHTML = "";
-            this.#initEvents();
-            return;
-        }
-        subPublish.publish(`${this.#selector}:DOM-change`, {
-            value: pageC,
-        });
-
         this.render();
-        this.#paginationController.setCurrentPage(this.#currentPage);
-        return;
+        this.#initEvents();
     }
 
     render() {
         // if employees is not empty then display else fetch data
         if (this.#employees.length > 0) {
-            this.#view.template(this.#employees.slice(0, 10));
+            this.#destroyEvents();
+            this.#view.template(this.#employees);
             return;
+        } else if (
+            this.#view.getFormSearch().value.trim().localeCompare("") === 0
+        ) {
+            this.#view.templateLoader();
+            this.#loadData();
+        } else {
+            this.#view.templateNotFound();
         }
-        this.#loadData();
     }
 
     #initEvents() {
         this.#initEventTbody();
         this.#initEventNew();
         this.#initEventSearch();
+        subPublish.publish(`${this.#selector}:DOM-changed`, this.#pageC);
     }
 
     #initEventTbody() {
@@ -175,7 +176,6 @@ class EmployeesCtrl {
 
     #handleBtnNew() {
         this.#destroyEvents();
-        subPublish.publish(`${this.#selector}:DOM-changed`);
         goto("employee-page");
     }
     /**
@@ -184,12 +184,9 @@ class EmployeesCtrl {
      */
 
     async #handleBtnUpdate(id) {
-        const employee = await this.#model.findById(id);
-
         this.#destroyEvents();
-        subPublish.publish(`${this.#selector}:DOM-changed`);
-        history.pushState(employee, "", `/${this.#selector}/${id}`);
-        goto("employee-page", employee);
+        history.pushState(null, "", `/${this.#selector}/${id}`);
+        goto("employee-page", id);
     }
 
     /**
@@ -197,9 +194,9 @@ class EmployeesCtrl {
      * @param {int} id
      */
     async #handleSearch(e) {
-        const keyword = e.target.value;
         this.#destroyEvents();
-        await this.#loadData(keyword, "name");
+        this.#currentPage = 1;
+        await this.#loadData();
     }
 
     /**
@@ -215,6 +212,7 @@ class EmployeesCtrl {
         if (data && confirm(`You want to remove an employee "${data.name}"`)) {
             this.#destroyEvents();
             await this.#model.deleteById(id);
+            await this.#metaModel.update("employees", -1);
 
             const employees = this.#employees.filter(
                 (employee) => employee.id != id
@@ -230,6 +228,7 @@ class EmployeesCtrl {
         this.#destroyEventTbody();
         this.#destroyEventNew();
         this.#destroyEventSearch();
+        subPublish.publish(`${this.#selector}:DOM`);
     }
     #destroyEventTbody() {
         const tbody = this.#view.getTbody();

@@ -4,6 +4,7 @@ import EmployeeView from "./view";
 import { Validator } from "../helpers/valid-helper";
 import { $, rootSelector as root } from "../constant";
 import { subPublish } from "../helpers/state-manager";
+import { HomePageModel } from "../home-page/model";
 
 class EmployeeCtrl {
     #model;
@@ -11,28 +12,40 @@ class EmployeeCtrl {
     #view;
     #selector;
     #_handleClose;
+    #id;
+    #metaModel;
 
-    constructor(selector) {
+    constructor(selector, id) {
         this.#selector = selector;
         this.#model = new EmployeeModel();
+        const title = id ? "Update Employee" : "New Employee";
+        this.#view = new EmployeeView(this.#selector, title);
+        this.#id = id;
+        this.#metaModel = new HomePageModel();
     }
 
-    setEmployee(employee) {
-        this.#employee = employee ? new Employee(employee) : {};
-        const title =
-            this.#employee instanceof Employee
-                ? "Update Employee"
-                : "New Employee";
-
-        this.#view = new EmployeeView(this.#selector, title);
-
-        this.#render();
-
+    async #loadData() {
+        const employee = await this.#model.findById(this.#id);
+        this.#setEmployee(employee);
+    }
+    #setEmployee(employee) {
+        this.#employee = new Employee(employee);
+        this.render();
         this.#initEvents();
     }
 
-    #render() {
-        this.#view.setModal(this.#employee);
+    render() {
+        if (!this.#id) {
+            this.#view.openModal("Add new employee");
+            this.#initEvents();
+            return;
+        } else if (!this.#employee) {
+            this.#view.templateLoader();
+            this.#loadData();
+            return;
+        }
+
+        this.#view.openModal("Update employee", this.#employee);
     }
 
     #initEvents() {
@@ -63,20 +76,31 @@ class EmployeeCtrl {
      * @param {Employee} data
      */
     async #handleSave(data) {
-        data.gender = data.gender === "male";
         data.status = data.status === "active";
         delete data.btnSave;
         delete data.btnReset;
 
         this.#destroyEvents();
         this.#view.closeModal();
-
-        if (data.id) {
-            const employee = await this.#model.update(data);
-            subPublish.publish("employees-page:update", employee);
-        } else {
-            const employee = await this.#model.create(data);
-            subPublish.publish("employees-page:create", employee);
+        try {
+            if (this.#id) {
+                if (!this.#employee.isChanged(new Employee(data))) {
+                    data.id = parseInt(this.#id);
+                    const employee = await this.#model.update(data);
+                    subPublish.publish("employees-page:update", employee);
+                    return;
+                }
+                subPublish.publish("employees-page:init");
+            } else {
+                const employee = await this.#model.create(data);
+                await this.#metaModel.update("employees", 1);
+                subPublish.publish("employees-page:create", employee);
+            }
+        } catch (error) {
+            const err = {
+                message: error.message,
+                detail: "ERROR: handle save employee",
+            };
         }
 
         history.back();
@@ -90,7 +114,7 @@ class EmployeeCtrl {
     #handleClose() {
         this.#destroyEvents();
         this.#view.closeModal();
-        subPublish.publish("employees-page:redirect");
+        subPublish.publish("employees-page:init");
         history.back();
     }
 }

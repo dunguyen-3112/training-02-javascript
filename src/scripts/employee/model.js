@@ -13,23 +13,36 @@ class Employee {
             address,
         });
     }
+
+    isChanged(employee) {
+        return (
+            employee.name === this.name &&
+            employee.email === this.email &&
+            employee.status === this.status &&
+            employee.gender === this.gender &&
+            employee.address === this.address &&
+            employee.status === this.status
+        );
+    }
 }
 class EmployeeModel {
     #helper;
+    #employee;
     constructor() {
         this.#helper = new API_Helper();
     }
+
     /**
      *
-     * @param {Employee} Employee
-     * @returns {Employee} Employee
+     * @param {Employee} employee
+     * @returns {Employee} employee
      */
-    create(Employee) {
+    create(employee) {
         try {
             return this.#helper.fetchAPI({
                 url: `${API_ENDPOINT}`,
                 method: "POST",
-                data: Employee,
+                data: employee,
             });
         } catch (error) {
             console.log("Create employee failed: " + error.message);
@@ -44,19 +57,19 @@ class EmployeeModel {
      * @param {Employee} employee
      * @returns Employee
      */
-    update(Employee) {
+    update(employee) {
         try {
             return this.#helper.fetchAPI({
-                url: `${API_ENDPOINT}/${Employee.id}`,
+                url: `${API_ENDPOINT}/${employee.id}`,
                 method: "PUT",
-                data: Employee,
+                data: employee,
             });
         } catch (error) {
             const err = {
                 message: error.message,
                 detail: `Not Found for employee with id ${Employee.id}`,
             };
-            console.log(err);
+            console.log(error);
             throw err;
         }
     }
@@ -65,12 +78,20 @@ class EmployeeModel {
      * @param {int} id
      * @returns
      */
-    findById(id) {
+    async findById(id) {
         try {
-            return this.#helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+            const employee = await this.#helper.fetchAPI({
+                url: `${API_ENDPOINT}/${id}`,
+            });
+
+            return employee;
         } catch (error) {
-            console.log("object");
-            throw error;
+            const err = {
+                message: error.message,
+                detail: `Not Found for employee with id ${Employee.id}`,
+            };
+            console.log(error);
+            throw err;
         }
     }
 }

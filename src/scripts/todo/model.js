@@ -13,9 +13,9 @@ class Todo {
 class TodoModel {
     constructor() {}
 
-    findById(id) {
+    findById(id, page) {
         return api_helper.fetchAPI({
-            url: `${API_ENDPOINT}?uid=${id}`,
+            url: `${API_ENDPOINT}?uid=${id}&_page=${page}`,
         });
     }
 }

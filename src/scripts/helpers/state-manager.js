@@ -2,6 +2,10 @@ class SubPub {
     #events = {};
     constructor() {}
 
+    getEvents() {
+        return this.#events;
+    }
+
     /**
      *
      * @param {String} event

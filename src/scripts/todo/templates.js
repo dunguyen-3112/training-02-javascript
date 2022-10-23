@@ -9,7 +9,7 @@ const headerTableTodo = `
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-tbody">
 
         </tbody>
     </table>

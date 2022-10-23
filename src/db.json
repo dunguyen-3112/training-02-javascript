@@ -1,4 +1,24 @@
 {
+  "meta": {
+    "employees": {
+      "length": 107
+    },
+    "users": {
+      "length": 2,
+      "todos": {
+        "0": 17,
+        "1": 19,
+        "2": 22,
+        "3": 19,
+        "4": 22,
+        "5": 21,
+        "6": 14,
+        "7": 17,
+        "8": 25,
+        "9": 24
+      }
+    }
+  },
   "todos": [
     {
       "id": "973a1dd5-d7ed-4ffc-93b2-6d36c61c2955",
@@ -1422,21 +1442,12 @@
   "employees": [
     {
       "name": "Hoang Vinh",
-      "gender": false,
+      "gender": "true",
       "status": true,
       "address": "Quang Nam",
       "email": "HoangVinh@gmail.com",
       "phone": "050779799",
       "id": 26
-    },
-    {
-      "id": 68,
-      "name": "Tran Duc",
-      "email": "TranDuc@gmail.com",
-      "phone": "036902658",
-      "gender": true,
-      "status": false,
-      "address": "Quang Nam"
     },
     {
       "id": 75,
@@ -1502,13 +1513,13 @@
       "address": "Quang Nam"
     },
     {
-      "id": 38,
       "name": "Ly Hong",
+      "gender": false,
+      "status": true,
+      "address": "TP Ha Noi",
       "email": "LyHong@gmail.com",
       "phone": "069544792",
-      "gender": true,
-      "status": true,
-      "address": "TP Ha Noi"
+      "id": 38
     },
     {
       "id": 61,

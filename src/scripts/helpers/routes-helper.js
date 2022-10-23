@@ -26,8 +26,8 @@ function goto(page, params) {
                 break;
 
             case "employee-page":
-                ctrl = new EmployeeCtrl(page);
-                ctrl.setEmployee(params);
+                ctrl = new EmployeeCtrl(page, params);
+                ctrl.render();
                 break;
             case "employees-page":
                 ctrl = new EmployeesCtrl(page);

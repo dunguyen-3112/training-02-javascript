@@ -116,6 +116,7 @@ function Validator(options) {
                     {});
                     if (formElement.getAttribute("data-id"))
                         formValues.id = formElement.getAttribute("data-id");
+
                     options.onSubmit(formValues);
                 }
                 //submit default

@@ -3,17 +3,25 @@ import { $, rootSelector as root } from "../constant";
 import { headerTableTodo } from "./templates";
 
 class TodoView {
+    #selector;
     constructor(selector) {
-        this.selector = selector;
+        this.#selector = selector;
         $(root).innerHTML = `
-                <section class="${this.selector}">
+                <section class="${selector}">
                     ${headerTableTodo}
-                    <div></div>
                 </section>`;
     }
 
+    templateLoader() {
+        this.getTbody().innerHTML = '<div class="loader"></div>';
+    }
+
+    getTbody() {
+        return $(`${root} .${this.#selector} table.list-todo tbody`);
+    }
+
     render(data) {
-        const tbody = $(`${root} .${this.selector} tbody`);
+        const tbody = this.getTbody();
         tbody.innerHTML = "";
         const rows = data.map(
             (item, index) =>

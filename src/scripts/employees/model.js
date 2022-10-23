@@ -11,8 +11,10 @@ class EmployeesModel {
     /**
      * @returns {...Array<Employee>}
      */
-    async findAll() {
-        const employees = await helper.fetchAPI({ url: `${API_ENDPOINT}` });
+    async findAll(page) {
+        const employees = await helper.fetchAPI({
+            url: `${API_ENDPOINT}?_page=${page}`,
+        });
         return employees;
     }
     /**
@@ -21,9 +23,12 @@ class EmployeesModel {
      * @param {String} property
      * @returns Array<Employee>
      */
-    search(filter, property) {
+    search(filter, page) {
+        const url = page
+            ? `${API_ENDPOINT}?name_like=${filter}&_page=${page}`
+            : `${API_ENDPOINT}?name_like=${filter}`;
         const employees = helper.fetchAPI({
-            url: `${API_ENDPOINT}?${property}_like=${filter}`,
+            url,
         });
         return employees;
     }
@@ -46,6 +51,11 @@ class EmployeesModel {
      */
     findById(id) {
         return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+    }
+
+    async getCountEmployees() {
+        const employees = await this.findAll();
+        return employees.length;
     }
 }
 

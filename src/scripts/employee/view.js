@@ -6,36 +6,29 @@ import { Employee } from "./model";
 export default class EmployeeView {
     #selector;
 
-    constructor(selector, title) {
+    constructor(selector) {
         this.#selector = selector;
-
-        $(root).innerHTML += `
-                <section class="${selector}">
-                    ${TemplateModalFormAddEmployees(title)}
-                </section>`;
     }
 
     getBtnClose = () => $(`${root} .${this.#selector} button.btn-close`);
+
     closeModal() {
         $(`${root} .${this.#selector}`).remove();
     }
+    templateLoader() {}
 
     /**
      *
      * @param {String} title
      * @param {Employee} employee
      */
-    setModal(employee) {
-        const form = $(`${root} .${this.#selector} form[name='form-employee']`);
-
-        if (employee instanceof Employee) {
-            form.setAttribute("data-id", employee.id);
-            form.name.value = employee.name;
-            form.email.value = employee.email;
-            form.phone.value = employee.phone;
-            form.address.value = employee.address;
-            form.status.value = employee.status ? "active" : "inactive";
-            form.gender.value = employee.gender;
-        }
+    openModal(title, employee) {
+        $(root).innerHTML += `
+                <section class="${this.#selector}">
+                    ${TemplateModalFormAddEmployees(
+                        title,
+                        employee ? employee : undefined
+                    )}
+                </section>`;
     }
 }

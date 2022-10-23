@@ -18,7 +18,7 @@ class NavigationView {
         }
         $(`header nav.${this.#selector}`).innerHTML += `
                 <a href="/${route}">
-                    ${route.split("-").join(" ")}
+                    ${route.split("-")[0]}
                 </a>
         `;
     }

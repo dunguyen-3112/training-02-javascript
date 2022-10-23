@@ -47,6 +47,10 @@ export default class EmployeesView {
         this.getTbody().innerHTML = '<div class="loader"></div>';
     }
 
+    templateNotFound() {
+        this.getTbody().innerHTML = "Not found data";
+    }
+
     /**
      *
      * @param {Employee} employee

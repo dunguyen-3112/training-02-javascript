@@ -1,26 +1,51 @@
-import { EmployeesModel } from "../employees/model";
+import { API_BASE } from "../constant";
+import API_Helper from "../helpers/api-helper";
 import { CookiesHelper } from "../helpers/cookies-helper";
-import { TodoModel } from "../todo/model";
 
 class HomePageModel {
-    #employeesModel;
-    #todoModel;
+    #API_Helper;
     #cookieHeader;
     constructor() {
-        this.#employeesModel = new EmployeesModel();
-        this.#todoModel = new TodoModel();
+        this.#API_Helper = new API_Helper();
         this.#cookieHeader = new CookiesHelper();
     }
 
-    async getCountEmployees() {
-        const employees = await this.#employeesModel.findAll();
-        return employees.length;
-    }
-
-    async getCountTodos() {
+    async getMeta() {
         const id = this.#cookieHeader.get("_uid");
-        const todos = await this.#todoModel.findById(id);
-        return todos.length;
+        const meta = await this.#API_Helper.fetchAPI({
+            url: `${API_BASE}/meta`,
+        });
+        return {
+            employeeC: meta.employees.length,
+            todoC: meta.users.todos[id],
+        };
+    }
+    async update(attr, options) {
+        if (options !== 1 && options !== -1) {
+            const err = new Error("ERROR: Invalid options!");
+            throw err;
+        }
+
+        const id = this.#cookieHeader.get("_uid");
+
+        const meta = await this.#API_Helper.fetchAPI({
+            url: `${API_BASE}/meta`,
+        });
+
+        const c =
+            attr.localeCompare("todo") === 0
+                ? parseInt(meta.users.todos[id]) + options
+                : parseInt(meta.employees.length) + options;
+
+        attr.localeCompare("todo") === 0
+            ? (meta.users.todos[id] = c)
+            : (meta.employees.length = c);
+
+        await this.#API_Helper.fetchAPI({
+            url: `${API_BASE}/meta`,
+            method: "PUT",
+            data: meta,
+        });
     }
 }
 

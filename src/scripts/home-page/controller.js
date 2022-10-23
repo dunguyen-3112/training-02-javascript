@@ -1,4 +1,5 @@
 import { CookiesHelper } from "../helpers/cookies-helper";
+import { subPublish } from "../helpers/state-manager";
 import { HomePageModel } from "./model";
 import { HomePageView } from "./view";
 
@@ -15,6 +16,8 @@ class HomePageController {
         const uname = this.#cookieHelper.get("_uname");
         this.#view = new HomePageView(selector, uname);
         this.#model = new HomePageModel();
+
+        subPublish.clear("page");
         this.render();
     }
 
@@ -26,15 +29,13 @@ class HomePageController {
     }
 
     async #loadData() {
-        const employeeCount = await this.#model.getCountEmployees();
-        this.#setEmployeeCount(employeeCount);
-        const todoCount = await this.#model.getCountTodos();
-        this.#setTodoCount(todoCount);
+        const meta = await this.#model.getMeta();
+        this.#setEmployeeCount(meta.employeeC);
+        this.#setTodoCount(meta.todoC);
     }
 
     render() {
         this.#loadData();
-        console.log("...Loading...");
     }
 }
 

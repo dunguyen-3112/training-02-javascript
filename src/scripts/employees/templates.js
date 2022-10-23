@@ -16,7 +16,7 @@ const TemPlateHeaderTableEmployee = `
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody class="table-body">
+                <tbody class="table-tbody">
 
                 </tbody>
             </table>
