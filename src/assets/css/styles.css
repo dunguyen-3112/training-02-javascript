@@ -1,8 +1,8 @@
 @import url(./reset.css);
 @import url(./common.css);
 @import url(./variable.css);
-@import url(./pages/__init__.css);
 @import url(./components/__init__.css);
+@import url(./pages/__init__.css);
 
 body{
     display: flex;
