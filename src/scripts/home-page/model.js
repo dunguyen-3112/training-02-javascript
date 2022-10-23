@@ -11,14 +11,22 @@ class HomePageModel {
     }
 
     async getMeta() {
-        const id = this.#cookieHeader.get("_uid");
-        const meta = await this.#API_Helper.fetchAPI({
-            url: `${API_BASE}/meta`,
-        });
-        return {
-            employeeC: meta.employees.length,
-            todoC: meta.users.todos[id],
-        };
+        try {
+            const id = this.#cookieHeader.get("_uid");
+            const meta = await this.#API_Helper.fetchAPI({
+                url: `${API_BASE}/meta`,
+            });
+            return {
+                employeeC: meta.employees.length,
+                todoC: meta.users.todos[id],
+            };
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
     async update(attr, options) {
         if (options !== 1 && options !== -1) {
@@ -26,26 +34,34 @@ class HomePageModel {
             throw err;
         }
 
-        const id = this.#cookieHeader.get("_uid");
+        try {
+            const id = this.#cookieHeader.get("_uid");
 
-        const meta = await this.#API_Helper.fetchAPI({
-            url: `${API_BASE}/meta`,
-        });
+            const meta = await this.#API_Helper.fetchAPI({
+                url: `${API_BASE}/meta`,
+            });
 
-        const c =
+            const c =
+                attr.localeCompare("todo") === 0
+                    ? parseInt(meta.users.todos[id]) + options
+                    : parseInt(meta.employees.length) + options;
+
             attr.localeCompare("todo") === 0
-                ? parseInt(meta.users.todos[id]) + options
-                : parseInt(meta.employees.length) + options;
+                ? (meta.users.todos[id] = c)
+                : (meta.employees.length = c);
 
-        attr.localeCompare("todo") === 0
-            ? (meta.users.todos[id] = c)
-            : (meta.employees.length = c);
-
-        await this.#API_Helper.fetchAPI({
-            url: `${API_BASE}/meta`,
-            method: "PUT",
-            data: meta,
-        });
+            await this.#API_Helper.fetchAPI({
+                url: `${API_BASE}/meta`,
+                method: "PUT",
+                data: meta,
+            });
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
 }
 

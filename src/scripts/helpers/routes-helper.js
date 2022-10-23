@@ -39,7 +39,6 @@ function goto(page, params) {
                 break;
         }
     } catch (error) {
-        console.log(error);
         throw error;
     }
 }

@@ -79,25 +79,29 @@ class EmployeesCtrl {
      * @param {String} property
      */
     async #loadData() {
-        const filter = this.#view.getFormSearch().value.trim();
+        try {
+            const filter = this.#view.getFormSearch().value.trim();
 
-        let employees = null;
+            let employees = null;
 
-        if (filter.localeCompare("") !== 0) {
-            employees = await this.#model.search(filter);
-            this.#pageC = Math.ceil(employees.length / 10);
-            employees = employees.slice(
-                (this.#currentPage - 1) * 10,
-                this.#currentPage * 10
-            );
-        } else {
-            employees = await this.#model.findAll(this.#currentPage);
+            if (filter.localeCompare("") !== 0) {
+                employees = await this.#model.search(filter);
+                this.#pageC = Math.ceil(employees.length / 10);
+                employees = employees.slice(
+                    (this.#currentPage - 1) * 10,
+                    this.#currentPage * 10
+                );
+            } else {
+                employees = await this.#model.findAll(this.#currentPage);
 
-            this.#pageC = Math.ceil(
-                (await (await this.#metaModel.getMeta()).employeeC) / 10
-            );
+                this.#pageC = Math.ceil(
+                    (await (await this.#metaModel.getMeta()).employeeC) / 10
+                );
+            }
+            this.#setEmployees(employees);
+        } catch (error) {
+            console.log(error);
         }
-        this.#setEmployees(employees);
     }
 
     #setCurrentPage(currentPage) {
@@ -204,24 +208,31 @@ class EmployeesCtrl {
      * @param {int} id
      */
     async #handleBtnDelete(id) {
-        const data = await this.#model.findById(id);
+        try {
+            const data = await this.#model.findById(id);
 
-        history.pushState({}, "", `/${this.#selector}/delete?id=${id}`);
+            history.pushState({}, "", `/${this.#selector}/delete?id=${id}`);
 
-        // eslint-disable-next-line no-undef
-        if (data && confirm(`You want to remove an employee "${data.name}"`)) {
-            this.#destroyEvents();
-            await this.#model.deleteById(id);
-            await this.#metaModel.update("employees", -1);
+            // eslint-disable-next-line no-undef
+            if (
+                data &&
+                confirm(`You want to remove an employee "${data.name}"`)
+            ) {
+                this.#destroyEvents();
+                await this.#model.deleteById(id);
+                await this.#metaModel.update("employees", -1);
 
-            const employees = this.#employees.filter(
-                (employee) => employee.id != id
-            );
+                const employees = this.#employees.filter(
+                    (employee) => employee.id != id
+                );
 
-            this.#setEmployees(employees);
+                this.#setEmployees(employees);
+            }
+
+            history.back();
+        } catch (error) {
+            console.log(error);
         }
-
-        history.back();
     }
 
     #destroyEvents() {

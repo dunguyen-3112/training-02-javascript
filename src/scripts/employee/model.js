@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from "../Employees/constant";
+import { API_ENDPOINT } from "../employees/constant";
 import API_Helper from "../helpers/api-helper";
 
 class Employee {
@@ -45,7 +45,6 @@ class EmployeeModel {
                 data: employee,
             });
         } catch (error) {
-            console.log("Create employee failed: " + error.message);
             throw {
                 message: error.message,
                 detail: `ERROR connection to ${API_ENDPOINT} failed`,
@@ -69,7 +68,7 @@ class EmployeeModel {
                 message: error.message,
                 detail: `Not Found for employee with id ${Employee.id}`,
             };
-            console.log(error);
+
             throw err;
         }
     }
@@ -90,7 +89,7 @@ class EmployeeModel {
                 message: error.message,
                 detail: `Not Found for employee with id ${Employee.id}`,
             };
-            console.log(error);
+
             throw err;
         }
     }

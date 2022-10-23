@@ -29,13 +29,21 @@ class HomePageController {
     }
 
     async #loadData() {
-        const meta = await this.#model.getMeta();
-        this.#setEmployeeCount(meta.employeeC);
-        this.#setTodoCount(meta.todoC);
+        try {
+            const meta = await this.#model.getMeta();
+            this.#setEmployeeCount(meta.employeeC);
+            this.#setTodoCount(meta.todoC);
+        } catch (error) {
+            throw error;
+        }
     }
 
     render() {
-        this.#loadData();
+        try {
+            this.#loadData();
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

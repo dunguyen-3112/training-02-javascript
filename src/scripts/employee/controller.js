@@ -97,10 +97,7 @@ class EmployeeCtrl {
                 subPublish.publish("employees-page:create", employee);
             }
         } catch (error) {
-            const err = {
-                message: error.message,
-                detail: "ERROR: handle save employee",
-            };
+            console.log(error);
         }
 
         history.back();

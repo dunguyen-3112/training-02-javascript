@@ -7,14 +7,18 @@ export default class API_Helper {
      * @returns
      */
     fetchAPI = async ({ url, data, method }) => {
-        if (data) {
-            const option = {
-                method,
-                headers: { "Content-Type": "application/json" },
-            };
-            if (method !== "DELETE") option.body = JSON.stringify(data);
-            return (await fetch(`${url}`, option)).json();
+        try {
+            if (data) {
+                const option = {
+                    method,
+                    headers: { "Content-Type": "application/json" },
+                };
+                if (method !== "DELETE") option.body = JSON.stringify(data);
+                return (await fetch(`${url}`, option)).json();
+            }
+            return (await fetch(`${url}`)).json();
+        } catch (error) {
+            throw error;
         }
-        return (await fetch(`${url}`)).json();
     };
 }

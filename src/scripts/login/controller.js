@@ -24,8 +24,7 @@ class LoginController {
             this.#setUser(user);
             return;
         } catch (error) {
-            console.log("ERROR CheckToken: ", _token);
-            this.#setUser();
+            console.log(error);
         }
     }
     #setUser(user) {
@@ -36,10 +35,6 @@ class LoginController {
             new HomePageController("home-page");
             history.pushState("", "", "/home-page");
         } else {
-            cookies.set("_token", "");
-            cookies.set("_uid", "");
-            cookies.set("_isLogin", "");
-            cookies.set("_uname", "");
             this.render();
             this.#initEvents();
         }
@@ -51,7 +46,6 @@ class LoginController {
             this.#loadData(_token);
             return;
         }
-
         this.#view = new LoginView(this.#selector);
         this.#view.renderFormLogin();
         this.#initEvents();
@@ -92,9 +86,7 @@ class LoginController {
             this.#setUser(user);
         } catch (error) {
             console.log(error);
-            throw new Error(
-                "username and password are invalid or fail internet connection"
-            );
+            throw error;
         }
     }
 }

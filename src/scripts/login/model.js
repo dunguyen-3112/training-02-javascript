@@ -17,8 +17,11 @@ class LoginModel {
                 name: data[0].name,
             };
         } catch (error) {
-            console.log("GetUser: ", error.message);
-            throw error;
+            const err = {
+                message: "ERROR connection internet!",
+                detail: error.message,
+            };
+            throw err;
         }
     }
     async login(username, password) {
@@ -28,17 +31,29 @@ class LoginModel {
             });
             return data[0];
         } catch (error) {
-            console.log("object");
-            throw error;
+            const err = {
+                message:
+                    "Login not successful!The username or password invalid.",
+                detail: error.message,
+            };
+            throw err;
         }
     }
     async update(user) {
-        const data = await this.#api.fetchAPI({
-            url: `${API_ENDPOINT}/${user.id}`,
-            data: user,
-            method: "PUT",
-        });
-        return data;
+        try {
+            const data = await this.#api.fetchAPI({
+                url: `${API_ENDPOINT}/${user.id}`,
+                data: user,
+                method: "PUT",
+            });
+            return data;
+        } catch (error) {
+            const err = {
+                message: "ERROR connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
 }
 export { LoginModel };

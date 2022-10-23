@@ -9,6 +9,7 @@
 
 .login-page .modal-container form {
     background-color: transparent;
+    min-width: 400px;
 }
 
 .login-page .form-group {
@@ -17,7 +18,7 @@
     position: relative;
 }
 
-.login-page .form-control {
+.login-page .form-control{
     width: 400px;
 }
 
@@ -52,7 +53,7 @@ input.hide-password:checked + .btn.btn-icon.btn-password{
     appearance: none;
 }
 
-.login-page .modal-action{
+.login-page .modal-container .modal-action{
     text-align: center;
 }
 

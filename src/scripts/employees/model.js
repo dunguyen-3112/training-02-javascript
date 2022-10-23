@@ -12,10 +12,18 @@ class EmployeesModel {
      * @returns {...Array<Employee>}
      */
     async findAll(page) {
-        const employees = await helper.fetchAPI({
-            url: `${API_ENDPOINT}?_page=${page}`,
-        });
-        return employees;
+        try {
+            const employees = await helper.fetchAPI({
+                url: `${API_ENDPOINT}?_page=${page}`,
+            });
+            return employees;
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
     /**
      *
@@ -24,13 +32,21 @@ class EmployeesModel {
      * @returns Array<Employee>
      */
     search(filter, page) {
-        const url = page
-            ? `${API_ENDPOINT}?name_like=${filter}&_page=${page}`
-            : `${API_ENDPOINT}?name_like=${filter}`;
-        const employees = helper.fetchAPI({
-            url,
-        });
-        return employees;
+        try {
+            const url = page
+                ? `${API_ENDPOINT}?name_like=${filter}&_page=${page}`
+                : `${API_ENDPOINT}?name_like=${filter}`;
+            const employees = helper.fetchAPI({
+                url,
+            });
+            return employees;
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
     /**
      *
@@ -38,11 +54,19 @@ class EmployeesModel {
      * @returns
      */
     deleteById(id) {
-        return helper.fetchAPI({
-            url: `${API_ENDPOINT}/${id}`,
-            method: "DELETE",
-            data: id,
-        });
+        try {
+            return helper.fetchAPI({
+                url: `${API_ENDPOINT}/${id}`,
+                method: "DELETE",
+                data: id,
+            });
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
     /**
      *
@@ -50,12 +74,28 @@ class EmployeesModel {
      * @returns Employee
      */
     findById(id) {
-        return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+        try {
+            return helper.fetchAPI({ url: `${API_ENDPOINT}/${id}` });
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
 
     async getCountEmployees() {
-        const employees = await this.findAll();
-        return employees.length;
+        try {
+            const employees = await this.findAll();
+            return employees.length;
+        } catch (error) {
+            const err = {
+                message: "Error connection internet!",
+                detail: error.message,
+            };
+            throw err;
+        }
     }
 }
 
