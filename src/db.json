@@ -1443,7 +1443,7 @@
     {
       "name": "Hoang Vinh",
       "gender": "true",
-      "status": true,
+      "status": false,
       "address": "Quang Nam",
       "email": "HoangVinh@gmail.com",
       "phone": "050779799",
@@ -2161,13 +2161,13 @@
       "address": "Da Nang"
     },
     {
-      "id": 62,
       "name": "Tran Vinh",
+      "gender": "false",
+      "status": false,
+      "address": "Kon Tum 12",
       "email": "TranVinh@gmail.com",
       "phone": "091973437",
-      "gender": false,
-      "status": true,
-      "address": "KonTum"
+      "id": 62
     },
     {
       "id": 50,

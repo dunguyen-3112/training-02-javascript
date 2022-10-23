@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://js-asnet-api.herokuapp.com/";
 
 // eslint-disable-next-line no-undef
 const $ = document.querySelector.bind(document);
