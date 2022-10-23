@@ -107,7 +107,7 @@ class EmployeesCtrl {
     #setCurrentPage(currentPage) {
         if (this.#currentPage !== currentPage) {
             this.#currentPage = currentPage;
-
+            this.#view.templateLoader();
             this.#loadData();
         }
     }
