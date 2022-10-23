@@ -23,7 +23,8 @@ class HomePageView {
                 </section>`;
     }
     template(title, number) {
-        $(`${root} section.${this.#selector} .loader`)?.remove();
+        const loader = $(`${root} section.${this.#selector} .loader`);
+        loader.style.display = "none";
         $(`${root} section.${this.#selector} .cards`).innerHTML += `
                 <div class="card" style="background-color:#${
                     number < 1000
