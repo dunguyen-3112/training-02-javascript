@@ -2,7 +2,16 @@ import { API_ENDPOINT } from "../employees/constant";
 import API_Helper from "../helpers/api-helper";
 
 class Employee {
-    constructor({ id, name, email, phone, status, gender, address }) {
+    constructor({
+        id,
+        name,
+        email,
+        phone,
+        status,
+        gender,
+        address,
+        avatar = "",
+    }) {
         Object.assign(this, {
             id,
             name,
@@ -11,6 +20,7 @@ class Employee {
             status,
             gender,
             address,
+            avatar,
         });
     }
 
@@ -21,7 +31,8 @@ class Employee {
             employee.status === this.status &&
             employee.gender === this.gender &&
             employee.address === this.address &&
-            employee.status === this.status
+            employee.status === this.status &&
+            employee.avatar === this.avatar
         );
     }
 }

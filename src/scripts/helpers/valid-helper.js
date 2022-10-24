@@ -252,4 +252,17 @@ Validator.clear = function (form) {
             element.classList.remove("invalid");
         });
 };
+
+Validator.isUrl = function (selector, message) {
+    return {
+        selector: selector,
+        test: function (value) {
+            var regex =
+                /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+            return regex.test(value)
+                ? undefined
+                : message || "This Field is url!";
+        },
+    };
+};
 export { Validator };

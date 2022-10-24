@@ -7,6 +7,13 @@ const TemplateModalFormAddEmployees = (title, employee) =>
             <div class="modal-content">
                 <label class="form-group">
                     <span class="form-label">Name</span>
+                    <input type="text" class="form-control" placeholder="Please type path avatar" name="avatar" value="${
+                        employee ? (employee.avatar ? employee.avatar : "") : ""
+                    }">
+                    <span class="form-message">Valid address, minimum 6 characters!</span>
+                </label>
+                <label class="form-group">
+                    <span class="form-label">Name</span>
                     <input type="text" placeholder="Please type your name" name="name" value="${
                         employee ? employee.name : ""
                     }" class="form-control">

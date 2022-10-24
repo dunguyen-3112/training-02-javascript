@@ -10,6 +10,7 @@ const TemPlateHeaderTableEmployee = `
                 <thead>
                     <tr>
                         <th>Of</th>
+                        <th>Avatar</th>
                         <th>Name</th>
                         <th>Address</th>
                         <th>Status</th>

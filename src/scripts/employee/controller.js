@@ -44,7 +44,7 @@ class EmployeeCtrl {
             this.#loadData();
             return;
         }
-
+        console.log(this.#employee);
         this.#view.openModal("Update employee", this.#employee);
     }
 
@@ -57,6 +57,7 @@ class EmployeeCtrl {
                 Validator.minLength("name", 6),
                 Validator.minLength("address", 8),
                 Validator.isPhone("phone"),
+                Validator.isUrl("avatar"),
             ],
             formGroupSelector: ".form-group",
             errorSelector: ".form-message",
