@@ -61,7 +61,7 @@ export default class EmployeesView {
         return (
             `<tr data-id=${employee.id}>
                         <td>${index}</td>
-                        <td><img src="${employee.avatar}" alt="Not Found"></td>
+                        <td><img src="${employee.avatar}" alt="avatar"></td>
                         <td>${employee.name}</td>
                         <td>${employee.address}</td>
                         <td>
