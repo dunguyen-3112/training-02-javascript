@@ -4,7 +4,7 @@
     grid-template-rows: auto auto 1fr auto;
     grid-row: 2/3;
     grid-column: 1/2;
-    height: calc(100vh - 44px);
+
     padding: 20px 0;
 }
 .employees-page .wrapperSearch{

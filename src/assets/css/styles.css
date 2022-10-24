@@ -1,16 +1,16 @@
 @import url(./reset.css);
 @import url(./common.css);
 @import url(./variable.css);
-@import url(./components/__init__.css);
-@import url(./pages/__init__.css);
+@import url(./components/all.css);
+@import url(./pages/all.css);
 
 body{
     display: flex;
     flex-direction: column;
 }
 #root{
-    height: 100%;
     display: grid;
+    min-height: 100%;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
     order:2;
