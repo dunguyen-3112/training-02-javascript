@@ -5,7 +5,6 @@ nav{
     width: 100%;
     background-color: var(--background-color);
     order: 1;
-    margin-bottom: 5px;
 }
 nav a{
     text-decoration: none;

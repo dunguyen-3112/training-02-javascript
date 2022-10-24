@@ -10,10 +10,11 @@ body{
 }
 #root{
     display: grid;
-    min-height: 100%;
+    position: relative;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr auto;
     order:2;
+    margin-top: 5px;
 }
 
 
