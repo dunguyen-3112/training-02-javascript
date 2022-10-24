@@ -58,10 +58,15 @@ export default class EmployeesView {
      * @returns
      */
     #templateRow(employee, index) {
+        "".localeCompare;
         return (
             `<tr data-id=${employee.id}>
                         <td>${index}</td>
-                        <td><img src="${employee.avatar}" alt="avatar"></td>
+                        <td><img src="${
+                            employee.avatar.localeCompare("") === 0
+                                ? "https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8="
+                                : employee.avatar
+                        }" alt="avatar"></td>
                         <td>${employee.name}</td>
                         <td>${employee.address}</td>
                         <td>
