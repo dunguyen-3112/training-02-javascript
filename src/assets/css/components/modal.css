@@ -21,8 +21,7 @@
     margin-top: 30px;
     display: flex;
     flex-direction: column;
-
-    gap: 30px;
+    gap: 16px;
 }
 .modal-container .modal-title {
     font-size: 28px;
@@ -50,12 +49,12 @@
 }
 
 .modal-container .form-control {
-    padding: 10px 20px;
+    padding: 10px 14px;
     border-radius: 3px;
     background-color: var(--background-color);
     color: var(--text-color);
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 2;
 }
 
