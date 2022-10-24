@@ -57,3 +57,7 @@ input.hide-password:checked + .btn.btn-icon.btn-password{
     text-align: center;
 }
 
+.login-page .loader{
+    top:50%;
+    transform: translateY(-50%);
+}

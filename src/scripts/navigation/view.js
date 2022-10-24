@@ -17,7 +17,7 @@ class NavigationView {
                     </header>`;
         }
         $(`header nav.${this.#selector}`).innerHTML += `
-                <a href="/${route}">
+                <a href="/${route}" class="route">
                     ${route.split("-")[0]}
                 </a>
         `;

@@ -72,6 +72,7 @@ class LoginController {
     }
 
     async #handleLogin(data) {
+        this.#view.templateLoader();
         const username = data.username;
         const password = data.password;
         try {
@@ -85,6 +86,7 @@ class LoginController {
             cookies.set("_uname", user.name);
             this.#setUser(user);
         } catch (error) {
+            this.#view.templateError();
             console.log(error);
             throw error;
         }

@@ -6,7 +6,10 @@ import { CookiesHelper } from "../helpers/cookies-helper";
 import { subPublish } from "../helpers/state-manager";
 
 class NavigationController {
+    #__handleClick;
+    #selector;
     constructor(selector) {
+        this.#selector = selector;
         this.view = new NavigationView(selector);
         this.currentRoute = "home-page";
     }
@@ -18,26 +21,30 @@ class NavigationController {
         this.initEvents();
     }
 
+    #handleClick(e) {
+        e.preventDefault();
+        const element = e.path[0];
+        if (element.className.match("route")) {
+            const href = element.getAttribute("href").replace("/", "");
+            this.currentRoute = href;
+            if (href === "logout") {
+                const cookies = new CookiesHelper();
+                cookies.set("_token", "");
+                cookies.set("_uid", "");
+                cookies.set("_isLogin", "");
+                this.view.clearTemplate();
+            }
+            history.pushState({}, href, `/${href}`);
+            goto(href);
+        }
+    }
+
     initEvents() {
-        const cookies = new CookiesHelper();
-        pages.forEach((route) => {
-            let link = $(`nav.navigation a[href="/${route}"]`);
-            link.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                //subPublish.publish("page");
-
-                this.currentRoute = route;
-                if (route === "logout") {
-                    cookies.set("_token", "");
-                    cookies.set("_uid", "");
-                    cookies.set("_isLogin", "");
-                    this.view.clearTemplate();
-                }
-                history.pushState({}, route, `/${route}`);
-                goto(route);
-            });
-        });
+        this.#__handleClick = this.#handleClick.bind(this);
+        $("header nav.navigation").addEventListener(
+            "click",
+            this.#__handleClick
+        );
     }
 }
 

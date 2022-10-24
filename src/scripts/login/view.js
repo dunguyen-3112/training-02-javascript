@@ -20,6 +20,15 @@ class LoginView {
         return $(`${root} .${this.#selector} input.hide-password`);
     }
 
+    templateLoader() {
+        $(`${root} .${this.#selector}`).innerHTML =
+            '<div class="loader"></div>';
+    }
+    templateError() {
+        $(`${root} .${this.#selector}`).innerHTML =
+            '<p class="error">Check connect internet of you or username and password invalid!</p>';
+    }
+
     renderFormLogin() {
         $(root).innerHTML = `
                 <section class="${this.#selector}">
