@@ -6,7 +6,7 @@ const TemplateModalFormAddEmployees = (title, employee) =>
             <title class="modal-title">${title}</title>
             <div class="modal-content">
                 <label class="form-group">
-                    <span class="form-label">Name</span>
+                    <span class="form-label">Avatar</span>
                     <input type="text" class="form-control" placeholder="Please type path avatar" name="avatar" value="${
                         employee ? (employee.avatar ? employee.avatar : "") : ""
                     }">
